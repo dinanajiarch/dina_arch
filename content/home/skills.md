@@ -7,27 +7,40 @@ widget: featurette
 headless: true
 
 # Order that this section appears on the page.
-weight: 30
+weight: 50
 
-title: Skills
+title: Skills & Interests
 subtitle:
 
 # Showcase personal skills or business features.
 # - Add/remove as many `feature` blocks below as you like.
 # - For available icons, see: https://wowchemy.com/docs/page-builder/#icons
 feature:
-- description: 90%
+- description: 
   icon: r-project
   icon_pack: fab
-  name: R
-- description: 100%
+  name: R & RStudio
+- description: 
   icon: chart-line
   icon_pack: fas
-  name: Statistics
-- description: 10%
-  icon: camera-retro
+  name: Data Analysis
+- description: 
+  icon: github
+  icon_pack: fab
+  name: GitHub
+- description: 
+  icon: cat
   icon_pack: fas
-  name: Photography
+  name: Cats
+- description: 
+  icon: gamepad
+  icon_pack: fas
+  name: Gaming
+- description: 
+  icon: plane-departure
+  icon_pack: fas
+  name: Travel
+
 
 # Uncomment to use emoji icons.
 #- icon: ':smile:'
