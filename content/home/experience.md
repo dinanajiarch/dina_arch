@@ -22,28 +22,28 @@ date_format: Jan 2006
 #   Leave `date_end` empty if it's your current employer.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 experience:
-  - title: CEO
-    company: GenCoin
-    company_url: ''
-    company_logo: org-gc
-    location: California
-    date_start: '2021-01-01'
+  - title: Graduate Teaching Assistant
+    company: University of California, Santa Barbara
+    company_url: 'https://www.ucsb.edu/'
+    company_logo: ucsb-logo
+    location: Goleta, California
+    date_start: '2019-09-01'
     date_end: ''
     description: |2-
-        Responsibilities include:
+        Department (Course):
         
-        * Analysing
-        * Modelling
-        * Deploying
+        * Technology Management (Fundamentals of Business Strategy)
+        * Gevirtz School of Education (Introduction to Linear Models)
+        * Psychology and Brain Sciences (Introduction to Statistics)
         
-  - title: Professor of Semiconductor Physics
-    company: University X
-    company_url: ''
-    company_logo: org-x
-    location: California
-    date_start: '2016-01-01'
-    date_end: '2020-12-31'
-    description: Taught electronic engineering and researched semiconductor physics.
+  - title: Statistical Support Peer
+    company: University of California, Santa Barbara
+    company_url: 'https://www.ucsb.edu/'
+    company_logo: ucsb-logo
+    location: Goleta, California
+    date_start: '2020-09-01'
+    date_end: '2021-06-01'
+    description: As the Statistics Support Peer, I was available every week to answer questions about quantitative software (R or SPSS) or other statistical issues students in the department encountered in their research activities or classes. I held open office hours for all GGSE students via zoom to answer any software or statistics-related questions.
 
 design:
   columns: '2'
