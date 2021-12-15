@@ -1,0 +1,144 @@
+---
+title: Nonlinear Least Squares Example
+author: ''
+date: '2021-03-15'
+slug: nonlinear-least-squares-example
+categories: R Project
+tags: 
+- r markdown
+- data analysis
+- visualization
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2021-12-14T17:56:44-08:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE)
+
+library(tidyverse)
+library(here)
+library(boot)
+library(gt)
+library(patchwork)
+library(broom)
+library(nlstools)
+library(ggthemes)
+library(pander)
+```
+
+## Parameter Estimation - Wild Fish Catch
+
+**Source**: Source: Global wild fish catch and aquaculture production, compiled by Earth Policy Institute within 1950-2010 from U.N. Food and Agriculture Organization (FAO), Global Capture Production and Global Aquaculture Production, electronic databases, at www.fao.org/fishery/topic/16140/en.
+
+"For Task 2, you will find an equation with parameters estimated by nonlinear least squares for the increase in global wild fish catch from 1950 – 2012."
+
+### Data Wrangling
+
+Read in data and recode year for analysis set up:
+
+```{r}
+
+fish_df <- read_csv("fish_catch.csv") %>% 
+  mutate(year_coded = 0:62) #recoded year for analyses
+```
+
+
+### A & B. Graph of wild catch over time
+
+Create an exploratory graph over wild catch over time:
+
+```{r}
+fish_df %>% 
+  ggplot(aes(x = year, y = wild_catch_mil_tons)) +
+  geom_point() +
+  theme_minimal() +
+  labs(x = "Years", y = "Wild Catch (Million Tons)", title = "Wild Catch Over Time (Years)")
+
+#Log transformed
+fish_df %>% 
+  ggplot(aes(x = year, y = log(wild_catch_mil_tons))) +
+  geom_point() +
+  theme_minimal() +
+  labs(x = "Years", y = "ln(Wild Catch)", title = "Wild Catch Over Time (Years)")
+```
+
+
+In this plot of wild catch over time, a possible logistic growth relatiosnhip describes the trend: 
+
+$$P(t) = \frac{K} {1 + Ae^{-kt}}$$
+where
+
+$$A = \frac{K - P_0} {P_0}$$
+
+My initial estimates for the parameters in the model are: $K$ = 90, $P_0$ = 20, $k$ = .05, $A$ = 3.5. 
+
+
+### C. Nonlinear least squares
+
+Using nonlinear least squares (NLS) to find parameters for the wild catch model. First, we estimate $k$:
+
+```{r}
+df_exp <- fish_df %>% 
+  filter(year < 1990) %>% 
+  mutate(ln_fish = log(wild_catch_mil_tons))
+  
+lm_k <- lm(ln_fish ~ year, data = df_exp)
+lm_k
+
+# Coefficient (k) ~ 0.04
+```
+
+The initial coefficient $k$ = 0.4. 
+
+
+Then, we use `stats::nls()` with the estimated starting parameter values:
+
+```{r}
+df_nls <- nls(wild_catch_mil_tons ~ K/(1 + A*exp(-r*year_coded)),
+              data = fish_df,
+              start = list(K = 90, A = 3.5, r = 0.4),
+              trace = FALSE
+              )
+
+# See the model summary
+#summary(df_nls)
+
+# Use broom:: functions to get model outputs in tidier format: 
+model_out <- broom::tidy(df_nls) 
+
+model_out %>% 
+  gt()
+```
+
+The model with estimated parameters for wild catch over time is:
+$$P(t) = \frac{100.3}{1+4.32e^{-0.07t}}$$
+
+### D) Visualize model showing both original data and model output
+
+```{r}
+# Make predictions for the wild catch at years: 
+p_predict <- predict(df_nls)
+
+# Bind predictions to original data frame:
+df_complete <- data.frame(fish_df, p_predict)
+
+# Plot them all together:
+ggplot(data = df_complete, aes(x = year, y = wild_catch_mil_tons)) +
+  geom_point() +
+  geom_line(aes(x = year, y = p_predict)) +
+  theme_calc() +
+  scale_x_continuous(breaks = seq(1950, 2012, 10)) +
+  labs(title = "Wild Catch (Million Tons) Over Time", x = "Year", y = "Wild Catch (Million Tons)")
+
+```
