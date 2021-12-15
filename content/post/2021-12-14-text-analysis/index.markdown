@@ -25,7 +25,9 @@ projects: []
 
 ## The Office - Season 4 x Episode 9: The Dinner Party
 
-![The Dinner Party](image.jpg)
+![The Dinner Party](featured.jpg)
+
+This exercise is atext and sentiment analysis on the "Dinner Party" episode of The Office. The assignment was given in Dr. Allison Horst's ESM 244 course.
 
 ## Read in the text transcript
 
