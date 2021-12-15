@@ -1,0 +1,130 @@
+---
+title: Spatial Data Visualization using Interactive Maps & Chloropleth
+author: ''
+date: '2021-12-14'
+slug: spatial-data-visualization
+categories: R Project
+tags: 
+- r markdown
+- data visualization
+- interactive mapping
+subtitle: 'This is a task I completed for an assignment for ESM 244 at UCSB with Dr. Allison Horst.'
+summary: ''
+authors: []
+lastmod: '2021-12-14T18:50:35-08:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+
+
+Read in shapefile for oilspill events:
+
+
+```r
+oilspill <- read_sf(here("content","post", "2021-12-14-spatial-data-visualization", "oil_spill","Oil_Spill_Incident_Tracking_%5Bds394%5D.shp"))
+```
+
+Read in shapefile for borders of California counties:
+
+
+```r
+ca_counties <- read_sf(here("content","post", "2021-12-14-spatial-data-visualization","ca_counties","CA_Counties_TIGER2016.shp")) %>% 
+  select(NAME, ALAND) %>%
+  rename(county_name = NAME, land_area = ALAND)
+```
+
+
+
+#### Part 1: 
+
+Make an exploratory *interactive map in tmap* showing the location of oil spill events included in the data.
+
+
+First, set the `tmap` mode to "interactive viewing:"
+
+
+```r
+# Set the viewing mode to "interactive":
+tmap_mode(mode = "view")
+```
+
+Then, use `st_as_sf()` to convert latitude & longitude to spatial coordinates.
+
+`4326` is the coordinate refernce system (CRS)
+
+
+```r
+oilspill_sp <- oilspill %>% 
+  drop_na(LONGITUDE, LATITUDE) %>% 
+  st_as_sf(coords = c("LONGITUDE", "LATITUDE"))
+
+
+st_crs(oilspill_sp) = 4326 #defines a coordinate reference system
+```
+
+View interactive map:
+
+
+```r
+tm_shape(oilspill_sp) + 
+  tm_dots()
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" />
+
+Here is the same map with added land area.
+
+
+```r
+tm_shape(ca_counties) +
+ tm_fill("land_area", palette = "BuGn") +
+ tm_shape(oilspill_sp) +
+ tm_dots()
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" />
+
+                        
+#### Part 2:
+
+Make a *finalized* static chloropleth map in `ggplot` in which the fill color for each county depends on the *count* of *inland* oil spill events by county for the 2008 oil spill data. 
+
+First, we wrangle!
+
+
+
+Let's join the California counties and oilspill datasets.
+
+```r
+cm_oilspill <- ca_counties %>%
+ st_join(oilspill)
+```
+
+Then, find the counts by county for *inland* oil spills.
+
+
+```r
+oilspill_counts <- cm_oilspill %>% 
+  filter(INLANDMARI == "Inland") %>% 
+  count(county_name)
+```
+
+
+Finally, plot the chloropleth using the number of records for oil spills as the fill color. 
+
+
+```r
+ggplot(data = oilspill_counts) +
+ geom_sf(aes(fill = n), color = "white", size = 0.1) +
+ scale_fill_gradientn(colors = c("lightgray","blue","darkblue")) +
+ theme_minimal() +
+ labs(fill = "Number of Oil Spills")
+```
+
+<img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" />
+
