@@ -17,11 +17,6 @@ image:
   focal_point: ''
   preview_only: no
 projects: []
-output: 
-  html_document:
-    theme: flatly
-    toc: true
-    toc_float: true
 ---
 
 ```{r setup, include=FALSE}
