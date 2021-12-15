@@ -1,0 +1,434 @@
+---
+title: Binary Logistic Regression Lab
+author: 'Dina Arch'
+date: '2021-05-30'
+slug: binary-logistic-regression-lab
+categories: Labs
+tags: 
+- r markdown
+- binary regression
+- labs
+- odds ratios
+- classification
+subtitle: 'This lab that I created follows along the logistic regression lecture presented in a linear models class and provides two examples to demonstrate the models and their interpretation.'
+summary: ''
+authors: []
+lastmod: '2021-12-14T19:39:18-08:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+	echo = TRUE,
+	message = FALSE,
+	warning = FALSE
+)
+library(pander) #pander()
+library(psych) # describe()
+library(gtsummary) #tbl_summary()
+library(equatiomatic) # extract_eq()
+library(sjPlot) # tab_xtab(), tab_model()
+library(tidyverse)
+```
+
+```{r, eval= FALSE}
+library(pander) #pander()
+library(psych) # describe()
+library(gtsummary) #tbl_summary()
+library(equatiomatic) # extract_eq()
+library(sjPlot) # tab_xtab(), tab_model()
+library(tidyverse)
+```
+
+This lab follows along the logistic regression lecture presented in class and provides two examples to demonstrate the models and their interpretation.
+
+# What is Binary Logistic Regression?
+
+-   It is a regression with an **outcome** **variable** (or **dependent variable**) that is dichotomous/binary (i.e., only two categories, such as Yes or No, 0 or 1, Disorder or No Disorder, Win or Lose).
+
+    -   The **predictor variables** (or **independent variables** or **explanatory variables**) can be either continuous or categorical
+
+-   In binary logistic regression, we are interested in predicting which of two possible events (e.g., win or lose) are going to happen given the predictor(s) variables
+
+-   Assumes a binomial distribution or "a probability distribution that summarizes the likelihood that a value will take one of two independent values under a given set of parameters or assumptions." ([Source](https://www.investopedia.com/terms/b/binomialdistribution.asp))
+
+# Binary Logistic Regression in R
+
+## Admissions Example
+
+This example comes from the UCLA Statistical Consulting page found [here](https://stats.idre.ucla.edu/r/dae/logit-regression/).
+This example assesses how GRE, GPA, and prestige of the undergraduate institutions effect graduate school admission.
+
++--------------+-------------------------------------------------------------------------------------+
+| **Variable** | **Description**                                                                     |
++==============+=====================================================================================+
+| gre          | Graduate Record Exam (GRE) scores, *continuous*                                     |
++--------------+-------------------------------------------------------------------------------------+
+| gpa          | Grade point average, *continuous*                                                   |
++--------------+-------------------------------------------------------------------------------------+
+| rank         | Rank of undergraduate institutions, 1 = highest prestige, 4 = lowest, *categorical* |
++--------------+-------------------------------------------------------------------------------------+
+| admit        | Admission decision, 0 = did not admit, 1 = admitted, *binary*                       |
++--------------+-------------------------------------------------------------------------------------+
+
+**References**
+
+Hosmer, D.
+& Lemeshow, S.
+(2000).
+Applied Logistic Regression (Second Edition).
+New York: John Wiley & Sons, Inc.
+
+Long, J. Scott (1997).
+Regression Models for Categorical and Limited Dependent Variables.
+Thousand Oaks, CA: Sage Publications.
+
+### Read in data
+
+```{r}
+log <- read.csv("https://stats.idre.ucla.edu/stat/data/binary.csv") %>% 
+  mutate(rank = factor(rank),  #we need to convert this variable to a factor
+         admit = factor(admit, levels = c("0", "1"), labels = c("Not Admitted", "Admitted"))) # add labels to outcome
+```
+
+### Summary
+
+```{r}
+# psych::describe()
+round(describe(log),2) %>% 
+  pander() 
+
+# I like this table more, but you can do either! Especially if you're getting some errors with gtsummary(). 
+
+# gtsummary::tbl_summary()
+tbl_summary(log,
+            statistic = list(all_continuous() ~ "{mean} ({sd})"),
+                             missing = "no")
+```
+
+### Contingency Table
+
+Contingency tables, sometimes called cross tabulations or cross tabs, that displays the frequency distribution of your **categorical** variables.
+In R, we use `sjPlot::tab_xtabs()` (Found by Karen!).
+We want to check the contingency table to make sure there are values in each cell.
+Since we only have one categorical variable, `rank`, we only need to check one contingency table.
+
+```{r}
+sjPlot::tab_xtab(var.row = log$rank, var.col = log$admit, title = "Cross tab of Admit rate by Rank of Undergraduate Insitute", show.row.prc = TRUE, show.summary=F)
+```
+
+This table shows the row and column totals, as well as row percentages.
+You can also ask for column percentages, if you prefer.
+
+### Binary Logistic Model
+
+Recall in linear regression, we used the `lm()` function.
+With logistic regression, we use `glm()`, or general linear model.
+The set up is similar to linear regression, however.
+One important note is to make sure we identify the type of "family function," or the description of the error distribution used in the model.
+For logistic regression, it's `family = "binomial"`.
+
+In our example, the predictors are GRE scores, GPA, and university rank related to graduate school admission status.
+
+```{r}
+mylogit <- glm(admit ~ gre + gpa + rank, data = log, family = "binomial")
+summary(mylogit)
+```
+
+Let's dissect this output.
+It looks similar to regular simple linear regression but interpretation is different (as we saw in lecture).
+When looking at the coefficients, we see `gre`, `gpa`, and the levels of `rank` are significant predictors of admission status.
+
+With binary logistic regression, regression coefficient is the change in the log odds of the outcome for a one unit increase in the predictor variable, holding others constant.
+The intercept is the log odds for students who has zero on all the predictors, a value not observed in this sample (e.g., no one has GPA or GRE score of zero).
+
+So this is how we would interpret those same variables when running a logistic regression model (Note: it's a z-statistic now since these are standardized coefficients):
+
+-   GRE was significantly related to admission decision (*z* = 2.070, *p* = 0.038). Specifically, the results indicate that for every one-unit increase in GRE score, there is an increase of *B* = 0.002 in the **the log odds** of being admitted to graduate school, controlling for GPA and university rank.
+
+Additionally, this is how we would interpret the categorical variable `rank`.
+Note that because this is a categorical variable, we are comparing the categories to a comparison group (or a reference group).
+In this example, the comparison group is **rank 1**:
+
+-   Students who attended rank 2 universities are less likely to be admitted to graduate school, compared to rank 1 universities (*z* = -0.675, *p* = 0.033).
+
+The log odds, or *logits*, are not always easily interpreted and can be converted to odds ratios for easier interpretation.
+
+### Odds Ratios
+
+The coefficients presented above are log odds.
+To convert them to odd ratios, we take the exponent of the coefficients (Slide 21 in lecture):
+
+$$
+odds ratio = e^{\beta}
+$$
+
+```{r}
+#coverting the log odds (logits) to odds ratios
+exp(coef(mylogit))
+
+## odds ratios and 95% CI
+exp(cbind(OR = coef(mylogit), confint(mylogit)))
+```
+
+These values likely make *a little more* sense.
+Considering GRE in the example again:
+
+-   GRE was significantly related to admission decision (**z** = 2.070, *p* = 0.038). Specifically, for every one-unit increase in GRE score, **the odds** **of being admitted to graduate school increase by a factor of 1.002**, controlling for GPA and university rank. (Note this is a very small amount because one point increase in GRE doesn't represent a large difference).
+
+Said differently,
+
+-   GRE was significantly related to admission decision (**z** = 2.070, *p* = 0.038). Specifically, for every one-unit increase in GRE score, **we expect to see about a .002% increase in the odds of being admitted to graduate school**, controlling for GPA and university rank.
+
+### Predicted Probability
+
+To make the coefficients easier to interpret, we can take the odds ratio values and convert them to probabilities.
+To do this, we take the odds ratio and divide it by the odds ratio plus 1 (See slide 25):
+
+$$
+probability = \frac{odds}{odds + 1}
+$$
+
+Before we dive right into conversions, we could also calculate the **predicted probabilities** of admission for specific values of the the predictors.
+Recall in lecture (Slide 23) to find the log odds of an x-value, we want to plug it into our regression equation:
+
+```{r}
+extract_eq(mylogit, use_coefs = TRUE)
+```
+
+To create predicted probabilities, we need to create a new data frame with the x-value we want the independent variables to take on to create our predictions (In lecture, slide 23, the value was *SurvRate* = 40).
+For this example, let's use the mean.
+And since we have a **categorical** predictor, `rank`, lets look at the mean of `gre` and `gpa` and each value of university `rank`.
+We could, of course, do all the calculations by hand.
+But R is easier :)
+
+Let's first create the data frame using `with`:
+
+```{r}
+pred_prob <- with(log, data.frame(gre = mean(gre), gpa = mean(gpa), rank = factor(1:4)))
+pred_prob
+```
+
+So we have our mean of `gpa` and `gre` and each level of `rank`.
+Which means we are going to get *four* predicted probabilities, at the mean of the other two variables.
+If we did not have a categorical predictor, we would only have *one.*
+
+Now let's create the predicted probabilities using the mean of `gre` and `gpa` and each level of `rank` using the `predict()` function.
+What R is doing here is taking the logits from `mylogit` and converting them to predicted probabilities based on the values we provided in `pred_prob`.
+We identify the object as `pred_prob$rankP` to create a new column of the within the `pred_prob` dataset called `rankP`.
+
+```{r}
+pred_prob$rankP <- predict(mylogit, newdata = pred_prob, type = "response")
+pred_prob
+```
+
+Great!
+Now we have predicted probabilities.
+Here is our interpretation:
+
+-   For those with an average GPA and GRE score (holding GPA and GRE constant), the predicted probabilities of being accepted into a graduate program is .516 for those in the highest ranked undergraduate institutions (rank = 1) and .184 for students from the lowest ranked undergraduate institutions (rank=4). This demonstrates the relation of rank of the university in the probability of being admitted to graduate school.
+
+### Classification Table
+
+A classification table is similar to a contingency table, but in this table we compare the actual values to the predicted values based on the binary logistic regression model.
+This is a way to see how well the model did at predicting the outcome of being admitted to graduate school.
+
+In this code, we take actual fitted values from the model (`mylogit$fitted.values`), and separate them by a cut off of *p* = .5.
+Those who had a fitted value of above .50 were assigned "Admitted." We are comparing the values given by the model (fitted values) and whether or not they actually got admitted.
+The purpose of this is to see how effective our model is at predicting admission status
+
+```{r}
+# Converting from probability to actual output
+log$fitted_admit <- ifelse(mylogit$fitted.values >= 0.5, "1", "0") #1 = Admitted, 0 = Not Admitted
+
+# Generating the classification table
+ctab <- table(log$admit, log$fitted_admit)
+ctab
+
+#I (Karen) like this table better because it include row and column totals
+sjPlot::tab_xtab(var.row = log$admit, var.col = log$fitted_admit, title = "Observed Admission versus Predited Admission counts", show.row.prc = TRUE, show.summary = F )
+
+```
+
+Here, we can see that the model correctly predicted 30 of 127, or 23.6%, of the students that actually got admitted.
+Thus, it misclassified 76.4% (97) of the admitted students were predicted to be "not admitted." Additionally, we see that it correctly classified 254 of 273 (93%) of the not admitted students.
+Thus this model did a better job at predicting who was not admitted than those who were admitted.
+
+### Accuracy
+
+We can check the accuracy percentage:
+
+```{r}
+accuracy <- sum(diag(ctab))/sum(ctab)*100
+accuracy
+```
+
+Overall, the accuracy of our model is 71%, or our logistic model is able to classify 71% of the observations correctly.
+
+## Hierarchical model building with logistic regression
+
+Just as we did in linear regression, we can proceed through a model building process with logistic regression.
+In this context, we are interested in seeing how we can improve the prediction of the outcome in a hierarchical fashion.
+
+Let's say we fit the following models:
+
+1.  Predicting admission from just GPA (log1)
+
+2.  Predicting admission from GPA and GRE (log2)
+
+3.  Predicting admission using GPA, GRE, and rank (log3)
+
+We can create a table of all three models using `tab_model` of the `sjPlot` package.
+We can compare the R2 estimates across the models.
+Using the `anova`function, we can also test if there is a statistical improvement in fit by adding the predictor(s).
+In logistic regression models, we test if the residual deviance significant decreases.
+We are using the ANOVA function, but it's not an ANOVA test like you may have done before.
+In this case, we are using ANOVA to compare the deviance for each model to the subsequent model.
+If the chi-square value is significant we can interpret that the addition of the extra variables (going from log1 to log 2, for example) significantly improves the model prediction (e.g., lowers the residual variance).
+
+```{r}
+log1 <- glm(admit ~ gpa , data = log, family = "binomial")
+log2 <- glm(admit ~ gpa + gre , data = log, family = "binomial")
+log3 <- glm(admit ~ gpa + gre + rank, data = log, family = "binomial")
+
+tab_model(log1, log2, log3)
+anova(log1, log2, log3, test="Chisq")
+
+```
+
+Based on the ANOVA results, we see that the addition of each additional predictor signficnalty improves the prediction of graduate school admission.
+Note, you don't have to do this, but if you have research questions about the specific predictive power, controloing for the others, you can use this apporach.
+
+## The API Example
+
+Data from [UCLA - Academic Performance Index](https://stats.idre.ucla.edu/r/seminars/introduction-to-regression-in-r/).
+Note: This is the same example as the simple linear regression lab (Lab 5).
+However, we are changing the model to have a binary outcome for logistic regression.
+Below is the list of variables we used in this analysis for lab, noting that there are more variables in the API dataset.
+
++--------------+----------------------------------------------------------------------------------------+
+| **Variable** | **Description**                                                                        |
++--------------+----------------------------------------------------------------------------------------+
+| api00        | Academic Performance Index, 0 = under statewide target of 800, 1 = above 800, *binary* |
++--------------+----------------------------------------------------------------------------------------+
+| enroll       | School enrollment, *continuous*                                                        |
++--------------+----------------------------------------------------------------------------------------+
+| Meals        | Number of free and reduced lunch, *continuous*                                         |
++--------------+----------------------------------------------------------------------------------------+
+| full         | Percentage of teachers will full credentials, *continuous*                             |
++--------------+----------------------------------------------------------------------------------------+
+
+### Read in data
+
+Here, we are reading in the data directly from the UCLA website.
+Additionally, we are dichotomizing the API (`api00`) variable to separate schools above statewide target of 800 and below.
+This cut-off may be outdated and/or controversial, however, we are going to use this for the purpose of providing an example of how to do logistic regression in R.
+
+```{r}
+api <- read.csv(
+"https://stats.idre.ucla.edu/wp-content/uploads/2019/02/elemapi2v2.csv") %>% 
+  select(api00, full, enroll, meals) %>%
+  mutate(api_factor = cut(api00,
+                     levels = c("0", "1"),
+                     breaks = c(0, 800, 940),
+                     labels = c("Below Target", "At or Above Target"))) # here we are dichotomizing API, see lab 1 for a refresher on what this all does.
+
+```
+
+### Summary
+
+For a short descriptor of each variable, scroll down [here](https://stats.idre.ucla.edu/spss/webbooks/reg/chapter1/regressionwith-spsschapter-1-simple-and-multiple-regression/).
+
+```{r}
+# psych::describe()
+round(describe(api),2) %>% 
+  pander() 
+
+# I like this table more, but you can do either! Especially if you're getting some errors with gtsummary(). Useful when you have a subset, but here we left all variables in the sample so it's a long table. 
+
+# gtsummary::gtsummary()
+#tbl_summary(api,
+#            statistic = list(all_continuous() ~ "{mean} ({sd})"),
+#                             missing = "no")
+```
+
+There is no contingency table in this example because all of our predictors are continuous.
+
+### Binary Logistic Model
+
+We are using a binary logistic regression model to see how school characteristics relate to a school making adequate progress (api=1) or not (api=0).
+
+Binary outcome: API adequate progress =1, not adequate progress=0 Predictors: % fully credential teachers, student enrollment, and % on free and reduced lunch
+
+```{r}
+mylogit <- glm(api_factor ~ full + enroll + meals, data = api, family = "binomial")
+summary(mylogit)
+```
+
+### Odds Ratios
+
+```{r}
+exp(coef(mylogit))
+
+## odds ratios and 95% CI
+exp(cbind(OR = coef(mylogit), confint(mylogit)))
+```
+
+### Predicted Probability
+
+```{r}
+#creating the means of each variable
+pred_prob_api<- with(api, data.frame(full = mean(full), enroll = mean(enroll), meals = mean(meals)))
+pred_prob_api
+```
+
+```{r}
+pred_prob_api$apiP<- predict(mylogit, newdata = pred_prob_api, type = "response")
+pred_prob_api
+
+```
+
+This result says that for schools that have average on all the predictors, the probablity of being at target is .01.
+*yikes!*
+
+### Classification Table
+
+```{r}
+# Converting from probability to actual output
+api$fitted_api <- ifelse(mylogit$fitted.values >= 0.5, "1", "0") #1 = Above Average, 0 = Below
+
+# Generating the classification table
+ctab <- table(api$api_factor, api$fitted_api)
+ctab
+```
+
+```{r}
+#I (Karen) like this table better because it include row and column totals
+sjPlot::tab_xtab(var.row = api$api_factor, var.col = api$fitted_api, title = "Observed Progress versus Predited progress counts", show.row.prc = TRUE, show.summary = F )
+
+```
+
+### Accuracy
+
+```{r}
+accuracy <- sum(diag(ctab))/sum(ctab)*100
+accuracy
+```
+
+## Sample write up
+
+Using a binary logistic regression, we explored how school's characteristics (% fully credential teachers, studnet enrollment, and % on free and reduced lunch) relate to the adequate progress of a school.
+Both the percent of credentialed teachers (*z* = 2.06, *p* = .04) and the % free and reduced lunch (*z* = -.11, *p* \< .01) were significant predictors.
+Specifically the percent of fully credentialed teachers has an *OR* = 1.05, 95%CI\[1.01, 1.12\].
+This implies that for a one percent increase in the fully credentialed teachers, schools have a 5% higher chance of making target.
+Free and reduced lunch had estimated *OR* =.90, 95% CI \[.86, .92\], which indicated that for each additional percent of students on free and reduced lunch, there is a significant decrease in the log odds of being at target (*z* = -7.60, *p* \< .01).
+That is, for each additional percent increase of free or reduced lunch, that school has a 11% decrease in the odds of making it to target growth, controlling for the other predictors.
+There was no effect of the enrollment of the school, when controlling for the other variables.
+Overall, this model had high prediction accuracy, predicting 91% schools accurately.
+
+Hope this is useful....
