@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mediation | Dina Arch</title>
+    <link>https://dinaarch.netlify.app/tag/mediation/</link>
+      <atom:link href="https://dinaarch.netlify.app/tag/mediation/index.xml" rel="self" type="application/rss+xml" />
+    <description>mediation</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Tue, 14 Dec 2021 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://dinaarch.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png</url>
+      <title>mediation</title>
+      <link>https://dinaarch.netlify.app/tag/mediation/</link>
+    </image>
+    
+    <item>
+      <title>Mediation Lab</title>
+      <link>https://dinaarch.netlify.app/post/mediation-lab/</link>
+      <pubDate>Tue, 14 Dec 2021 00:00:00 +0000</pubDate>
+      <guid>https://dinaarch.netlify.app/post/mediation-lab/</guid>
+      <description>&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(haven) #read_sav()
+library(mediation) # mediate() (Tingley, Yamamoto, Hirose, Keele, &amp;amp; Imai, 2014)
+library(gvlma) # gvlma()
+library(kableExtra) #kable()
+library(corrr) #correlate()
+library(psych) #mediate()
+library(tidyverse)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1 id=&#34;mediation-in-r&#34;&gt;Mediation in R&lt;/h1&gt;
+&lt;p&gt;This exampes comes from a tutorial paper on mediation found &lt;a href=&#34;https://www.tqmp.org/RegularArticles/vol13-3/p148/p148.pdf&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;here&lt;/a&gt;.
+This is an open source paper that shared the data set used in this example.
+The following is code and interpretation are based on this paper.
+Note that they use a different package to estimate the model and you will see that our estimates are very close, though not exact.&lt;/p&gt;
+&lt;p&gt;Kane, L.
+&amp;amp; Ashbaugh, A. R.
+(2017).
+Simple and parallel mediation: A tutorial exploring anxiety sensitivity, sensation seeking, and gender.
+&lt;em&gt;The Quantitative Methods for Psychology&lt;/em&gt;, 13(3), 148&amp;ndash;165.
+&lt;a href=&#34;doi:10.20982/tqmp.13.3.p148&#34;&gt;doi:10.20982/tqmp.13.3.p148&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;read-in-data&#34;&gt;Read in data&lt;/h2&gt;
+&lt;p&gt;Downloaded from the journal &lt;a href=&#34;https://www.tqmp.org/RegularArticles/vol13-3/p148/index.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;website&lt;/a&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;tqmp &amp;lt;- read_sav(&amp;quot;p148.sav&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash;+
+| Variable Name | Description                                 | Notes                                      |
++===============+=============================================+============================================+
+| Gender        | Gender                                      | 0 = female, 1= male                        |
++&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash;+
+| ASI.TOT       | Anxiety sensitivity index total scale score | higher scores mean more anxiety            |
++&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash;+
+| ASI.PHY       | ASI-3 physical concerns subscale            | higher values means more concerns          |
++&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash;+
+| ASI.SOC       | ASI-3 social concerns subscale              | higher values means more concerns          |
++&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash;+
+| ASI.COG       | ASI-3 cognitive concerns subscale           | higher values means more concerns          |
++&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash;+
+| SSs           | UPPS-P sensation seeking subscale           | higher values means more sensation seeking |
++&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash;+
+| NUs           | UPPS-P negative urgency subscale            | higher values means more negative urgency  |
++&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;+&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;mdash;&amp;ndash;+&lt;/p&gt;
+&lt;h2 id=&#34;correlation&#34;&gt;Correlation&lt;/h2&gt;
+&lt;p&gt;Just to explore the variables and their relationships we look at a correlation table.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;#Pretty correlation table:
+tab_02 = tqmp%&amp;gt;% 
+  correlate() %&amp;gt;%
+  shave(upper = TRUE) %&amp;gt;%
+  fashion(decimals = 2, na_print = &amp;quot;—&amp;quot;) 
+tab_02 %&amp;gt;% 
+  kable()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style=&#34;text-align:left;&#34;&gt; term &lt;/th&gt;
+   &lt;th style=&#34;text-align:left;&#34;&gt; Gender &lt;/th&gt;
+   &lt;th style=&#34;text-align:left;&#34;&gt; ASI.TOT &lt;/th&gt;
+   &lt;th style=&#34;text-align:left;&#34;&gt; ASI.PHY &lt;/th&gt;
+   &lt;th style=&#34;text-align:left;&#34;&gt; ASI.SOC &lt;/th&gt;
+   &lt;th style=&#34;text-align:left;&#34;&gt; ASI.COG &lt;/th&gt;
+   &lt;th style=&#34;text-align:left;&#34;&gt; SSs &lt;/th&gt;
+   &lt;th style=&#34;text-align:left;&#34;&gt; NUs &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; Gender &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; ASI.TOT &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; -.12 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; ASI.PHY &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; -.17 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; .89 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; ASI.SOC &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; -.09 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; .80 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; .54 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; ASI.COG &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; -.05 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; .90 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; .75 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; .57 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; SSs &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; .19 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; -.23 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; -.27 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; -.17 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; -.14 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; NUs &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; .02 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; .38 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; .30 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; .30 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; .39 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; .13 &lt;/td&gt;
+   &lt;td style=&#34;text-align:left;&#34;&gt; — &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id=&#34;simple-mediation-model&#34;&gt;Simple Mediation Model&lt;/h1&gt;
+&lt;p&gt;This example is from the paper directly.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Independent Variable (X): Gender.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Dependent Variable (Y): Sensation seeking (SSs)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Mediator (M): Anxiety sensitivity (ASI.TOT)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Figure 1.
+(from paper)&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;&#34; srcset=&#34;
+               /post/mediation-lab/simple_med_hu3f683187e1d086740fe25db8acab2935_19770_fe77fc0ca6ee50546ee4e6be1d1013b1.JPG 400w,
+               /post/mediation-lab/simple_med_hu3f683187e1d086740fe25db8acab2935_19770_8cfc66b73f6840a407abe94310b83234.JPG 760w,
+               /post/mediation-lab/simple_med_hu3f683187e1d086740fe25db8acab2935_19770_1200x1200_fit_q75_lanczos.JPG 1200w&#34;
+               src=&#34;https://dinaarch.netlify.app/post/mediation-lab/simple_med_hu3f683187e1d086740fe25db8acab2935_19770_fe77fc0ca6ee50546ee4e6be1d1013b1.JPG&#34;
+               width=&#34;760&#34;
+               height=&#34;247&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;testing-statistical-assumptions&#34;&gt;Testing Statistical Assumptions&lt;/h2&gt;
+&lt;p&gt;Before we dive into analyzing the mediation model, we first check the statistical assumptions.
+Please follow along on page 151 in the tutorial paper to see how they interpreted the assumptions for this mediation model.&lt;/p&gt;
+&lt;h4 id=&#34;linearity-homoscedasticity-normality-of-estimation-error&#34;&gt;Linearity, Homoscedasticity, Normality of estimation error&lt;/h4&gt;
+&lt;p&gt;&lt;em&gt;Linearity&lt;/em&gt;:&amp;ldquo;To examine these criteria for a simple mediation, you need to plot residuals against predicted values in four regressions: X predicting Y (c), X predicting M (a), M predicting Y (b), and X and M predicting Y (combined linearity of b and c&#39;).&amp;rdquo; (pg. 151)&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Homoscedasticity&lt;/em&gt;: &amp;ldquo;To check homoscedasticity, return to the same plot that we created to examine linearity, but this time look for consistency in vertical range across the X axis. In other words, see if the data spreads on the Y axis consistently and equally throughout the plot, resembling a rectangle.&amp;rdquo; (pg. 152)&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Normality of estimation error&lt;/em&gt;: &amp;ldquo;To examine this assumption, we can create a Q-Q plot with the residuals we saved from the regression&amp;rdquo; (pg. 152)&lt;/p&gt;
+&lt;p&gt;In R, &lt;strong&gt;plot 1&lt;/strong&gt; creates a plot of the residuals against the predicted values and &lt;strong&gt;plot 2&lt;/strong&gt; creates a Q-Q plot of the residuals.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# X predicting Y (path c) 
+fit_c &amp;lt;- lm(SSs ~ Gender, data=tqmp) 
+plot(fit_c, c(1,2))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://dinaarch.netlify.app/post/mediation-lab/index_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;672&#34; /&gt;&lt;img src=&#34;https://dinaarch.netlify.app/post/mediation-lab/index_files/figure-html/unnamed-chunk-4-2.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# X predicting M (path a)
+fit_a &amp;lt;- lm(ASI.TOT ~ Gender, data=tqmp) 
+plot(fit_a, c(1,2))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://dinaarch.netlify.app/post/mediation-lab/index_files/figure-html/unnamed-chunk-4-3.png&#34; width=&#34;672&#34; /&gt;&lt;img src=&#34;https://dinaarch.netlify.app/post/mediation-lab/index_files/figure-html/unnamed-chunk-4-4.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# M predicting Y (path b)
+fit_b &amp;lt;- lm(SSs ~ ASI.TOT, data=tqmp) 
+plot(fit_b, c(1,2))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://dinaarch.netlify.app/post/mediation-lab/index_files/figure-html/unnamed-chunk-4-5.png&#34; width=&#34;672&#34; /&gt;&lt;img src=&#34;https://dinaarch.netlify.app/post/mediation-lab/index_files/figure-html/unnamed-chunk-4-6.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# X and M predicting Y (b and c&#39;)
+fit_cb &amp;lt;- lm(SSs ~  Gender + ASI.TOT, data=tqmp) 
+plot(fit_cb, c(1,2))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://dinaarch.netlify.app/post/mediation-lab/index_files/figure-html/unnamed-chunk-4-7.png&#34; width=&#34;672&#34; /&gt;&lt;img src=&#34;https://dinaarch.netlify.app/post/mediation-lab/index_files/figure-html/unnamed-chunk-4-8.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;h2 id=&#34;simple-mediation-r-code&#34;&gt;Simple Mediation R Code&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Important note!&lt;/strong&gt; There are &lt;strong&gt;two&lt;/strong&gt; &lt;code&gt;mediate()&lt;/code&gt; functions used in this lab.
+One comes from the &lt;code&gt;psych&lt;/code&gt; package and the other comes from the &lt;code&gt;mediation&lt;/code&gt; package.
+You must identify the package in the code like shown below to specify which &lt;code&gt;mediate()&lt;/code&gt; function you&amp;rsquo;re using.
+For simple mediation with one mediator, we use &lt;a href=&#34;https://ademos.people.uic.edu/Chapter14.html#24_method_2:_the_mediation_pacakge_method&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;mediation::mediate()&lt;/code&gt;&lt;/a&gt;.
+For multiple mediators, we use &lt;a href=&#34;http://personality-project.org/r/psych/HowTo/mediation.pdf&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;psych::mediate()&lt;/code&gt;&lt;/a&gt; shown in the next example.&lt;/p&gt;
+&lt;p&gt;Recall the steps to test for a mediation effect using one mediator (See slide 15 in lecture):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# Model 1: M regressed on X, path a
+fit_a &amp;lt;-  lm(ASI.TOT ~ Gender, data=tqmp) 
+summary(fit_a)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## lm(formula = ASI.TOT ~ Gender, data = tqmp)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -24.135 -11.343  -3.135  10.657  47.449 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept)   26.135      1.236  21.151   &amp;lt;2e-16 ***
+## Gender        -3.584      1.750  -2.048   0.0415 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 15.03 on 293 degrees of freedom
+## Multiple R-squared:  0.01411,	Adjusted R-squared:  0.01074 
+## F-statistic: 4.192 on 1 and 293 DF,  p-value: 0.0415
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# Model 2: Y is regressed on X, path c
+fit_c &amp;lt;- lm(SSs ~ Gender, data=tqmp) 
+summary(fit_c)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## lm(formula = SSs ~ Gender, data = tqmp)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.88379 -0.38379  0.01295  0.44955  1.34628 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept)  2.65372    0.04778  55.538  &amp;lt; 2e-16 ***
+## Gender       0.23007    0.06769   3.399  0.00077 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.5813 on 293 degrees of freedom
+## Multiple R-squared:  0.03793,	Adjusted R-squared:  0.03465 
+## F-statistic: 11.55 on 1 and 293 DF,  p-value: 0.0007702
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# Model 3: Y is regressed on X and M (paths c&#39; and b)
+fit_cb &amp;lt;- lm(SSs ~ Gender+ ASI.TOT, data=tqmp) 
+summary(fit_cb)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## lm(formula = SSs ~ Gender + ASI.TOT, data = tqmp)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.90432 -0.35627  0.01137  0.43682  1.36129 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept)  2.864067   0.074417  38.487  &amp;lt; 2e-16 ***
+## Gender       0.201224   0.066792   3.013 0.002816 ** 
+## ASI.TOT     -0.008049   0.002213  -3.636 0.000327 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.5695 on 292 degrees of freedom
+## Multiple R-squared:  0.07961,	Adjusted R-squared:  0.07331 
+## F-statistic: 12.63 on 2 and 292 DF,  p-value: 5.49e-06
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# Path b (not a required step to test for mediation but will be used in the write up)
+fit_b &amp;lt;- lm(SSs ~ ASI.TOT, data=tqmp) 
+summary(fit_b)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## lm(formula = SSs ~ ASI.TOT, data = tqmp)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.80681 -0.41348  0.00638  0.40406  1.32333 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept)  2.983622   0.063814  46.755  &amp;lt; 2e-16 ***
+## ASI.TOT     -0.008841   0.002228  -3.968 9.11e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 0.5773 on 293 degrees of freedom
+## Multiple R-squared:  0.05101,	Adjusted R-squared:  0.04777 
+## F-statistic: 15.75 on 1 and 293 DF,  p-value: 9.108e-05
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;test-for-indirect-effect&#34;&gt;Test for Indirect Effect&lt;/h3&gt;
+&lt;p&gt;As mentioned in lecture (slide 17), there are multiple ways to estimate the indirect effect and its SE.
+The one we will use is the bootstrapped confidence intervals (similar to the tutorial paper as noted on page 153).
+In &lt;code&gt;mediation::mediate()&lt;/code&gt;, we enter path a and combined path c and b to test the indirect effect using bootstrapping procedures.
+In the tutorial paper, they used 10,000 bootstrap samples (pg 153).
+This may take a minute to run.
+You can cache the results by using &lt;code&gt;{r, cache = TRUE}&lt;/code&gt; in the top part of the code chunk so it doesn&amp;rsquo;t need to run every time you knit.
+You may decrease the number to 1,000 if you find that&amp;rsquo;s taking too long to run (the results may not be identical to the paper, however).&lt;/p&gt;
+&lt;p&gt;In the output, we look at the &lt;em&gt;ACME&lt;/em&gt; (or Average Causal Mediation Effect) to evaluate the indirect effect of the mediator.
+The &lt;em&gt;ADE&lt;/em&gt; (or Average Direct Effects) provides the direct effect estimate, and the &lt;em&gt;Total Effect&lt;/em&gt; provides the combined indirect and direct effects estimate.
+&lt;em&gt;Prop. Mediated&lt;/em&gt; is the ratio of these estimates (which we will not be using).&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;fitMed &amp;lt;- mediation::mediate(fit_a, fit_cb, treat=&amp;quot;Gender&amp;quot;, mediator=&amp;quot;ASI.TOT&amp;quot;, boot= TRUE,  boot.ci.type = &amp;quot;perc&amp;quot;, sims = 10000)
+summary(fitMed)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Causal Mediation Analysis 
+## 
+## Nonparametric Bootstrap Confidence Intervals with the Percentile Method
+## 
+##                Estimate 95% CI Lower 95% CI Upper p-value    
+## ACME           0.028847     0.000593         0.07  0.0456 *  
+## ADE            0.201224     0.069159         0.33  0.0024 ** 
+## Total Effect   0.230071     0.099398         0.36  0.0006 ***
+## Prop. Mediated 0.125384     0.002647         0.37  0.0462 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Sample Size Used: 295 
+## 
+## 
+## Simulations: 10000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;&#34; srcset=&#34;
+               /post/mediation-lab/simple_med_w_coef_hue9a2cb9288130c77e246a0d43c3f7fdb_22715_4c3e32fc0f06149197ed82978f4ab76c.jpg 400w,
+               /post/mediation-lab/simple_med_w_coef_hue9a2cb9288130c77e246a0d43c3f7fdb_22715_0ad02c9a16263722719bc594ce3a7d4b.jpg 760w,
+               /post/mediation-lab/simple_med_w_coef_hue9a2cb9288130c77e246a0d43c3f7fdb_22715_1200x1200_fit_q75_lanczos.jpg 1200w&#34;
+               src=&#34;https://dinaarch.netlify.app/post/mediation-lab/simple_med_w_coef_hue9a2cb9288130c77e246a0d43c3f7fdb_22715_4c3e32fc0f06149197ed82978f4ab76c.jpg&#34;
+               width=&#34;760&#34;
+               height=&#34;226&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note&lt;/em&gt;: This figure was taken from the paper.&lt;/p&gt;
+&lt;h3 id=&#34;full-or-partial-mediation&#34;&gt;Full or Partial Mediation?&lt;/h3&gt;
+&lt;p&gt;In this example, the direct effect is still significant when accounting the mediator.
+We also see that the direct effect with the mediator (c&#39; = 0.201) is less than the total effect (c = 0.230).
+Thus, this is evidence of partial mediation (see Slide 10 in lecture).&lt;/p&gt;
+&lt;h3 id=&#34;sample-write-up&#34;&gt;Sample Write-Up&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Note&lt;/em&gt;: that the estimates from our estimation of the model here is slightly off from what is reported in the manuscript.
+They used the &lt;code&gt;PROCESS&lt;/code&gt;macro and we use the &lt;code&gt;mediate&lt;/code&gt; package.&lt;/p&gt;
+&lt;p&gt;Results from a simple mediation analysis indicated that gender is indirectly related to sensation seeking through its relationship with anxiety sensitivity.
+First, as can be seen in Figure 7, men reported less anxiety sensitivity than women (&lt;em&gt;a&lt;/em&gt; = −3.584, &lt;em&gt;p&lt;/em&gt; = .042), and lower reported anxiety sensitivity was subsequently related to more sensation seeking (&lt;em&gt;b&lt;/em&gt; = −0.008, &lt;em&gt;p&lt;/em&gt; =&amp;lt; .001).
+A 95% bias-corrected confidence interval based on 10,000 bootstrap samples indicated that the indirect effect (&lt;em&gt;ab&lt;/em&gt; = 0.029) was entirely above zero (0.003 to 0.074).
+Moreover, men reported greater sensation seeking even after taking into account gender&amp;rsquo;s indirect effect through anxiety sensitivity (&lt;em&gt;c&#39;&lt;/em&gt; = 0.201, &lt;em&gt;p&lt;/em&gt; = .003).&lt;/p&gt;
+&lt;h1 id=&#34;complex-mediation-with-multiple-mediators&#34;&gt;Complex Mediation with Multiple Mediators&lt;/h1&gt;
+&lt;p&gt;Here, we continue the tutorial paper&amp;rsquo;s example and adding on multiple mediators (three) into the model: Physical, Cognitive, and Social Concerns.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Independent Variable (X): Gender.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Dependent Variable (Y): Sensation seeking (SSs)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Mediator 1 (M1): Physical Concerns (ASI.PHY)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Mediator 2 (M2): Social Concerns (ASI.SOC)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Mediator 3 (M3): Cognitive Concerns (ASI.COG)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;&#34; srcset=&#34;
+               /post/mediation-lab/multiple_med_hucc75820830292ef932686c7d57f04614_19178_78b23fbce9c62d8585ed65081be660e3.JPG 400w,
+               /post/mediation-lab/multiple_med_hucc75820830292ef932686c7d57f04614_19178_03aa803d804195cc602443b7a3be9f13.JPG 760w,
+               /post/mediation-lab/multiple_med_hucc75820830292ef932686c7d57f04614_19178_1200x1200_fit_q75_lanczos.JPG 1200w&#34;
+               src=&#34;https://dinaarch.netlify.app/post/mediation-lab/multiple_med_hucc75820830292ef932686c7d57f04614_19178_78b23fbce9c62d8585ed65081be660e3.JPG&#34;
+               width=&#34;538&#34;
+               height=&#34;258&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;h2 id=&#34;testing-statistical-assumptions-1&#34;&gt;Testing Statistical Assumptions&lt;/h2&gt;
+&lt;p&gt;From the paper: &amp;ldquo;We verified the assumptions using the same methods we used for simple mediation, only this time we conducted seven additional regressions (i.e., X [gender] predicting each mediator [the three anxiety sensitivity dimensions]; each mediator predicting Y [sensation seeking]; X and all three mediators predicting Y ; note: we already had regressed Y on X for the simple mediation).&amp;rdquo; (pg 156).&lt;/p&gt;
+&lt;p&gt;We won&amp;rsquo;t run all seven for this lab, but just note that this is what needs to be done with multiple mediators.&lt;/p&gt;
+&lt;h2 id=&#34;complex-mediation-r-code&#34;&gt;Complex Mediation R Code&lt;/h2&gt;
+&lt;p&gt;We are using the &lt;a href=&#34;http://personality-project.org/r/psych/HowTo/mediation.pdf&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;&lt;code&gt;psych::mediate()&lt;/code&gt;&lt;/a&gt; function to specify multiple mediators (you can do this in the other package).
+This function will go through the steps of mediation as well as provide the tests of indirect effects for each mediator (three).
+An important note (again), the results will only show up when you knit the markdown.
+We spent &lt;em&gt;many, many&lt;/em&gt; hours on this only to find that knitting reveals the specific indirect effect estimates and their significance tests.&lt;/p&gt;
+&lt;h3 id=&#34;test-for-indirect-effect-1&#34;&gt;Test for Indirect Effect&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;fitComplex &amp;lt;- psych::mediate(SSs ~ Gender + (ASI.PHY) + (ASI.SOC)+ (ASI.COG), n.iter = 10000, data = tqmp)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;img src=&#34;https://dinaarch.netlify.app/post/mediation-lab/index_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;fitComplex
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Mediation/Moderation Analysis 
+## Call: psych::mediate(y = SSs ~ Gender + (ASI.PHY) + (ASI.SOC) + (ASI.COG), 
+##     data = tqmp, n.iter = 10000)
+## 
+## The DV (Y) was  SSs . The IV (X) was  Gender . The mediating variable(s) =  ASI.PHY ASI.SOC ASI.COG .
+## 
+## Total effect(c) of  Gender  on  SSs  =  0.23   S.E. =  0.07  t  =  3.4  df=  293   with p =  0.00077
+## Direct effect (c&#39;) of  Gender  on  SSs  removing  ASI.PHY ASI.SOC ASI.COG  =  0.17   S.E. =  0.07  t  =  2.57  df=  290   with p =  0.011
+## Indirect effect (ab) of  Gender  on  SSs  through  ASI.PHY ASI.SOC ASI.COG   =  0.06 
+## Mean bootstrapped indirect effect =  0.06  with standard error =  0.03  Lower CI =  0.01    Upper CI =  0.12
+## R = 0.32 R2 = 0.1   F = 8.2 on 4 and 290 DF   p-value:  2.96e-07 
+## 
+##  To see the longer output, specify short = FALSE in the print statement or ask for the summary
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;sample-write-up-1&#34;&gt;Sample Write-Up&lt;/h3&gt;
+&lt;p&gt;Results from a parallel mediation analysis indicated that gender is indirectly related to sensation seeking through its relationship with the Physical Concerns subscale of anxiety sensitivity.
+This dimension pertains to the fear of physiological sensations because of the belief that they may have negative consequences and are life-threatening.
+First, as can be seen in Figure 9, men reported less fear of physiological sensations than women (&lt;em&gt;a1&lt;/em&gt; = −2.021, &lt;em&gt;p&lt;/em&gt; = .004), and lower reported fear of physiological sensations was subsequently related to more sensation seeking (&lt;em&gt;b1&lt;/em&gt; = −0.029, &lt;em&gt;p&lt;/em&gt; &amp;lt; .001).
+A 95% bias-corrected confidence interval based on 10,000 bootstrap samples indicated that the indirect effect through fear of physiological sensations (&lt;em&gt;a1*b1&lt;/em&gt; = 0.058), holding all other mediators constant, was entirely above zero (0.017 to 0.132).
+In contrast, the indirect effects through both the Social and the Cognitive Concerns subscales of anxiety sensitivity were not different than zero (−0.004 to 0.038 and −0.047 to 0.005, respectively; see Figure 9 (in the paper) for the effects associated with these pathways).
+Moreover, men reported greater sensation seeking even when taking into account gender&amp;rsquo;s indirect effect through all three dimensions of anxiety sensitivity (&lt;em&gt;c&#39;&lt;/em&gt; = 0.172, &lt;em&gt;p&lt;/em&gt; = .011).&lt;/p&gt;
+&lt;h2 id=&#34;next-steps-and-resources&#34;&gt;Next steps and resources&lt;/h2&gt;
+&lt;p&gt;There are extensions of these models.
+It is possible to add moderators to this.
+This would allow for the mediatoinal relationships to vary by levels of the moderator.
+There are resources out there to do this, which we won&amp;rsquo;t cover here.
+My hope is that you will have a foundation in moderation and mediation to extend your own knowledge.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://m-clark.github.io/posts/2019-03-12-mediation-models/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;This&lt;/a&gt; resources was a helpful way to learn about mediation and the different package in R.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

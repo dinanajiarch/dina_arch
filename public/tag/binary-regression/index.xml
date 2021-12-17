@@ -1,0 +1,1535 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>binary regression | Dina Arch</title>
+    <link>https://dinaarch.netlify.app/tag/binary-regression/</link>
+      <atom:link href="https://dinaarch.netlify.app/tag/binary-regression/index.xml" rel="self" type="application/rss+xml" />
+    <description>binary regression</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Sun, 30 May 2021 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://dinaarch.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png</url>
+      <title>binary regression</title>
+      <link>https://dinaarch.netlify.app/tag/binary-regression/</link>
+    </image>
+    
+    <item>
+      <title>Binary Logistic Regression Lab</title>
+      <link>https://dinaarch.netlify.app/post/binary-logistic-regression-lab/</link>
+      <pubDate>Sun, 30 May 2021 00:00:00 +0000</pubDate>
+      <guid>https://dinaarch.netlify.app/post/binary-logistic-regression-lab/</guid>
+      <description>&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;library(pander) #pander()
+library(psych) # describe()
+library(gtsummary) #tbl_summary()
+library(equatiomatic) # extract_eq()
+library(sjPlot) # tab_xtab(), tab_model()
+library(tidyverse)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This lab follows along the logistic regression lecture presented in class and provides two examples to demonstrate the models and their interpretation.&lt;/p&gt;
+&lt;h1 id=&#34;what-is-binary-logistic-regression&#34;&gt;What is Binary Logistic Regression?&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;It is a regression with an &lt;strong&gt;outcome&lt;/strong&gt; &lt;strong&gt;variable&lt;/strong&gt; (or &lt;strong&gt;dependent variable&lt;/strong&gt;) that is dichotomous/binary (i.e., only two categories, such as Yes or No, 0 or 1, Disorder or No Disorder, Win or Lose).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The &lt;strong&gt;predictor variables&lt;/strong&gt; (or &lt;strong&gt;independent variables&lt;/strong&gt; or &lt;strong&gt;explanatory variables&lt;/strong&gt;) can be either continuous or categorical&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;In binary logistic regression, we are interested in predicting which of two possible events (e.g., win or lose) are going to happen given the predictor(s) variables&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Assumes a binomial distribution or “a probability distribution that summarizes the likelihood that a value will take one of two independent values under a given set of parameters or assumptions.” (&lt;a href=&#34;https://www.investopedia.com/terms/b/binomialdistribution.asp&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Source&lt;/a&gt;)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;binary-logistic-regression-in-r&#34;&gt;Binary Logistic Regression in R&lt;/h1&gt;
+&lt;h2 id=&#34;admissions-example&#34;&gt;Admissions Example&lt;/h2&gt;
+&lt;p&gt;This example comes from the UCLA Statistical Consulting page found &lt;a href=&#34;https://stats.idre.ucla.edu/r/dae/logit-regression/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;here&lt;/a&gt;.
+This example assesses how GRE, GPA, and prestige of the undergraduate institutions effect graduate school admission.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;strong&gt;Variable&lt;/strong&gt;&lt;/th&gt;
+&lt;th&gt;&lt;strong&gt;Description&lt;/strong&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;gre&lt;/td&gt;
+&lt;td&gt;Graduate Record Exam (GRE) scores, &lt;em&gt;continuous&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;gpa&lt;/td&gt;
+&lt;td&gt;Grade point average, &lt;em&gt;continuous&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;rank&lt;/td&gt;
+&lt;td&gt;Rank of undergraduate institutions, 1 = highest prestige, 4 = lowest, &lt;em&gt;categorical&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;admit&lt;/td&gt;
+&lt;td&gt;Admission decision, 0 = did not admit, 1 = admitted, &lt;em&gt;binary&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;References&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Hosmer, D.
+&amp;amp; Lemeshow, S.
+(2000).
+Applied Logistic Regression (Second Edition).
+New York: John Wiley &amp;amp; Sons, Inc.&lt;/p&gt;
+&lt;p&gt;Long, J. Scott (1997).
+Regression Models for Categorical and Limited Dependent Variables.
+Thousand Oaks, CA: Sage Publications.&lt;/p&gt;
+&lt;h3 id=&#34;read-in-data&#34;&gt;Read in data&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;log &amp;lt;- read.csv(&amp;quot;https://stats.idre.ucla.edu/stat/data/binary.csv&amp;quot;) %&amp;gt;% 
+  mutate(rank = factor(rank),  #we need to convert this variable to a factor
+         admit = factor(admit, levels = c(&amp;quot;0&amp;quot;, &amp;quot;1&amp;quot;), labels = c(&amp;quot;Not Admitted&amp;quot;, &amp;quot;Admitted&amp;quot;))) # add labels to outcome
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;summary&#34;&gt;Summary&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# psych::describe()
+round(describe(log),2) %&amp;gt;% 
+  pander() 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt; &lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;vars&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;n&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;mean&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;sd&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;median&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;trimmed&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;mad&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;min&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;admit&lt;/strong&gt;*&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;400&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1.32&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.47&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1.27&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;gre&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;400&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;587.7&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;115.5&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;580&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;589.1&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;118.6&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;220&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;gpa&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;3&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;400&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;3.39&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.38&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;3.4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;3.4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2.26&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;rank&lt;/strong&gt;*&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;400&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2.48&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.94&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2.48&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1.48&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Table continues below&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt; &lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;max&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;range&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;skew&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;kurtosis&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;se&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;admit&lt;/strong&gt;*&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.78&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-1.39&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.02&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;gre&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;800&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;580&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-0.14&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-0.36&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;5.78&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;gpa&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1.74&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-0.21&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-0.6&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.02&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;rank&lt;/strong&gt;*&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;3&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.1&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-0.91&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.05&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# I like this table more, but you can do either! Especially if you&#39;re getting some errors with gtsummary(). 
+
+# gtsummary::tbl_summary()
+tbl_summary(log,
+            statistic = list(all_continuous() ~ &amp;quot;{mean} ({sd})&amp;quot;),
+                             missing = &amp;quot;no&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;rnvuxdypxd&#34; style=&#34;overflow-x:auto;overflow-y:auto;width:auto;height:auto;&#34;&gt;
+&lt;style&gt;html {
+  font-family: -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Roboto, Oxygen, Ubuntu, Cantarell, &#39;Helvetica Neue&#39;, &#39;Fira Sans&#39;, &#39;Droid Sans&#39;, Arial, sans-serif;
+}
+&lt;p&gt;#rnvuxdypxd .gt_table {
+display: table;
+border-collapse: collapse;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 0;
+padding-bottom: 6px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_group_heading {
+padding: 8px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_from_md &amp;gt; :first-child {
+margin-top: 0;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_from_md &amp;gt; :last-child {
+margin-bottom: 0;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 12px;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_first_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding: 4px;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_sourcenote {
+font-size: 90%;
+padding: 4px;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_left {
+text-align: left;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_center {
+text-align: center;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_font_normal {
+font-weight: normal;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_font_bold {
+font-weight: bold;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_font_italic {
+font-style: italic;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_super {
+font-size: 65%;
+}&lt;/p&gt;
+&lt;p&gt;#rnvuxdypxd .gt_footnote_marks {
+font-style: italic;
+font-weight: normal;
+font-size: 65%;
+}
+&lt;/style&gt;&lt;/p&gt;
+&lt;table class=&#34;gt_table&#34;&gt;
+  &lt;thead class=&#34;gt_col_headings&#34;&gt;
+    &lt;tr&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_left&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;&lt;strong&gt;Characteristic&lt;/strong&gt;&lt;/th&gt;
+      &lt;th class=&#34;gt_col_heading gt_columns_bottom_border gt_center&#34; rowspan=&#34;1&#34; colspan=&#34;1&#34;&gt;&lt;strong&gt;N = 400&lt;/strong&gt;&lt;sup class=&#34;gt_footnote_marks&#34;&gt;1&lt;/sup&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody class=&#34;gt_table_body&#34;&gt;
+    &lt;tr&gt;&lt;td class=&#34;gt_row gt_left&#34;&gt;admit&lt;/td&gt;
+&lt;td class=&#34;gt_row gt_center&#34;&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td class=&#34;gt_row gt_left&#34; style=&#34;text-align: left; text-indent: 10px;&#34;&gt;Not Admitted&lt;/td&gt;
+&lt;td class=&#34;gt_row gt_center&#34;&gt;273 (68%)&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td class=&#34;gt_row gt_left&#34; style=&#34;text-align: left; text-indent: 10px;&#34;&gt;Admitted&lt;/td&gt;
+&lt;td class=&#34;gt_row gt_center&#34;&gt;127 (32%)&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td class=&#34;gt_row gt_left&#34;&gt;gre&lt;/td&gt;
+&lt;td class=&#34;gt_row gt_center&#34;&gt;588 (116)&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td class=&#34;gt_row gt_left&#34;&gt;gpa&lt;/td&gt;
+&lt;td class=&#34;gt_row gt_center&#34;&gt;3.39 (0.38)&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td class=&#34;gt_row gt_left&#34;&gt;rank&lt;/td&gt;
+&lt;td class=&#34;gt_row gt_center&#34;&gt;&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td class=&#34;gt_row gt_left&#34; style=&#34;text-align: left; text-indent: 10px;&#34;&gt;1&lt;/td&gt;
+&lt;td class=&#34;gt_row gt_center&#34;&gt;61 (15%)&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td class=&#34;gt_row gt_left&#34; style=&#34;text-align: left; text-indent: 10px;&#34;&gt;2&lt;/td&gt;
+&lt;td class=&#34;gt_row gt_center&#34;&gt;151 (38%)&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td class=&#34;gt_row gt_left&#34; style=&#34;text-align: left; text-indent: 10px;&#34;&gt;3&lt;/td&gt;
+&lt;td class=&#34;gt_row gt_center&#34;&gt;121 (30%)&lt;/td&gt;&lt;/tr&gt;
+    &lt;tr&gt;&lt;td class=&#34;gt_row gt_left&#34; style=&#34;text-align: left; text-indent: 10px;&#34;&gt;4&lt;/td&gt;
+&lt;td class=&#34;gt_row gt_center&#34;&gt;67 (17%)&lt;/td&gt;&lt;/tr&gt;
+  &lt;/tbody&gt;
+  &lt;tfoot&gt;
+    &lt;tr class=&#34;gt_footnotes&#34;&gt;
+      &lt;td colspan=&#34;2&#34;&gt;
+        &lt;p class=&#34;gt_footnote&#34;&gt;
+          &lt;sup class=&#34;gt_footnote_marks&#34;&gt;
+            &lt;em&gt;1&lt;/em&gt;
+          &lt;/sup&gt;
+&lt;pre&gt;&lt;code&gt;      n (%); Mean (SD)
+      &amp;lt;br /&amp;gt;
+    &amp;lt;/p&amp;gt;
+  &amp;lt;/td&amp;gt;
+&amp;lt;/tr&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/tfoot&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;h3 id=&#34;contingency-table&#34;&gt;Contingency Table&lt;/h3&gt;
+&lt;p&gt;Contingency tables, sometimes called cross tabulations or cross tabs, that displays the frequency distribution of your &lt;strong&gt;categorical&lt;/strong&gt; variables.
+In R, we use &lt;code&gt;sjPlot::tab_xtabs()&lt;/code&gt; (Found by Karen!).
+We want to check the contingency table to make sure there are values in each cell.
+Since we only have one categorical variable, &lt;code&gt;rank&lt;/code&gt;, we only need to check one contingency table.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;sjPlot::tab_xtab(var.row = log$rank, var.col = log$admit, title = &amp;quot;Cross tab of Admit rate by Rank of Undergraduate Insitute&amp;quot;, show.row.prc = TRUE, show.summary=F)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;table style=&#34;border-collapse:collapse; border:none;&#34;&gt;
+&lt;caption style=&#34;font-weight: bold; text-align:left;&#34;&gt;
+Cross tab of Admit rate by Rank of Undergraduate Insitute
+&lt;/caption&gt;
+&lt;tr&gt;
+&lt;th style=&#34;border-top:double; text-align:center; font-style:italic; font-weight:normal; border-bottom:1px solid;&#34; rowspan=&#34;2&#34;&gt;
+rank
+&lt;/th&gt;
+&lt;th style=&#34;border-top:double; text-align:center; font-style:italic; font-weight:normal;&#34; colspan=&#34;2&#34;&gt;
+admit
+&lt;/th&gt;
+&lt;th style=&#34;border-top:double; text-align:center; font-style:italic; font-weight:normal; font-weight:bolder; font-style:italic; border-bottom:1px solid; &#34; rowspan=&#34;2&#34;&gt;
+Total
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;border-bottom:1px solid; text-align:center; padding:0.2cm;&#34;&gt;
+Not Admitted
+&lt;/td&gt;
+&lt;td style=&#34;border-bottom:1px solid; text-align:center; padding:0.2cm;&#34;&gt;
+Admitted
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding:0.2cm;  text-align:left; vertical-align:middle;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center; &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;45.9 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center; &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;54.1 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;  &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;61&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;100 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding:0.2cm;  text-align:left; vertical-align:middle;&#34;&gt;
+2
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center; &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;97&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;64.2 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center; &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;54&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;35.8 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;  &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;151&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;100 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding:0.2cm;  text-align:left; vertical-align:middle;&#34;&gt;
+3
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center; &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;93&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;76.9 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center; &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;23.1 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;  &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;121&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;100 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding:0.2cm;  text-align:left; vertical-align:middle;&#34;&gt;
+4
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center; &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;55&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;82.1 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center; &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;17.9 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;  &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;67&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;100 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding:0.2cm;  border-bottom:double; font-weight:bolder; font-style:italic; text-align:left; vertical-align:middle;&#34;&gt;
+Total
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;   border-bottom:double;&#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;273&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;68.2 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;   border-bottom:double;&#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;127&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;31.8 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;   border-bottom:double;&#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;400&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;100 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;This table shows the row and column totals, as well as row percentages.
+You can also ask for column percentages, if you prefer.&lt;/p&gt;
+&lt;h3 id=&#34;binary-logistic-model&#34;&gt;Binary Logistic Model&lt;/h3&gt;
+&lt;p&gt;Recall in linear regression, we used the &lt;code&gt;lm()&lt;/code&gt; function.
+With logistic regression, we use &lt;code&gt;glm()&lt;/code&gt;, or general linear model.
+The set up is similar to linear regression, however.
+One important note is to make sure we identify the type of “family function,” or the description of the error distribution used in the model.
+For logistic regression, it’s &lt;code&gt;family = &amp;quot;binomial&amp;quot;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In our example, the predictors are GRE scores, GPA, and university rank related to graduate school admission status.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;mylogit &amp;lt;- glm(admit ~ gre + gpa + rank, data = log, family = &amp;quot;binomial&amp;quot;)
+summary(mylogit)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## glm(formula = admit ~ gre + gpa + rank, family = &amp;quot;binomial&amp;quot;, 
+##     data = log)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.6268  -0.8662  -0.6388   1.1490   2.0790  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&amp;gt;|z|)    
+## (Intercept) -3.989979   1.139951  -3.500 0.000465 ***
+## gre          0.002264   0.001094   2.070 0.038465 *  
+## gpa          0.804038   0.331819   2.423 0.015388 *  
+## rank2       -0.675443   0.316490  -2.134 0.032829 *  
+## rank3       -1.340204   0.345306  -3.881 0.000104 ***
+## rank4       -1.551464   0.417832  -3.713 0.000205 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 499.98  on 399  degrees of freedom
+## Residual deviance: 458.52  on 394  degrees of freedom
+## AIC: 470.52
+## 
+## Number of Fisher Scoring iterations: 4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let’s dissect this output.
+It looks similar to regular simple linear regression but interpretation is different (as we saw in lecture).
+When looking at the coefficients, we see &lt;code&gt;gre&lt;/code&gt;, &lt;code&gt;gpa&lt;/code&gt;, and the levels of &lt;code&gt;rank&lt;/code&gt; are significant predictors of admission status.&lt;/p&gt;
+&lt;p&gt;With binary logistic regression, regression coefficient is the change in the log odds of the outcome for a one unit increase in the predictor variable, holding others constant.
+The intercept is the log odds for students who has zero on all the predictors, a value not observed in this sample (e.g., no one has GPA or GRE score of zero).&lt;/p&gt;
+&lt;p&gt;So this is how we would interpret those same variables when running a logistic regression model (Note: it’s a z-statistic now since these are standardized coefficients):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;GRE was significantly related to admission decision (&lt;em&gt;z&lt;/em&gt; = 2.070, &lt;em&gt;p&lt;/em&gt; = 0.038). Specifically, the results indicate that for every one-unit increase in GRE score, there is an increase of &lt;em&gt;B&lt;/em&gt; = 0.002 in the &lt;strong&gt;the log odds&lt;/strong&gt; of being admitted to graduate school, controlling for GPA and university rank.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Additionally, this is how we would interpret the categorical variable &lt;code&gt;rank&lt;/code&gt;.
+Note that because this is a categorical variable, we are comparing the categories to a comparison group (or a reference group).
+In this example, the comparison group is &lt;strong&gt;rank 1&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Students who attended rank 2 universities are less likely to be admitted to graduate school, compared to rank 1 universities (&lt;em&gt;z&lt;/em&gt; = -0.675, &lt;em&gt;p&lt;/em&gt; = 0.033).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The log odds, or &lt;em&gt;logits&lt;/em&gt;, are not always easily interpreted and can be converted to odds ratios for easier interpretation.&lt;/p&gt;
+&lt;h3 id=&#34;odds-ratios&#34;&gt;Odds Ratios&lt;/h3&gt;
+&lt;p&gt;The coefficients presented above are log odds.
+To convert them to odd ratios, we take the exponent of the coefficients (Slide 21 in lecture):&lt;/p&gt;
+&lt;p&gt;$$
+odds ratio = e^{\beta}
+$$&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;#coverting the log odds (logits) to odds ratios
+exp(coef(mylogit))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## (Intercept)         gre         gpa       rank2       rank3       rank4 
+##   0.0185001   1.0022670   2.2345448   0.5089310   0.2617923   0.2119375
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;## odds ratios and 95% CI
+exp(cbind(OR = coef(mylogit), confint(mylogit)))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##                    OR       2.5 %    97.5 %
+## (Intercept) 0.0185001 0.001889165 0.1665354
+## gre         1.0022670 1.000137602 1.0044457
+## gpa         2.2345448 1.173858216 4.3238349
+## rank2       0.5089310 0.272289674 0.9448343
+## rank3       0.2617923 0.131641717 0.5115181
+## rank4       0.2119375 0.090715546 0.4706961
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;These values likely make &lt;em&gt;a little more&lt;/em&gt; sense.
+Considering GRE in the example again:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;GRE was significantly related to admission decision (&lt;strong&gt;z&lt;/strong&gt; = 2.070, &lt;em&gt;p&lt;/em&gt; = 0.038). Specifically, for every one-unit increase in GRE score, &lt;strong&gt;the odds&lt;/strong&gt; &lt;strong&gt;of being admitted to graduate school increase by a factor of 1.002&lt;/strong&gt;, controlling for GPA and university rank. (Note this is a very small amount because one point increase in GRE doesn’t represent a large difference).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Said differently,&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;GRE was significantly related to admission decision (&lt;strong&gt;z&lt;/strong&gt; = 2.070, &lt;em&gt;p&lt;/em&gt; = 0.038). Specifically, for every one-unit increase in GRE score, &lt;strong&gt;we expect to see about a .002% increase in the odds of being admitted to graduate school&lt;/strong&gt;, controlling for GPA and university rank.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;predicted-probability&#34;&gt;Predicted Probability&lt;/h3&gt;
+&lt;p&gt;To make the coefficients easier to interpret, we can take the odds ratio values and convert them to probabilities.
+To do this, we take the odds ratio and divide it by the odds ratio plus 1 (See slide 25):&lt;/p&gt;
+&lt;p&gt;$$
+probability = \frac{odds}{odds + 1}
+$$&lt;/p&gt;
+&lt;p&gt;Before we dive right into conversions, we could also calculate the &lt;strong&gt;predicted probabilities&lt;/strong&gt; of admission for specific values of the the predictors.
+Recall in lecture (Slide 23) to find the log odds of an x-value, we want to plug it into our regression equation:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;extract_eq(mylogit, use_coefs = TRUE)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;$$
+\log\left[ \frac { \widehat{P( \operatorname{admit} = \operatorname{Admitted} )} }{ 1 - \widehat{P( \operatorname{admit} = \operatorname{Admitted} )} } \right] = -3.99 + 0(\operatorname{gre}) + 0.8(\operatorname{gpa}) - 0.68(\operatorname{rank}&lt;em&gt;{\operatorname{2}}) - 1.34(\operatorname{rank}&lt;/em&gt;{\operatorname{3}}) - 1.55(\operatorname{rank}_{\operatorname{4}})
+$$&lt;/p&gt;
+&lt;p&gt;To create predicted probabilities, we need to create a new data frame with the x-value we want the independent variables to take on to create our predictions (In lecture, slide 23, the value was &lt;em&gt;SurvRate&lt;/em&gt; = 40).
+For this example, let’s use the mean.
+And since we have a &lt;strong&gt;categorical&lt;/strong&gt; predictor, &lt;code&gt;rank&lt;/code&gt;, lets look at the mean of &lt;code&gt;gre&lt;/code&gt; and &lt;code&gt;gpa&lt;/code&gt; and each value of university &lt;code&gt;rank&lt;/code&gt;.
+We could, of course, do all the calculations by hand.
+But R is easier :)&lt;/p&gt;
+&lt;p&gt;Let’s first create the data frame using &lt;code&gt;with&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;pred_prob &amp;lt;- with(log, data.frame(gre = mean(gre), gpa = mean(gpa), rank = factor(1:4)))
+pred_prob
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##     gre    gpa rank
+## 1 587.7 3.3899    1
+## 2 587.7 3.3899    2
+## 3 587.7 3.3899    3
+## 4 587.7 3.3899    4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So we have our mean of &lt;code&gt;gpa&lt;/code&gt; and &lt;code&gt;gre&lt;/code&gt; and each level of &lt;code&gt;rank&lt;/code&gt;.
+Which means we are going to get &lt;em&gt;four&lt;/em&gt; predicted probabilities, at the mean of the other two variables.
+If we did not have a categorical predictor, we would only have &lt;em&gt;one.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Now let’s create the predicted probabilities using the mean of &lt;code&gt;gre&lt;/code&gt; and &lt;code&gt;gpa&lt;/code&gt; and each level of &lt;code&gt;rank&lt;/code&gt; using the &lt;code&gt;predict()&lt;/code&gt; function.
+What R is doing here is taking the logits from &lt;code&gt;mylogit&lt;/code&gt; and converting them to predicted probabilities based on the values we provided in &lt;code&gt;pred_prob&lt;/code&gt;.
+We identify the object as &lt;code&gt;pred_prob$rankP&lt;/code&gt; to create a new column of the within the &lt;code&gt;pred_prob&lt;/code&gt; dataset called &lt;code&gt;rankP&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;pred_prob$rankP &amp;lt;- predict(mylogit, newdata = pred_prob, type = &amp;quot;response&amp;quot;)
+pred_prob
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##     gre    gpa rank     rankP
+## 1 587.7 3.3899    1 0.5166016
+## 2 587.7 3.3899    2 0.3522846
+## 3 587.7 3.3899    3 0.2186120
+## 4 587.7 3.3899    4 0.1846684
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Great!
+Now we have predicted probabilities.
+Here is our interpretation:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;For those with an average GPA and GRE score (holding GPA and GRE constant), the predicted probabilities of being accepted into a graduate program is .516 for those in the highest ranked undergraduate institutions (rank = 1) and .184 for students from the lowest ranked undergraduate institutions (rank=4). This demonstrates the relation of rank of the university in the probability of being admitted to graduate school.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;classification-table&#34;&gt;Classification Table&lt;/h3&gt;
+&lt;p&gt;A classification table is similar to a contingency table, but in this table we compare the actual values to the predicted values based on the binary logistic regression model.
+This is a way to see how well the model did at predicting the outcome of being admitted to graduate school.&lt;/p&gt;
+&lt;p&gt;In this code, we take actual fitted values from the model (&lt;code&gt;mylogit$fitted.values&lt;/code&gt;), and separate them by a cut off of &lt;em&gt;p&lt;/em&gt; = .5.
+Those who had a fitted value of above .50 were assigned “Admitted.” We are comparing the values given by the model (fitted values) and whether or not they actually got admitted.
+The purpose of this is to see how effective our model is at predicting admission status&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# Converting from probability to actual output
+log$fitted_admit &amp;lt;- ifelse(mylogit$fitted.values &amp;gt;= 0.5, &amp;quot;1&amp;quot;, &amp;quot;0&amp;quot;) #1 = Admitted, 0 = Not Admitted
+
+# Generating the classification table
+ctab &amp;lt;- table(log$admit, log$fitted_admit)
+ctab
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##               
+##                  0   1
+##   Not Admitted 254  19
+##   Admitted      97  30
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;#I (Karen) like this table better because it include row and column totals
+sjPlot::tab_xtab(var.row = log$admit, var.col = log$fitted_admit, title = &amp;quot;Observed Admission versus Predited Admission counts&amp;quot;, show.row.prc = TRUE, show.summary = F )
+&lt;/code&gt;&lt;/pre&gt;
+&lt;table style=&#34;border-collapse:collapse; border:none;&#34;&gt;
+&lt;caption style=&#34;font-weight: bold; text-align:left;&#34;&gt;
+Observed Admission versus Predited Admission counts
+&lt;/caption&gt;
+&lt;tr&gt;
+&lt;th style=&#34;border-top:double; text-align:center; font-style:italic; font-weight:normal; border-bottom:1px solid;&#34; rowspan=&#34;2&#34;&gt;
+admit
+&lt;/th&gt;
+&lt;th style=&#34;border-top:double; text-align:center; font-style:italic; font-weight:normal;&#34; colspan=&#34;2&#34;&gt;
+fitted_admit
+&lt;/th&gt;
+&lt;th style=&#34;border-top:double; text-align:center; font-style:italic; font-weight:normal; font-weight:bolder; font-style:italic; border-bottom:1px solid; &#34; rowspan=&#34;2&#34;&gt;
+Total
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;border-bottom:1px solid; text-align:center; padding:0.2cm;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;border-bottom:1px solid; text-align:center; padding:0.2cm;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding:0.2cm;  text-align:left; vertical-align:middle;&#34;&gt;
+Not Admitted
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center; &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;254&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;93 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center; &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;7 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;  &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;273&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;100 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding:0.2cm;  text-align:left; vertical-align:middle;&#34;&gt;
+Admitted
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center; &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;97&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;76.4 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center; &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;23.6 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;  &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;127&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;100 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding:0.2cm;  border-bottom:double; font-weight:bolder; font-style:italic; text-align:left; vertical-align:middle;&#34;&gt;
+Total
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;   border-bottom:double;&#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;351&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;87.8 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;   border-bottom:double;&#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;12.2 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;   border-bottom:double;&#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;400&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;100 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;p&gt;Here, we can see that the model correctly predicted 30 of 127, or 23.6%, of the students that actually got admitted.
+Thus, it misclassified 76.4% (97) of the admitted students were predicted to be “not admitted.” Additionally, we see that it correctly classified 254 of 273 (93%) of the not admitted students.
+Thus this model did a better job at predicting who was not admitted than those who were admitted.&lt;/p&gt;
+&lt;h3 id=&#34;accuracy&#34;&gt;Accuracy&lt;/h3&gt;
+&lt;p&gt;We can check the accuracy percentage:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;accuracy &amp;lt;- sum(diag(ctab))/sum(ctab)*100
+accuracy
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 71
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Overall, the accuracy of our model is 71%, or our logistic model is able to classify 71% of the observations correctly.&lt;/p&gt;
+&lt;h2 id=&#34;hierarchical-model-building-with-logistic-regression&#34;&gt;Hierarchical model building with logistic regression&lt;/h2&gt;
+&lt;p&gt;Just as we did in linear regression, we can proceed through a model building process with logistic regression.
+In this context, we are interested in seeing how we can improve the prediction of the outcome in a hierarchical fashion.&lt;/p&gt;
+&lt;p&gt;Let’s say we fit the following models:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Predicting admission from just GPA (log1)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Predicting admission from GPA and GRE (log2)&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Predicting admission using GPA, GRE, and rank (log3)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;We can create a table of all three models using &lt;code&gt;tab_model&lt;/code&gt; of the &lt;code&gt;sjPlot&lt;/code&gt; package.
+We can compare the R2 estimates across the models.
+Using the &lt;code&gt;anova&lt;/code&gt;function, we can also test if there is a statistical improvement in fit by adding the predictor(s).
+In logistic regression models, we test if the residual deviance significant decreases.
+We are using the ANOVA function, but it’s not an ANOVA test like you may have done before.
+In this case, we are using ANOVA to compare the deviance for each model to the subsequent model.
+If the chi-square value is significant we can interpret that the addition of the extra variables (going from log1 to log 2, for example) significantly improves the model prediction (e.g., lowers the residual variance).&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;log1 &amp;lt;- glm(admit ~ gpa , data = log, family = &amp;quot;binomial&amp;quot;)
+log2 &amp;lt;- glm(admit ~ gpa + gre , data = log, family = &amp;quot;binomial&amp;quot;)
+log3 &amp;lt;- glm(admit ~ gpa + gre + rank, data = log, family = &amp;quot;binomial&amp;quot;)
+
+tab_model(log1, log2, log3)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;table style=&#34;border-collapse:collapse; border:none;&#34;&gt;
+&lt;tr&gt;
+&lt;th style=&#34;border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; &#34;&gt;
+ 
+&lt;/th&gt;
+&lt;th colspan=&#34;3&#34; style=&#34;border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; &#34;&gt;
+admit
+&lt;/th&gt;
+&lt;th colspan=&#34;3&#34; style=&#34;border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; &#34;&gt;
+admit
+&lt;/th&gt;
+&lt;th colspan=&#34;3&#34; style=&#34;border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; &#34;&gt;
+admit
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; &#34;&gt;
+Predictors
+&lt;/td&gt;
+&lt;td style=&#34; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  &#34;&gt;
+Odds Ratios
+&lt;/td&gt;
+&lt;td style=&#34; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  &#34;&gt;
+CI
+&lt;/td&gt;
+&lt;td style=&#34; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  &#34;&gt;
+p
+&lt;/td&gt;
+&lt;td style=&#34; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  &#34;&gt;
+Odds Ratios
+&lt;/td&gt;
+&lt;td style=&#34; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  &#34;&gt;
+CI
+&lt;/td&gt;
+&lt;td style=&#34; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7&#34;&gt;
+p
+&lt;/td&gt;
+&lt;td style=&#34; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col8&#34;&gt;
+Odds Ratios
+&lt;/td&gt;
+&lt;td style=&#34; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col9&#34;&gt;
+CI
+&lt;/td&gt;
+&lt;td style=&#34; text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  0&#34;&gt;
+p
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:left; &#34;&gt;
+(Intercept)
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+0.01
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+0.00 – 0.09
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;strong&gt;\&lt;0.001&lt;/strong&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+0.01
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+0.00 – 0.06
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7&#34;&gt;
+&lt;strong&gt;\&lt;0.001&lt;/strong&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8&#34;&gt;
+0.02
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9&#34;&gt;
+0.00 – 0.17
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0&#34;&gt;
+&lt;strong&gt;\&lt;0.001&lt;/strong&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:left; &#34;&gt;
+gpa
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+2.86
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+1.61 – 5.20
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;strong&gt;\&lt;0.001&lt;/strong&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+2.13
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+1.14 – 4.02
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7&#34;&gt;
+&lt;strong&gt;0.018&lt;/strong&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8&#34;&gt;
+2.23
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9&#34;&gt;
+1.17 – 4.32
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0&#34;&gt;
+&lt;strong&gt;0.015&lt;/strong&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:left; &#34;&gt;
+gre
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+1.00
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+1.00 – 1.00
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7&#34;&gt;
+&lt;strong&gt;0.011&lt;/strong&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8&#34;&gt;
+1.00
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9&#34;&gt;
+1.00 – 1.00
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0&#34;&gt;
+&lt;strong&gt;0.038&lt;/strong&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:left; &#34;&gt;
+rank \[2\]
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7&#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8&#34;&gt;
+0.51
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9&#34;&gt;
+0.27 – 0.94
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0&#34;&gt;
+&lt;strong&gt;0.033&lt;/strong&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:left; &#34;&gt;
+rank \[3\]
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7&#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8&#34;&gt;
+0.26
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9&#34;&gt;
+0.13 – 0.51
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0&#34;&gt;
+&lt;strong&gt;\&lt;0.001&lt;/strong&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:left; &#34;&gt;
+rank \[4\]
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  &#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7&#34;&gt;
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8&#34;&gt;
+0.21
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9&#34;&gt;
+0.09 – 0.47
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0&#34;&gt;
+&lt;strong&gt;\&lt;0.001&lt;/strong&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;&#34;&gt;
+Observations
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;&#34; colspan=&#34;3&#34;&gt;
+400
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;&#34; colspan=&#34;3&#34;&gt;
+400
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;&#34; colspan=&#34;3&#34;&gt;
+400
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;&#34;&gt;
+R&lt;sup&gt;2&lt;/sup&gt; Tjur
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;&#34; colspan=&#34;3&#34;&gt;
+0.032
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;&#34; colspan=&#34;3&#34;&gt;
+0.047
+&lt;/td&gt;
+&lt;td style=&#34; padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;&#34; colspan=&#34;3&#34;&gt;
+0.102
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;anova(log1, log2, log3, test=&amp;quot;Chisq&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Analysis of Deviance Table
+## 
+## Model 1: admit ~ gpa
+## Model 2: admit ~ gpa + gre
+## Model 3: admit ~ gpa + gre + rank
+##   Resid. Df Resid. Dev Df Deviance  Pr(&amp;gt;Chi)    
+## 1       398     486.97                          
+## 2       397     480.34  1   6.6236   0.01006 *  
+## 3       394     458.52  3  21.8265 7.088e-05 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Based on the ANOVA results, we see that the addition of each additional predictor signficnalty improves the prediction of graduate school admission.
+Note, you don’t have to do this, but if you have research questions about the specific predictive power, controloing for the others, you can use this apporach.&lt;/p&gt;
+&lt;h2 id=&#34;the-api-example&#34;&gt;The API Example&lt;/h2&gt;
+&lt;p&gt;Data from &lt;a href=&#34;https://stats.idre.ucla.edu/r/seminars/introduction-to-regression-in-r/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;UCLA - Academic Performance Index&lt;/a&gt;.
+Note: This is the same example as the simple linear regression lab (Lab 5).
+However, we are changing the model to have a binary outcome for logistic regression.
+Below is the list of variables we used in this analysis for lab, noting that there are more variables in the API dataset.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;Variable&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;Description&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;api00&lt;/td&gt;
+&lt;td&gt;Academic Performance Index, 0 = under statewide target of 800, 1 = above 800, &lt;em&gt;binary&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;enroll&lt;/td&gt;
+&lt;td&gt;School enrollment, &lt;em&gt;continuous&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Meals&lt;/td&gt;
+&lt;td&gt;Number of free and reduced lunch, &lt;em&gt;continuous&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;full&lt;/td&gt;
+&lt;td&gt;Percentage of teachers will full credentials, &lt;em&gt;continuous&lt;/em&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;read-in-data-1&#34;&gt;Read in data&lt;/h3&gt;
+&lt;p&gt;Here, we are reading in the data directly from the UCLA website.
+Additionally, we are dichotomizing the API (&lt;code&gt;api00&lt;/code&gt;) variable to separate schools above statewide target of 800 and below.
+This cut-off may be outdated and/or controversial, however, we are going to use this for the purpose of providing an example of how to do logistic regression in R.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;api &amp;lt;- read.csv(
+&amp;quot;https://stats.idre.ucla.edu/wp-content/uploads/2019/02/elemapi2v2.csv&amp;quot;) %&amp;gt;% 
+  select(api00, full, enroll, meals) %&amp;gt;%
+  mutate(api_factor = cut(api00,
+                     levels = c(&amp;quot;0&amp;quot;, &amp;quot;1&amp;quot;),
+                     breaks = c(0, 800, 940),
+                     labels = c(&amp;quot;Below Target&amp;quot;, &amp;quot;At or Above Target&amp;quot;))) # here we are dichotomizing API, see lab 1 for a refresher on what this all does.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;summary-1&#34;&gt;Summary&lt;/h3&gt;
+&lt;p&gt;For a short descriptor of each variable, scroll down &lt;a href=&#34;https://stats.idre.ucla.edu/spss/webbooks/reg/chapter1/regressionwith-spsschapter-1-simple-and-multiple-regression/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# psych::describe()
+round(describe(api),2) %&amp;gt;% 
+  pander() 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt; &lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;vars&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;n&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;mean&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;sd&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;median&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;trimmed&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;mad&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;min&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;api00&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;400&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;647.6&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;142.2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;643&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;645.8&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;177.2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;369&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;full&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;400&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;84.55&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;14.95&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;88&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;86.6&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;14.83&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;37&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;enroll&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;3&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;400&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;483.5&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;226.4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;435&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;459.4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;202.4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;130&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;meals&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;400&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;60.31&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;31.91&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;67.5&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;62.18&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;37.81&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;api_factor&lt;/strong&gt;*&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;5&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;400&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1.19&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.39&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1.12&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Table continues below&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:center&#34;&gt; &lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;max&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;range&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;skew&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;kurtosis&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;se&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;api00&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;940&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;571&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.1&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-1.13&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;7.11&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;full&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;100&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;63&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-0.97&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.17&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.75&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;enroll&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1570&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1440&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1.34&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;3.02&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;11.32&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;meals&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;100&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;100&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-0.41&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-1.2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1.6&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;api_factor&lt;/strong&gt;*&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1.55&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.42&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0.02&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# I like this table more, but you can do either! Especially if you&#39;re getting some errors with gtsummary(). Useful when you have a subset, but here we left all variables in the sample so it&#39;s a long table. 
+
+# gtsummary::gtsummary()
+#tbl_summary(api,
+#            statistic = list(all_continuous() ~ &amp;quot;{mean} ({sd})&amp;quot;),
+#                             missing = &amp;quot;no&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There is no contingency table in this example because all of our predictors are continuous.&lt;/p&gt;
+&lt;h3 id=&#34;binary-logistic-model-1&#34;&gt;Binary Logistic Model&lt;/h3&gt;
+&lt;p&gt;We are using a binary logistic regression model to see how school characteristics relate to a school making adequate progress (api=1) or not (api=0).&lt;/p&gt;
+&lt;p&gt;Binary outcome: API adequate progress =1, not adequate progress=0 Predictors: % fully credential teachers, student enrollment, and % on free and reduced lunch&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;mylogit &amp;lt;- glm(api_factor ~ full + enroll + meals, data = api, family = &amp;quot;binomial&amp;quot;)
+summary(mylogit)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## glm(formula = api_factor ~ full + enroll + meals, family = &amp;quot;binomial&amp;quot;, 
+##     data = api)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -1.86557  -0.16221  -0.03269  -0.01028   3.12996  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&amp;gt;|z|)    
+## (Intercept) -3.0746093  2.7320279  -1.125   0.2604    
+## full         0.0582641  0.0282187   2.065   0.0389 *  
+## enroll       0.0004592  0.0013843   0.332   0.7401    
+## meals       -0.1096184  0.0144185  -7.603  2.9e-14 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 391.86  on 399  degrees of freedom
+## Residual deviance: 147.45  on 396  degrees of freedom
+## AIC: 155.45
+## 
+## Number of Fisher Scoring iterations: 8
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;odds-ratios-1&#34;&gt;Odds Ratios&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;exp(coef(mylogit))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## (Intercept)        full      enroll       meals 
+##  0.04620768  1.05999495  1.00045932  0.89617604
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;## odds ratios and 95% CI
+exp(cbind(OR = coef(mylogit), confint(mylogit)))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##                     OR        2.5 %    97.5 %
+## (Intercept) 0.04620768 0.0001656294 7.8435280
+## full        1.05999495 1.0055761469 1.1237801
+## enroll      1.00045932 0.9978836793 1.0032716
+## meals       0.89617604 0.8684201733 0.9192615
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;predicted-probability-1&#34;&gt;Predicted Probability&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;#creating the means of each variable
+pred_prob_api&amp;lt;- with(api, data.frame(full = mean(full), enroll = mean(enroll), meals = mean(meals)))
+pred_prob_api
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    full  enroll  meals
+## 1 84.55 483.465 60.315
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;pred_prob_api$apiP&amp;lt;- predict(mylogit, newdata = pred_prob_api, type = &amp;quot;response&amp;quot;)
+pred_prob_api
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    full  enroll  meals       apiP
+## 1 84.55 483.465 60.315 0.01058167
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This result says that for schools that have average on all the predictors, the probablity of being at target is .01.
+&lt;em&gt;yikes!&lt;/em&gt;&lt;/p&gt;
+&lt;h3 id=&#34;classification-table-1&#34;&gt;Classification Table&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# Converting from probability to actual output
+api$fitted_api &amp;lt;- ifelse(mylogit$fitted.values &amp;gt;= 0.5, &amp;quot;1&amp;quot;, &amp;quot;0&amp;quot;) #1 = Above Average, 0 = Below
+
+# Generating the classification table
+ctab &amp;lt;- table(api$api_factor, api$fitted_api)
+ctab
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##                     
+##                        0   1
+##   Below Target       304  19
+##   At or Above Target  15  62
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;#I (Karen) like this table better because it include row and column totals
+sjPlot::tab_xtab(var.row = api$api_factor, var.col = api$fitted_api, title = &amp;quot;Observed Progress versus Predited progress counts&amp;quot;, show.row.prc = TRUE, show.summary = F )
+&lt;/code&gt;&lt;/pre&gt;
+&lt;table style=&#34;border-collapse:collapse; border:none;&#34;&gt;
+&lt;caption style=&#34;font-weight: bold; text-align:left;&#34;&gt;
+Observed Progress versus Predited progress counts
+&lt;/caption&gt;
+&lt;tr&gt;
+&lt;th style=&#34;border-top:double; text-align:center; font-style:italic; font-weight:normal; border-bottom:1px solid;&#34; rowspan=&#34;2&#34;&gt;
+api_factor
+&lt;/th&gt;
+&lt;th style=&#34;border-top:double; text-align:center; font-style:italic; font-weight:normal;&#34; colspan=&#34;2&#34;&gt;
+fitted_api
+&lt;/th&gt;
+&lt;th style=&#34;border-top:double; text-align:center; font-style:italic; font-weight:normal; font-weight:bolder; font-style:italic; border-bottom:1px solid; &#34; rowspan=&#34;2&#34;&gt;
+Total
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;border-bottom:1px solid; text-align:center; padding:0.2cm;&#34;&gt;
+0
+&lt;/td&gt;
+&lt;td style=&#34;border-bottom:1px solid; text-align:center; padding:0.2cm;&#34;&gt;
+1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding:0.2cm;  text-align:left; vertical-align:middle;&#34;&gt;
+Below Target
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center; &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;304&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;94.1 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center; &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;5.9 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;  &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;323&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;100 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding:0.2cm;  text-align:left; vertical-align:middle;&#34;&gt;
+At or Above Target
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center; &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;19.5 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center; &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;62&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;80.5 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;  &#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;77&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;100 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding:0.2cm;  border-bottom:double; font-weight:bolder; font-style:italic; text-align:left; vertical-align:middle;&#34;&gt;
+Total
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;   border-bottom:double;&#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;319&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;79.8 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;   border-bottom:double;&#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;81&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;20.2 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;padding:0.2cm; text-align:center;   border-bottom:double;&#34;&gt;
+&lt;span style=&#34;color:black;&#34;&gt;400&lt;/span&gt;&lt;br&gt;&lt;span style=&#34;color:#333399;&#34;&gt;100 %&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;accuracy-1&#34;&gt;Accuracy&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;accuracy &amp;lt;- sum(diag(ctab))/sum(ctab)*100
+accuracy
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 91.5
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;sample-write-up&#34;&gt;Sample write up&lt;/h2&gt;
+&lt;p&gt;Using a binary logistic regression, we explored how school’s characteristics (% fully credential teachers, studnet enrollment, and % on free and reduced lunch) relate to the adequate progress of a school.
+Both the percent of credentialed teachers (&lt;em&gt;z&lt;/em&gt; = 2.06, &lt;em&gt;p&lt;/em&gt; = .04) and the % free and reduced lunch (&lt;em&gt;z&lt;/em&gt; = -.11, &lt;em&gt;p&lt;/em&gt; &amp;lt; .01) were significant predictors.
+Specifically the percent of fully credentialed teachers has an &lt;em&gt;OR&lt;/em&gt; = 1.05, 95%CI[1.01, 1.12].
+This implies that for a one percent increase in the fully credentialed teachers, schools have a 5% higher chance of making target.
+Free and reduced lunch had estimated &lt;em&gt;OR&lt;/em&gt; =.90, 95% CI [.86, .92], which indicated that for each additional percent of students on free and reduced lunch, there is a significant decrease in the log odds of being at target (&lt;em&gt;z&lt;/em&gt; = -7.60, &lt;em&gt;p&lt;/em&gt; &amp;lt; .01).
+That is, for each additional percent increase of free or reduced lunch, that school has a 11% decrease in the odds of making it to target growth, controlling for the other predictors.
+There was no effect of the enrollment of the school, when controlling for the other variables.
+Overall, this model had high prediction accuracy, predicting 91% schools accurately.&lt;/p&gt;
+&lt;p&gt;Hope this is useful….&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

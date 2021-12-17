@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sentiment analysis | Dina Arch</title>
+    <link>https://dinaarch.netlify.app/tag/sentiment-analysis/</link>
+      <atom:link href="https://dinaarch.netlify.app/tag/sentiment-analysis/index.xml" rel="self" type="application/rss+xml" />
+    <description>sentiment analysis</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 24 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://dinaarch.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png</url>
+      <title>sentiment analysis</title>
+      <link>https://dinaarch.netlify.app/tag/sentiment-analysis/</link>
+    </image>
+    
+    <item>
+      <title>Text Anaylsis ft. Michael Scott</title>
+      <link>https://dinaarch.netlify.app/post/text-analysis/</link>
+      <pubDate>Wed, 24 Feb 2021 00:00:00 +0000</pubDate>
+      <guid>https://dinaarch.netlify.app/post/text-analysis/</guid>
+      <description>&lt;h2 id=&#34;the-office---season-4-x-episode-9-the-dinner-party&#34;&gt;The Office - Season 4 x Episode 9: The Dinner Party&lt;/h2&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;The Dinner Party&#34; srcset=&#34;
+               /post/text-analysis/featured_hu3f0f31071d748846f7fc056e73b9dc63_124538_bf8720d9fa16957f5c280ddce1fb3b1e.jpg 400w,
+               /post/text-analysis/featured_hu3f0f31071d748846f7fc056e73b9dc63_124538_1ebeb7d0e9d212a394bb27cf7d70d48b.jpg 760w,
+               /post/text-analysis/featured_hu3f0f31071d748846f7fc056e73b9dc63_124538_1200x1200_fit_q75_lanczos.jpg 1200w&#34;
+               src=&#34;https://dinaarch.netlify.app/post/text-analysis/featured_hu3f0f31071d748846f7fc056e73b9dc63_124538_bf8720d9fa16957f5c280ddce1fb3b1e.jpg&#34;
+               width=&#34;760&#34;
+               height=&#34;400&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;This exercise is atext and sentiment analysis on the &amp;ldquo;Dinner Party&amp;rdquo; episode of The Office. The assignment was given in Dr. Allison Horst&amp;rsquo;s ESM 244 course.&lt;/p&gt;
+&lt;h2 id=&#34;read-in-the-text-transcript&#34;&gt;Read in the text transcript&lt;/h2&gt;
+&lt;p&gt;Source: &lt;a href=&#34;https://www.officequotes.net/no4-09.php&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;https://www.officequotes.net/no4-09.php&lt;/a&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dinner_text &amp;lt;- read_delim(here(&amp;quot;content&amp;quot;,&amp;quot;post&amp;quot;, &amp;quot;2021-12-14-text-analysis&amp;quot;, &amp;quot;dinnerparty2.txt&amp;quot;), 
+                          &amp;quot;\t&amp;quot;, escape_double = FALSE, col_names = FALSE, 
+                          trim_ws = TRUE) %&amp;gt;% 
+  rename(lines = X1)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Each row is a a line of the transcript for each character.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Example: First line from the episode is from Stanley Hudson:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dinner_line1 &amp;lt;- dinner_text[1,]
+
+dinner_line1 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1 x 1
+##   lines                       
+##   &amp;lt;chr&amp;gt;                       
+## 1 Stanley: This is ridiculous.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;tidy-data&#34;&gt;Tidy Data&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;I separated the character names and their lines into two columns, &lt;code&gt;character&lt;/code&gt; and &lt;code&gt;line&lt;/code&gt;, separated by colon.&lt;/li&gt;
+&lt;li&gt;Removed the last four rows that are not character&amp;rsquo;s lines but stage direction.&lt;/li&gt;
+&lt;li&gt;I  filtered the characters to include the characters that spoke the most words.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dinner_tidy &amp;lt;- dinner_text %&amp;gt;% 
+  separate(col = lines, into = c(&amp;quot;character&amp;quot;, &amp;quot;line&amp;quot;), sep = &amp;quot;:&amp;quot;) %&amp;gt;% 
+  slice(-(283:288)) %&amp;gt;% 
+  filter(character %in% c(&amp;quot;Andy&amp;quot;, &amp;quot;Angela&amp;quot;, &amp;quot;Dwight&amp;quot;, &amp;quot;Michael&amp;quot;, &amp;quot;Hunter&#39;s CD&amp;quot;, &amp;quot;Jan&amp;quot;, &amp;quot;Jim&amp;quot;, &amp;quot;Pam&amp;quot;)) 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;tokenize&#34;&gt;Tokenize&lt;/h2&gt;
+&lt;p&gt;Here, we get word counts for each character for the episode.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dinner_tokens &amp;lt;- dinner_tidy %&amp;gt;% 
+  unnest_tokens(word, line) 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dinner_wordcount &amp;lt;- dinner_tokens %&amp;gt;% 
+  count(character, word)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;remove-stop-words&#34;&gt;Remove stop words&lt;/h2&gt;
+&lt;p&gt;Most of the words in the transcript are stop words. To remove them, we use &lt;code&gt;anti_join&lt;/code&gt; and the &lt;code&gt;stop_words&lt;/code&gt; function.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dinner_nonstop_words &amp;lt;- dinner_tokens %&amp;gt;% 
+  anti_join(stop_words)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We then recount with the stopwords removed.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;nonstop_counts &amp;lt;- dinner_nonstop_words %&amp;gt;% 
+  count(character, word) 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;top-10-words&#34;&gt;Top 10 Words&lt;/h2&gt;
+&lt;p&gt;Here, we find the top 10 words that each character said during that episode.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;top_10_words &amp;lt;- nonstop_counts %&amp;gt;% 
+  group_by(character) %&amp;gt;% 
+  arrange(-n) %&amp;gt;% 
+  slice(1:10)
+
+
+top_10_words %&amp;gt;% 
+  group_by(word) %&amp;gt;% 
+  ggplot() +
+  geom_bar(aes(reorder(word, n), n), stat = &#39;identity&#39;, fill = &amp;quot;red&amp;quot;) +
+  facet_wrap(~character, scales = &amp;quot;free&amp;quot;) +
+  coord_flip() +
+  theme_calc() +
+  labs(x = &#39;word&#39;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;img src=&#34;https://dinaarch.netlify.app/post/text-analysis/index_files/figure-html/unnamed-chunk-8-1.png&#34; width=&#34;672&#34; /&gt;
+&lt;h2 id=&#34;word-cloud&#34;&gt;Word Cloud&lt;/h2&gt;
+&lt;p&gt;Let&amp;rsquo;s make a word cloud for the top 5 characters who spoke the most:&lt;/p&gt;
+&lt;p&gt;Michael, Jan, Jim, Pam, Dwight&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;nonstop_counts %&amp;gt;% 
+  group_by(character) %&amp;gt;% 
+  count() %&amp;gt;% 
+  arrange(desc(n)) 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 8 x 2
+## # Groups:   character [8]
+##   character       n
+##   &amp;lt;chr&amp;gt;       &amp;lt;int&amp;gt;
+## 1 Michael       275
+## 2 Jan           190
+## 3 Jim            88
+## 4 Pam            72
+## 5 Dwight         38
+## 6 Angela         21
+## 7 Andy           20
+## 8 Hunter&#39;s CD     4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dinner_top5 &amp;lt;- nonstop_counts %&amp;gt;% 
+  filter(character %in% c(&amp;quot;Michael&amp;quot;, &amp;quot;Jan&amp;quot;, &amp;quot;Jim&amp;quot;, &amp;quot;Pam&amp;quot;, &amp;quot;Dwight&amp;quot;)) %&amp;gt;% 
+  group_by(character) %&amp;gt;% 
+  arrange(-n) %&amp;gt;% 
+  slice(1:20)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;cloud &amp;lt;- ggplot(data = dinner_top5, aes(label = word)) +
+  geom_text_wordcloud(aes(color = n, size = n), shape = &amp;quot;diamond&amp;quot;) +
+  scale_size_area(max_size = 6) +
+  scale_color_gradientn(colors = c(&amp;quot;red&amp;quot;,&amp;quot;blue&amp;quot;,&amp;quot;darkgreen&amp;quot;)) +
+  facet_wrap(~character) +
+  theme_calc()
+
+cloud
+&lt;/code&gt;&lt;/pre&gt;
+&lt;img src=&#34;https://dinaarch.netlify.app/post/text-analysis/index_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;672&#34; /&gt;
+&lt;h2 id=&#34;sentiment-analysis&#34;&gt;Sentiment Analysis&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;#afinn lexicon
+get_sentiments(lexicon = &amp;quot;afinn&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&#34;sentiment-analysis-with-afinn&#34;&gt;Sentiment analysis with afinn:&lt;/h3&gt;
+&lt;p&gt;First, bind words in &lt;code&gt;dinner_nonstop_words&lt;/code&gt; to &lt;code&gt;afinn&lt;/code&gt; lexicon:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;dinner_afinn &amp;lt;- dinner_nonstop_words %&amp;gt;% 
+  inner_join(get_sentiments(&amp;quot;afinn&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then, we find counts based on &lt;code&gt;afinn&lt;/code&gt; lexicon and plot them:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;afinn_counts &amp;lt;- dinner_afinn %&amp;gt;% 
+  count(character, value)
+
+# Plot them: 
+ggplot(data = afinn_counts, aes(x = value, y = n)) +
+  geom_col(fill = &amp;quot;blue&amp;quot;) +
+  facet_wrap(~character) +
+  theme_calc() +
+  labs(y = &amp;quot;&amp;quot;, x = &amp;quot;Lexicon Value&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;img src=&#34;https://dinaarch.netlify.app/post/text-analysis/index_files/figure-html/unnamed-chunk-14-1.png&#34; width=&#34;672&#34; /&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;# Find the mean afinn score by characeter: 
+afinn_means &amp;lt;- dinner_afinn %&amp;gt;% 
+  group_by(character) %&amp;gt;% 
+  summarize(mean_afinn = mean(value))
+
+ggplot(data = afinn_means, 
+       aes(x = fct_rev(as.factor(character)), 
+           y = mean_afinn)) +
+  geom_col(fill = &amp;quot;blue&amp;quot;) +
+  coord_flip() +
+  theme_calc() +
+  labs(x = &amp;quot;Character&amp;quot;, y = &amp;quot;Mean&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;img src=&#34;https://dinaarch.netlify.app/post/text-analysis/index_files/figure-html/unnamed-chunk-14-2.png&#34; width=&#34;672&#34; /&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

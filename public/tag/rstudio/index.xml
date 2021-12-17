@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>rstudio | Dina Arch</title>
+    <link>https://dinaarch.netlify.app/tag/rstudio/</link>
+      <atom:link href="https://dinaarch.netlify.app/tag/rstudio/index.xml" rel="self" type="application/rss+xml" />
+    <description>rstudio</description>
+    <generator>Wowchemy (https://wowchemy.com)</generator><language>en-us</language><lastBuildDate>Wed, 02 Jun 2021 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>https://dinaarch.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png</url>
+      <title>rstudio</title>
+      <link>https://dinaarch.netlify.app/tag/rstudio/</link>
+    </image>
+    
+    <item>
+      <title>Tips and Tricks in R</title>
+      <link>https://dinaarch.netlify.app/post/tips-and-tricks-in-r/</link>
+      <pubDate>Wed, 02 Jun 2021 00:00:00 +0000</pubDate>
+      <guid>https://dinaarch.netlify.app/post/tips-and-tricks-in-r/</guid>
+      <description>&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE)
+library(stringr) # str_to_lower()
+library(janitor) # clean_names()
+library(palmerpenguins) # penguins
+library(sjmisc) # move_columns
+library(tidyverse)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let&amp;rsquo;s use a dataset called &lt;code&gt;penguins&lt;/code&gt; in the &lt;code&gt;palmerpenguins&lt;/code&gt; package (Reference: &lt;a href=&#34;https://allisonhorst.github.io/palmerpenguins/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Horst AM, Hill AP, &amp;amp; Gorman KB, 2020&lt;/a&gt;)&lt;/p&gt;
+&lt;h1 id=&#34;read-in-and-view-data&#34;&gt;Read in and view data&lt;/h1&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;data(&amp;quot;penguins&amp;quot;)
+head(penguins_raw) # reads first 6 rows
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 17
+##   studyName `Sample Number` Species       Region Island  Stage   `Individual ID`
+##   &amp;lt;chr&amp;gt;               &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt;         &amp;lt;chr&amp;gt;  &amp;lt;chr&amp;gt;   &amp;lt;chr&amp;gt;   &amp;lt;chr&amp;gt;          
+## 1 PAL0708                 1 Adelie Pengu~ Anvers Torger~ Adult,~ N1A1           
+## 2 PAL0708                 2 Adelie Pengu~ Anvers Torger~ Adult,~ N1A2           
+## 3 PAL0708                 3 Adelie Pengu~ Anvers Torger~ Adult,~ N2A1           
+## 4 PAL0708                 4 Adelie Pengu~ Anvers Torger~ Adult,~ N2A2           
+## 5 PAL0708                 5 Adelie Pengu~ Anvers Torger~ Adult,~ N3A1           
+## 6 PAL0708                 6 Adelie Pengu~ Anvers Torger~ Adult,~ N3A2           
+## # ... with 10 more variables: Clutch Completion &amp;lt;chr&amp;gt;, Date Egg &amp;lt;date&amp;gt;,
+## #   Culmen Length (mm) &amp;lt;dbl&amp;gt;, Culmen Depth (mm) &amp;lt;dbl&amp;gt;,
+## #   Flipper Length (mm) &amp;lt;dbl&amp;gt;, Body Mass (g) &amp;lt;dbl&amp;gt;, Sex &amp;lt;chr&amp;gt;,
+## #   Delta 15 N (o/oo) &amp;lt;dbl&amp;gt;, Delta 13 C (o/oo) &amp;lt;dbl&amp;gt;, Comments &amp;lt;chr&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;names(penguins_raw) # lists variable names
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;studyName&amp;quot;           &amp;quot;Sample Number&amp;quot;       &amp;quot;Species&amp;quot;            
+##  [4] &amp;quot;Region&amp;quot;              &amp;quot;Island&amp;quot;              &amp;quot;Stage&amp;quot;              
+##  [7] &amp;quot;Individual ID&amp;quot;       &amp;quot;Clutch Completion&amp;quot;   &amp;quot;Date Egg&amp;quot;           
+## [10] &amp;quot;Culmen Length (mm)&amp;quot;  &amp;quot;Culmen Depth (mm)&amp;quot;   &amp;quot;Flipper Length (mm)&amp;quot;
+## [13] &amp;quot;Body Mass (g)&amp;quot;       &amp;quot;Sex&amp;quot;                 &amp;quot;Delta 15 N (o/oo)&amp;quot;  
+## [16] &amp;quot;Delta 13 C (o/oo)&amp;quot;   &amp;quot;Comments&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;summary(penguins_raw) # provides some descriptive statistics for each variable
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   studyName         Sample Number      Species             Region         
+##  Length:344         Min.   :  1.00   Length:344         Length:344        
+##  Class :character   1st Qu.: 29.00   Class :character   Class :character  
+##  Mode  :character   Median : 58.00   Mode  :character   Mode  :character  
+##                     Mean   : 63.15                                        
+##                     3rd Qu.: 95.25                                        
+##                     Max.   :152.00                                        
+##                                                                           
+##     Island             Stage           Individual ID      Clutch Completion 
+##  Length:344         Length:344         Length:344         Length:344        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##     Date Egg          Culmen Length (mm) Culmen Depth (mm) Flipper Length (mm)
+##  Min.   :2007-11-09   Min.   :32.10      Min.   :13.10     Min.   :172.0      
+##  1st Qu.:2007-11-28   1st Qu.:39.23      1st Qu.:15.60     1st Qu.:190.0      
+##  Median :2008-11-09   Median :44.45      Median :17.30     Median :197.0      
+##  Mean   :2008-11-27   Mean   :43.92      Mean   :17.15     Mean   :200.9      
+##  3rd Qu.:2009-11-16   3rd Qu.:48.50      3rd Qu.:18.70     3rd Qu.:213.0      
+##  Max.   :2009-12-01   Max.   :59.60      Max.   :21.50     Max.   :231.0      
+##                       NA&#39;s   :2          NA&#39;s   :2         NA&#39;s   :2          
+##  Body Mass (g)      Sex            Delta 15 N (o/oo) Delta 13 C (o/oo)
+##  Min.   :2700   Length:344         Min.   : 7.632    Min.   :-27.02   
+##  1st Qu.:3550   Class :character   1st Qu.: 8.300    1st Qu.:-26.32   
+##  Median :4050   Mode  :character   Median : 8.652    Median :-25.83   
+##  Mean   :4202                      Mean   : 8.733    Mean   :-25.69   
+##  3rd Qu.:4750                      3rd Qu.: 9.172    3rd Qu.:-25.06   
+##  Max.   :6300                      Max.   :10.025    Max.   :-23.79   
+##  NA&#39;s   :2                         NA&#39;s   :14        NA&#39;s   :13       
+##    Comments        
+##  Length:344        
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+##                    
+## 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;How to read in data and make note of the missing values:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;data &amp;lt;- read_csv(&amp;quot;data.csv&amp;quot;, na = c(&amp;quot;-999&amp;quot;, &amp;quot;NA&amp;quot;, &amp;quot;000&amp;quot;)) #note: the `na` argument only works for &amp;quot;read_csv&amp;quot; and not &amp;quot;read_sav.&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1 id=&#34;clean-names&#34;&gt;Clean names&lt;/h1&gt;
+&lt;p&gt;We see that the variable names are not &amp;ldquo;clean.&amp;rdquo; As in, they have spaces and capital letters.
+Usually, we want to use a format called &amp;ldquo;snake case&amp;rdquo;, where we have lower case letters and spaces are replaced with underscores.
+We can easily do this with the &lt;code&gt;clean_names()&lt;/code&gt; function in the &lt;code&gt;janitor&lt;/code&gt; package:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins_new &amp;lt;- penguins_raw %&amp;gt;% 
+  clean_names()
+
+#Compare names
+names(penguins_new)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;study_name&amp;quot;        &amp;quot;sample_number&amp;quot;     &amp;quot;species&amp;quot;          
+##  [4] &amp;quot;region&amp;quot;            &amp;quot;island&amp;quot;            &amp;quot;stage&amp;quot;            
+##  [7] &amp;quot;individual_id&amp;quot;     &amp;quot;clutch_completion&amp;quot; &amp;quot;date_egg&amp;quot;         
+## [10] &amp;quot;culmen_length_mm&amp;quot;  &amp;quot;culmen_depth_mm&amp;quot;   &amp;quot;flipper_length_mm&amp;quot;
+## [13] &amp;quot;body_mass_g&amp;quot;       &amp;quot;sex&amp;quot;               &amp;quot;delta_15_n_o_oo&amp;quot;  
+## [16] &amp;quot;delta_13_c_o_oo&amp;quot;   &amp;quot;comments&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;names(penguins_raw)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;studyName&amp;quot;           &amp;quot;Sample Number&amp;quot;       &amp;quot;Species&amp;quot;            
+##  [4] &amp;quot;Region&amp;quot;              &amp;quot;Island&amp;quot;              &amp;quot;Stage&amp;quot;              
+##  [7] &amp;quot;Individual ID&amp;quot;       &amp;quot;Clutch Completion&amp;quot;   &amp;quot;Date Egg&amp;quot;           
+## [10] &amp;quot;Culmen Length (mm)&amp;quot;  &amp;quot;Culmen Depth (mm)&amp;quot;   &amp;quot;Flipper Length (mm)&amp;quot;
+## [13] &amp;quot;Body Mass (g)&amp;quot;       &amp;quot;Sex&amp;quot;                 &amp;quot;Delta 15 N (o/oo)&amp;quot;  
+## [16] &amp;quot;Delta 13 C (o/oo)&amp;quot;   &amp;quot;Comments&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1 id=&#34;move-variable-names&#34;&gt;Move variable names&lt;/h1&gt;
+&lt;p&gt;We can use the &lt;code&gt;move_columns()&lt;/code&gt; function to rearrange our variable names. Lets say we want to move &lt;code&gt;clutch_completion&lt;/code&gt; to the left of &lt;code&gt;body_mass_g&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins_move &amp;lt;- penguins_new %&amp;gt;% 
+  move_columns(clutch_completion, .before = body_mass_g)
+
+names(penguins_move)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;study_name&amp;quot;        &amp;quot;sample_number&amp;quot;     &amp;quot;species&amp;quot;          
+##  [4] &amp;quot;region&amp;quot;            &amp;quot;island&amp;quot;            &amp;quot;stage&amp;quot;            
+##  [7] &amp;quot;individual_id&amp;quot;     &amp;quot;date_egg&amp;quot;          &amp;quot;culmen_length_mm&amp;quot; 
+## [10] &amp;quot;culmen_depth_mm&amp;quot;   &amp;quot;flipper_length_mm&amp;quot; &amp;quot;clutch_completion&amp;quot;
+## [13] &amp;quot;body_mass_g&amp;quot;       &amp;quot;sex&amp;quot;               &amp;quot;delta_15_n_o_oo&amp;quot;  
+## [16] &amp;quot;delta_13_c_o_oo&amp;quot;   &amp;quot;comments&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1 id=&#34;recoding&#34;&gt;Recoding&lt;/h1&gt;
+&lt;h2 id=&#34;examine-class&#34;&gt;Examine class&lt;/h2&gt;
+&lt;p&gt;Let&amp;rsquo;s examine the &lt;code&gt;clutch_completion&lt;/code&gt; variable.
+(a character string denoting if the study nest observed with a full clutch, i.e., 2 eggs).
+Let&amp;rsquo;s see what the labels look like using &lt;code&gt;unique()&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;unique(penguins_new$clutch_completion)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Yes&amp;quot; &amp;quot;No&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Right now, the levels are &lt;code&gt;Yes&lt;/code&gt; and &lt;code&gt;No&lt;/code&gt;.
+Let&amp;rsquo;s also check the variable type using &lt;code&gt;class()&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;class(penguins_new$clutch_completion)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;character&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let&amp;rsquo;s make this a factor.&lt;/p&gt;
+&lt;h2 id=&#34;create-factor&#34;&gt;Create factor&lt;/h2&gt;
+&lt;p&gt;Since this variable is not a character (but a factor), we need to convert it.
+We can do that using &lt;code&gt;factor()&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins_factor &amp;lt;- penguins_new %&amp;gt;% 
+  mutate(clutch_factor = factor(clutch_completion))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let&amp;rsquo;s check the variable again:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;class(penguins_factor$clutch_factor)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;factor&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;unique(penguins_factor$clutch_factor)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] Yes No 
+## Levels: No Yes
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;recoding-a-factor&#34;&gt;Recoding a factor&lt;/h2&gt;
+&lt;p&gt;Let&amp;rsquo;s say we want to recode our labels from &lt;code&gt;Yes&lt;/code&gt; and &lt;code&gt;No&lt;/code&gt; to &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;0&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins_recoded &amp;lt;- penguins_factor %&amp;gt;% 
+  mutate(clutch_recoded = recode(clutch_factor,&amp;quot;Yes&amp;quot; = &amp;quot;1&amp;quot;, &amp;quot;No&amp;quot; = &amp;quot;0&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;class(penguins_recoded$clutch_recoded)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;factor&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;unique(penguins_recoded$clutch_recoded)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 1 0
+## Levels: 0 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;recoding-a-character-into-a-factor&#34;&gt;Recoding a character into a factor&lt;/h2&gt;
+&lt;p&gt;Let&amp;rsquo;s look at another variable in the &lt;code&gt;penguins&lt;/code&gt; dataset: &lt;code&gt;Sex&lt;/code&gt; of the penguin:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;class(penguins_new$sex)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;character&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;unique(penguins_new$sex)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;MALE&amp;quot;   &amp;quot;FEMALE&amp;quot; NA
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let&amp;rsquo;s say we didn&amp;rsquo;t do the process above, and it was still in &lt;code&gt;character&lt;/code&gt; format.
+We can combine those two steps by recoding character variables into factors (from &lt;code&gt;MALE&lt;/code&gt; and &lt;code&gt;FEMALE&lt;/code&gt; to &lt;code&gt;0&lt;/code&gt; and &lt;code&gt;1&lt;/code&gt;) using &lt;code&gt;recode_factor():&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins_sex_recoded &amp;lt;- penguins_new %&amp;gt;% 
+  mutate(sex_recoded = recode_factor(sex,&amp;quot;MALE&amp;quot; = &amp;quot;0&amp;quot;, &amp;quot;FEMALE&amp;quot; = &amp;quot;1&amp;quot;))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Lets check the variable again:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;class(penguins_sex_recoded$sex_recoded)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;factor&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;unique(penguins_sex_recoded$sex_recoded)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 0    1    &amp;lt;NA&amp;gt;
+## Levels: 0 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;Side Note&lt;/em&gt;.
+I also wanted to make a quick note on what happens when you select the variable of interest first vs. not:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins_recoded_select &amp;lt;- penguins_new %&amp;gt;% 
+  select(sex) %&amp;gt;% 
+  mutate(sex_recoded = recode_factor(sex,&amp;quot;MALE&amp;quot; = &amp;quot;0&amp;quot;, &amp;quot;FEMALE&amp;quot; = &amp;quot;1&amp;quot;))
+
+head(penguins_recoded_select)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 2
+##   sex    sex_recoded
+##   &amp;lt;chr&amp;gt;  &amp;lt;fct&amp;gt;      
+## 1 MALE   0          
+## 2 FEMALE 1          
+## 3 FEMALE 1          
+## 4 &amp;lt;NA&amp;gt;   &amp;lt;NA&amp;gt;       
+## 5 FEMALE 1          
+## 6 MALE   0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;head(penguins_sex_recoded)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 18
+##   study_name sample_number species         region island  stage    individual_id
+##   &amp;lt;chr&amp;gt;              &amp;lt;dbl&amp;gt; &amp;lt;chr&amp;gt;           &amp;lt;chr&amp;gt;  &amp;lt;chr&amp;gt;   &amp;lt;chr&amp;gt;    &amp;lt;chr&amp;gt;        
+## 1 PAL0708                1 Adelie Penguin~ Anvers Torger~ Adult, ~ N1A1         
+## 2 PAL0708                2 Adelie Penguin~ Anvers Torger~ Adult, ~ N1A2         
+## 3 PAL0708                3 Adelie Penguin~ Anvers Torger~ Adult, ~ N2A1         
+## 4 PAL0708                4 Adelie Penguin~ Anvers Torger~ Adult, ~ N2A2         
+## 5 PAL0708                5 Adelie Penguin~ Anvers Torger~ Adult, ~ N3A1         
+## 6 PAL0708                6 Adelie Penguin~ Anvers Torger~ Adult, ~ N3A2         
+## # ... with 11 more variables: clutch_completion &amp;lt;chr&amp;gt;, date_egg &amp;lt;date&amp;gt;,
+## #   culmen_length_mm &amp;lt;dbl&amp;gt;, culmen_depth_mm &amp;lt;dbl&amp;gt;, flipper_length_mm &amp;lt;dbl&amp;gt;,
+## #   body_mass_g &amp;lt;dbl&amp;gt;, sex &amp;lt;chr&amp;gt;, delta_15_n_o_oo &amp;lt;dbl&amp;gt;, delta_13_c_o_oo &amp;lt;dbl&amp;gt;,
+## #   comments &amp;lt;chr&amp;gt;, sex_recoded &amp;lt;fct&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;recoding-multiple-variables&#34;&gt;Recoding multiple variables&lt;/h2&gt;
+&lt;p&gt;The dataset doesn&amp;rsquo;t have any two variables that need to be recoded the same, but let&amp;rsquo;s recode both &lt;code&gt;sex&lt;/code&gt; and &lt;code&gt;clutch_completion&lt;/code&gt; at the same time. &lt;em&gt;Not&lt;/em&gt;e: this code should be used if you have two variables that need to have the same recoding, but it looks like this works too.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins_multiple &amp;lt;- penguins_new %&amp;gt;%  
+    mutate_at(c(&amp;quot;sex&amp;quot;, &amp;quot;clutch_completion&amp;quot;),
+              ~ recode_factor(., &amp;quot;MALE&amp;quot; = &amp;quot;0&amp;quot;, &amp;quot;FEMALE&amp;quot; = &amp;quot;1&amp;quot;,
+                       &amp;quot;Yes&amp;quot; = &amp;quot;1&amp;quot;, &amp;quot;No&amp;quot; = &amp;quot;0&amp;quot;))
+penguins_multiple %&amp;gt;% 
+  select(sex, clutch_completion) %&amp;gt;% 
+  head()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 2
+##   sex   clutch_completion
+##   &amp;lt;fct&amp;gt; &amp;lt;fct&amp;gt;            
+## 1 0     1                
+## 2 1     1                
+## 3 1     1                
+## 4 &amp;lt;NA&amp;gt;  1                
+## 5 1     1                
+## 6 0     1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1 id=&#34;creating-reference-variables&#34;&gt;Creating reference variables&lt;/h1&gt;
+&lt;p&gt;Recall slide 33 in the Multiple Regression lecture:&lt;/p&gt;
+&lt;p&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+&lt;figure  &gt;
+  &lt;div class=&#34;d-flex justify-content-center&#34;&gt;
+    &lt;div class=&#34;w-100&#34; &gt;&lt;img alt=&#34;&#34; srcset=&#34;
+               /post/tips-and-tricks-in-r/dummycoding_hu6cbf3d693b4dad74d88547ca3f98430f_134779_9222e6dcd2d39aba170cda4a5370ce61.jpg 400w,
+               /post/tips-and-tricks-in-r/dummycoding_hu6cbf3d693b4dad74d88547ca3f98430f_134779_ff1368a0288b4524db3a174e53301500.jpg 760w,
+               /post/tips-and-tricks-in-r/dummycoding_hu6cbf3d693b4dad74d88547ca3f98430f_134779_1200x1200_fit_q75_lanczos.jpg 1200w&#34;
+               src=&#34;https://dinaarch.netlify.app/post/tips-and-tricks-in-r/dummycoding_hu6cbf3d693b4dad74d88547ca3f98430f_134779_9222e6dcd2d39aba170cda4a5370ce61.jpg&#34;
+               width=&#34;760&#34;
+               height=&#34;430&#34;
+               loading=&#34;lazy&#34; data-zoomable /&gt;&lt;/div&gt;
+  &lt;/div&gt;&lt;/figure&gt;
+&lt;/p&gt;
+&lt;p&gt;Remember that when we enter a categorical variable into the model using &lt;code&gt;lm()&lt;/code&gt;, R creates the reference variable for us, and picks the first category as the reference category.
+For example, let&amp;rsquo;s look at the &lt;code&gt;species&lt;/code&gt; variable:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;class(penguins_new$species)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;character&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;unique(penguins_new$species)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Adelie Penguin (Pygoscelis adeliae)&amp;quot;      
+## [2] &amp;quot;Gentoo penguin (Pygoscelis papua)&amp;quot;        
+## [3] &amp;quot;Chinstrap penguin (Pygoscelis antarctica)&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let&amp;rsquo;s clean this variable.
+First, let&amp;rsquo;s make the labels lowercase using &lt;code&gt;str_to_lower()&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguin_species &amp;lt;- penguins_new %&amp;gt;% 
+  mutate(species = str_to_lower(species))
+
+unique(penguin_species$species)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;adelie penguin (pygoscelis adeliae)&amp;quot;      
+## [2] &amp;quot;gentoo penguin (pygoscelis papua)&amp;quot;        
+## [3] &amp;quot;chinstrap penguin (pygoscelis antarctica)&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now, let&amp;rsquo;s just keep the simple names of the penguins: &lt;code&gt;adelie&lt;/code&gt;, &lt;code&gt;gentoo&lt;/code&gt;, and &lt;code&gt;chinstrap&lt;/code&gt; using the &lt;code&gt;separate()&lt;/code&gt; function:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins_species_clean &amp;lt;- penguin_species %&amp;gt;% 
+  separate(species, into = c(&amp;quot;species&amp;quot;, &amp;quot;delete&amp;quot;), sep = &amp;quot; penguin&amp;quot;) %&amp;gt;% 
+  select(-delete)
+
+unique(penguins_species_clean$species)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;adelie&amp;quot;    &amp;quot;gentoo&amp;quot;    &amp;quot;chinstrap&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;class(penguins_species_clean$species)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;character&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let&amp;rsquo;s also convert this new variable into a factor:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins_species_clean$species &amp;lt;- factor(penguins_species_clean$species)
+
+unique(penguins_species_clean$species)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] adelie    gentoo    chinstrap
+## Levels: adelie chinstrap gentoo
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;class(penguins_species_clean$species)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;factor&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let&amp;rsquo;s quickly run a simple linear regression using the &lt;code&gt;species&lt;/code&gt; variable without creating the reference variables.
+Let&amp;rsquo;s predict &lt;code&gt;flipper_length_mm&lt;/code&gt; from &lt;code&gt;species&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;model_1 &amp;lt;- lm(flipper_length_mm ~ species, data = penguins_species_clean)
+summary(model_1)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## lm(formula = flipper_length_mm ~ species, data = penguins_species_clean)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -17.9536  -4.8235   0.0464   4.8130  20.0464 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept)      189.9536     0.5405 351.454  &amp;lt; 2e-16 ***
+## specieschinstrap   5.8699     0.9699   6.052 3.79e-09 ***
+## speciesgentoo     27.2333     0.8067  33.760  &amp;lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 6.642 on 339 degrees of freedom
+##   (2 observations deleted due to missingness)
+## Multiple R-squared:  0.7782,	Adjusted R-squared:  0.7769 
+## F-statistic: 594.8 on 2 and 339 DF,  p-value: &amp;lt; 2.2e-16
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here, it automatically created the reference variables and made &lt;code&gt;adelie&lt;/code&gt; penguins the reference category.
+What if we want to compare our results to &lt;code&gt;gentoo&lt;/code&gt; penguins?
+We can do that by converting the &lt;code&gt;chinstrap&lt;/code&gt; and &lt;code&gt;adelie&lt;/code&gt; into their own variables using &lt;code&gt;ifelse()&lt;/code&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;chinstrap &amp;lt;- ifelse(penguins_species_clean$species == &#39;chinstrap&#39;, 1, 0)
+adelie &amp;lt;- ifelse(penguins_species_clean$species == &#39;adelie&#39;, 1, 0)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then, we add them to our dataset using &lt;code&gt;cbind()&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;penguins_reference &amp;lt;- penguins_species_clean %&amp;gt;% 
+  cbind(chinstrap, adelie)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let&amp;rsquo;s look at the model again with &lt;code&gt;gentoo&lt;/code&gt; as the reference variable.
+Instead of &lt;code&gt;species&lt;/code&gt;, we use &lt;code&gt;chinstrap&lt;/code&gt; and &lt;code&gt;adelie&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;model_2 &amp;lt;- lm(flipper_length_mm ~ chinstrap + adelie, data = penguins_reference)
+summary(model_2)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## Call:
+## lm(formula = flipper_length_mm ~ chinstrap + adelie, data = penguins_reference)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -17.9536  -4.8235   0.0464   4.8130  20.0464 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&amp;gt;|t|)    
+## (Intercept) 217.1870     0.5988  362.68   &amp;lt;2e-16 ***
+## chinstrap   -21.3635     1.0036  -21.29   &amp;lt;2e-16 ***
+## adelie      -27.2333     0.8067  -33.76   &amp;lt;2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 6.642 on 339 degrees of freedom
+##   (2 observations deleted due to missingness)
+## Multiple R-squared:  0.7782,	Adjusted R-squared:  0.7769 
+## F-statistic: 594.8 on 2 and 339 DF,  p-value: &amp;lt; 2.2e-16
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Changing the reference category does NOT change our model.
+It only allows us to make a more meaningful comparison.&lt;/p&gt;
+&lt;h1 id=&#34;collapsing-variables&#34;&gt;Collapsing variables&lt;/h1&gt;
+&lt;h2 id=&#34;continous-to-categorical&#34;&gt;Continous to categorical&lt;/h2&gt;
+&lt;p&gt;In lab 1, I go over how to collapse continuous variables into categorical. Let&amp;rsquo;s categorize &lt;code&gt;body_mass_g&lt;/code&gt; into &lt;code&gt;1&lt;/code&gt;, &lt;code&gt;2&lt;/code&gt;, &lt;code&gt;3&lt;/code&gt;, and &lt;code&gt;4&lt;/code&gt; levels.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;summary(penguins_new$body_mass_g)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+##    2700    3550    4050    4202    4750    6300       2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;cont_cat &amp;lt;- penguins_new %&amp;gt;% 
+  mutate(body_mass_factor = cut(body_mass_g,
+                      breaks = c(2700, 3550, 4202, 4750, 6300),
+                      labels = c(&amp;quot;low&amp;quot;, &amp;quot;medium_low&amp;quot;, &amp;quot;medium_high&amp;quot;, &amp;quot;high&amp;quot;)))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&#34;categorical-to-categorical&#34;&gt;Categorical to categorical&lt;/h2&gt;
+&lt;p&gt;Let&amp;rsquo;s collapse our &lt;code&gt;body_mass_g&lt;/code&gt; even further. This code is useful if you have a Likert-type scale with four categories, such as &lt;code&gt;Strong Agree&lt;/code&gt; to &lt;code&gt;Strongly Disagree&lt;/code&gt; and want to collapse to a category with those who responded &lt;code&gt;Strongly Agree&lt;/code&gt; and &lt;code&gt;Agree&lt;/code&gt; as &lt;code&gt;1&lt;/code&gt;, and &lt;code&gt;Disagree&lt;/code&gt; and &lt;code&gt;Strongly Disagree&lt;/code&gt; as &lt;code&gt;2&lt;/code&gt;. We can use &lt;code&gt;fct_collapse&lt;/code&gt; to collapse factor levels into groups.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;cat_cat &amp;lt;- cont_cat %&amp;gt;% 
+  mutate(body_mass_collpase = 
+           fct_collapse(body_mass_factor,
+                        low = c(&amp;quot;low&amp;quot;, &amp;quot;medium_low&amp;quot;),
+                        high = c(&amp;quot;medium_high&amp;quot;, &amp;quot;high&amp;quot;)))
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

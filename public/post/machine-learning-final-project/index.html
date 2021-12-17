@@ -1,0 +1,1699 @@
+<!DOCTYPE html><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.3.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Dina Naji Arch" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="Background The U.S. presidential election in 2012 did not come as a surprise. Some correctly predicted the outcome of the election correctly including Nate Silver, and many speculated about his approach." />
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://dinaarch.netlify.app/post/machine-learning-final-project/" />
+
+  
+  
+  
+    <meta name="theme-color" content="#EF525B" />
+  
+
+  
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.f1ecf783c14edc00c9320c205831ad8e.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/github.min.css" crossorigin="anonymous" title="hl-light" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" media="print" onload="this.media='all'" disabled>
+        
+      
+    
+
+    
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.css" integrity="" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.763cd711f24d7b89d45f7edaa68879b4.css" />
+
+  
+
+
+
+  
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+    <link rel="manifest" href="/manifest.webmanifest" />
+  
+
+  <link rel="icon" type="image/png" href="/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_32x32_fill_lanczos_center_3.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_180x180_fill_lanczos_center_3.png" />
+
+  <link rel="canonical" href="https://dinaarch.netlify.app/post/machine-learning-final-project/" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+
+  
+  
+    
+    
+  
+  <meta property="twitter:card" content="summary" />
+  
+  <meta property="og:site_name" content="Dina Arch" />
+  <meta property="og:url" content="https://dinaarch.netlify.app/post/machine-learning-final-project/" />
+  <meta property="og:title" content="Machine Learning - Final Project | Dina Arch" />
+  <meta property="og:description" content="Background The U.S. presidential election in 2012 did not come as a surprise. Some correctly predicted the outcome of the election correctly including Nate Silver, and many speculated about his approach." /><meta property="og:image" content="https://dinaarch.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png" />
+    <meta property="twitter:image" content="https://dinaarch.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+  
+    
+      <meta
+        property="article:published_time"
+        content="2021-03-15T00:00:00&#43;00:00"
+      />
+    
+    <meta property="article:modified_time" content="2021-12-14T16:07:42-08:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://dinaarch.netlify.app/post/machine-learning-final-project/"
+  },
+  "headline": "Machine Learning - Final Project",
+  
+  "datePublished": "2021-03-15T00:00:00Z",
+  "dateModified": "2021-12-14T16:07:42-08:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Dina Naji Arch"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dina Arch",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://dinaarch.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "Background The U.S. presidential election in 2012 did not come as a surprise. Some correctly predicted the outcome of the election correctly including Nate Silver, and many speculated about his approach."
+}
+</script>
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+  <title>Machine Learning - Final Project | Dina Arch</title>
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="8f476012904688083ba85da34fc035a4" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.2da3b1fa37e894630bf6de39b1b694b3.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container-xl">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Dina Arch</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Dina Arch</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#experience"><span>Experience</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://ucsb.box.com/s/ezcjo8a3b51ke9xxcpd5p6qhes9vfjpr" target="_blank" rel="noopener"><span>CV</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Machine Learning - Final Project</h1>
+
+  
+  <p class="page-subtitle">Completion of a final project for PSTAT 231 at UC Santa Barbara.</p>
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    Dec 14, 2021
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    26 min read
+  </span>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/r-project/">R Project</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <h1 id="background">Background</h1>
+<p>The U.S. presidential election in 2012 did not come as a surprise. Some correctly predicted the outcome of the election correctly including <a href="https://en.wikipedia.org/wiki/Nate_Silver" target="_blank" rel="noopener">Nate Silver</a>, 
+and <a href="https://www.theguardian.com/science/grrlscientist/2012/nov/08/nate-sliver-predict-us-election" target="_blank" rel="noopener">many speculated about his approach</a>.</p>
+<p>Despite the success in 2012, the 2016 presidential election came as a 
+<a href="https://fivethirtyeight.com/features/the-polls-missed-trump-we-asked-pollsters-why/" target="_blank" rel="noopener">big surprise</a> 
+to many, and it underscored that predicting voter behavior is complicated for many reasons despite the tremendous effort in collecting, analyzing, and understanding many available datasets.</p>
+<p>Your final project will be to merge census data with 2016 voting data to analyze the election outcome.</p>
+<p>To familiarize yourself with the general problem of predicting election outcomes, read the articles linked above and answer the following questions. Limit your responses to one paragraph for each.</p>
+<ol>
+<li>What makes voter behavior prediction (and thus election forecasting) a hard problem?</li>
+</ol>
+<p>**In general, predicting behavior has its limitations. As mentioned in the fivethirtyeight.com article, there is always going to be statistical noise and nonresponse bias to pre-election polls which is then not representative of voter turnout. For the 2016 election specifically, there may have been people who had a preference for a certain candidate during pre-election polls and perhaps changed their mind at the voting booth. **</p>
+<ol start="2">
+<li>What was unique to Nate Silver&rsquo;s approach in 2012 that allowed him to achieve good predictions?</li>
+</ol>
+<p><strong>The Guardian mentions modeling voting behavior and polls, the mathematical model being: Proportion of people saying they will vote for Obama is that actual percentage + the house effect + sampling variation. Based on Wikipedia&rsquo;s discussion, he published an interactive webpage that allowed readers to predictor the outcome of the election based on three variables: President Obama&rsquo;s favorability ratings, the rate of GDP growth, and how conservative the Republication opponent would be. It&rsquo;s doesn&rsquo;t mention if he used the responses in his model, however.</strong></p>
+<ol start="3">
+<li>What went wrong in 2016? What do you think should be done to make future predictions better?</li>
+</ol>
+<p><strong>As mentioned before there was high error, such as statistical noise and nonresponse bias. There could be many reasons for this, one example the article mentioned was that pollsters could have been embarrassed to admit who they were supporting. They also could have had a changed their mind about a candidate between the pre-election polls and when voting.</strong></p>
+<h1 id="data">Data</h1>
+<p>The <code>project_data.RData</code> binary file contains three datasets: tract-level 2010 census data, stored as <code>census</code>; metadata <code>census_meta</code> with variable descriptions and types; and county-level vote tallies from the 2016 election, stored as <code>election_raw</code>.</p>
+<h2 id="election-data">Election data</h2>
+<p>Some example rows of the election data are shown below:</p>
+<pre><code>## # A tibble: 6 x 5
+##   county             fips  candidate       state   votes
+##   &lt;chr&gt;              &lt;chr&gt; &lt;chr&gt;           &lt;chr&gt;   &lt;dbl&gt;
+## 1 Los Angeles County 6037  Hillary Clinton CA    2464364
+## 2 Los Angeles County 6037  Donald Trump    CA     769743
+## 3 Los Angeles County 6037  Gary Johnson    CA      88968
+## 4 Los Angeles County 6037  Jill Stein      CA      76465
+## 5 Los Angeles County 6037  Gloria La Riva  CA      21993
+## 6 Cook County        17031 Hillary Clinton IL    1611946
+</code></pre>
+<p>The meaning of each column in <code>election_raw</code> is self-evident except <code>fips</code>. The accronym is short for <a href="https://en.wikipedia.org/wiki/FIPS_county_code" target="_blank" rel="noopener">Federal Information Processing Standard</a>. In this dataset, <code>fips</code> values denote the area (nationwide, statewide, or countywide) that each row of data represent.</p>
+<p>Nationwide and statewide tallies are included as rows in <code>election_raw</code> with <code>county</code> values of <code>NA</code>. There are two kinds of these summary rows:</p>
+<ul>
+<li>Federal-level summary rows have a <code>fips</code> value of <code>US</code>.</li>
+<li>State-level summary rows have the state name as the <code>fips</code> value.</li>
+</ul>
+<ol start="4">
+<li>Inspect rows with <code>fips=2000</code>. Provide a reason for excluding them. Drop these observations &ndash; please write over <code>election_raw</code> &ndash; and report the data dimensions after removal.</li>
+</ol>
+<pre><code>## # A tibble: 6 x 5
+##   county fips  candidate          state  votes
+##   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;  &lt;dbl&gt;
+## 1 &lt;NA&gt;   2000  Donald Trump       AK    163387
+## 2 &lt;NA&gt;   2000  Hillary Clinton    AK    116454
+## 3 &lt;NA&gt;   2000  Gary Johnson       AK     18725
+## 4 &lt;NA&gt;   2000  Jill Stein         AK      5735
+## 5 &lt;NA&gt;   2000  Darrell Castle     AK      3866
+## 6 &lt;NA&gt;   2000  Rocky De La Fuente AK      1240
+</code></pre>
+<p><strong>The only reason I see for exclusion is lack of county information and the <code>fips</code> value is identified as neither federal level (<code>fips</code> value of US) or state-level (<code>fips</code> value as the state).</strong></p>
+<p><strong>Dimensions:</strong></p>
+<pre><code>## [1] 18345     5
+</code></pre>
+<h2 id="census-data">Census data</h2>
+<p>The first few rows and columns of the <code>census</code> data are shown below.</p>
+<pre><code>## # A tibble: 6 x 6
+##   CensusTract State   County  TotalPop   Men Women
+##         &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  1001020100 Alabama Autauga     1948   940  1008
+## 2  1001020200 Alabama Autauga     2156  1059  1097
+## 3  1001020300 Alabama Autauga     2968  1364  1604
+## 4  1001020400 Alabama Autauga     4423  2172  2251
+## 5  1001020500 Alabama Autauga    10763  4922  5841
+## 6  1001020600 Alabama Autauga     3851  1787  2064
+</code></pre>
+<p>Variable descriptions are given in the <code>metadata</code> file. The variables shown above are:</p>
+<pre><code>## # A tibble: 6 x 3
+##   variable       description                     type       
+##   &lt;chr&gt;          &lt;chr&gt;                           &lt;chr&gt;      
+## 1 &quot;CensusTract &quot; &quot; Census tract ID &quot;             &quot; numeric &quot;
+## 2 &quot;State &quot;       &quot; State, DC, or Puerto Rico &quot;   &quot; string &quot; 
+## 3 &quot;County &quot;      &quot; County or county equivalent &quot; &quot; string &quot; 
+## 4 &quot;TotalPop &quot;    &quot; Total population &quot;            &quot; numeric &quot;
+## 5 &quot;Men &quot;         &quot; Number of men &quot;               &quot; numeric &quot;
+## 6 &quot;Women &quot;       &quot; Number of women &quot;             &quot; numeric &quot;
+</code></pre>
+<p>\newpage</p>
+<h2 id="data-preprocessing">Data preprocessing</h2>
+<ol start="5">
+<li>
+<p>Separate the rows of <code>election_raw</code> into separate federal-, state-, and county-level data frames:</p>
+<ul>
+<li>
+<p>Store federal-level tallies as <code>election_federal</code>.</p>
+</li>
+<li>
+<p>Store state-level tallies as <code>election_state</code>.</p>
+</li>
+<li>
+<p>Store county-level tallies as <code>election</code>. Coerce the <code>fips</code> variable to numeric.</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>Federal-Level Tallies (First 5 Rows):</p>
+<pre><code>## # A tibble: 6 x 5
+##   county fips  candidate       state    votes
+##   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;
+## 1 &lt;NA&gt;   US    Donald Trump    US    62984825
+## 2 &lt;NA&gt;   US    Hillary Clinton US    65853516
+## 3 &lt;NA&gt;   US    Gary Johnson    US     4489221
+## 4 &lt;NA&gt;   US    Jill Stein      US     1429596
+## 5 &lt;NA&gt;   US    Evan McMullin   US      510002
+## 6 &lt;NA&gt;   US    Darrell Castle  US      186545
+</code></pre>
+<p>State-Level Tallies (First 5 Rows):</p>
+<pre><code>## # A tibble: 6 x 5
+##   county fips  candidate       state   votes
+##   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;           &lt;chr&gt;   &lt;dbl&gt;
+## 1 &lt;NA&gt;   CA    Hillary Clinton CA    8753788
+## 2 &lt;NA&gt;   CA    Donald Trump    CA    4483810
+## 3 &lt;NA&gt;   CA    Gary Johnson    CA     478500
+## 4 &lt;NA&gt;   CA    Jill Stein      CA     278657
+## 5 &lt;NA&gt;   CA    Gloria La Riva  CA      66101
+## 6 &lt;NA&gt;   FL    Donald Trump    FL    4617886
+</code></pre>
+<p>County-Level Tallies (First 5 Rows):</p>
+<pre><code>## # A tibble: 6 x 5
+##   county              fips candidate       state   votes
+##   &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;   &lt;dbl&gt;
+## 1 Los Angeles County  6037 Hillary Clinton CA    2464364
+## 2 Los Angeles County  6037 Donald Trump    CA     769743
+## 3 Los Angeles County  6037 Gary Johnson    CA      88968
+## 4 Los Angeles County  6037 Jill Stein      CA      76465
+## 5 Los Angeles County  6037 Gloria La Riva  CA      21993
+## 6 Cook County        17031 Hillary Clinton IL    1611946
+</code></pre>
+<ol start="6">
+<li>How many named presidential candidates were there in the 2016 election? Draw a bar graph of all votes received by each candidate, and order the candidate names by decreasing vote counts. (You may need to log-transform the vote axis.)</li>
+</ol>
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-11-1.png" width="576" style="display: block; margin: auto;" />
+**There are 31 named presidential candidates**
+<ol start="7">
+<li>Create <code>county_winner</code> and <code>state_winner</code> by taking the candidate with the highest proportion of votes. (Hint: to create <code>county_winner</code>, start with <code>election</code>, group by <code>fips</code>, compute <code>total</code> votes, and <code>pct = votes/total</code>. Then choose the highest row using <code>slice_max</code> (variable <code>state_winner</code> is similar).)</li>
+</ol>
+<p>County Winner (First 5 Counties):</p>
+<pre><code>## # A tibble: 6 x 7
+## # Groups:   fips [6]
+##   county          fips candidate       state votes total   pct
+##   &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Autauga County  1001 Donald Trump    AL    18172 24759 0.734
+## 2 Baldwin County  1003 Donald Trump    AL    72883 94261 0.773
+## 3 Barbour County  1005 Donald Trump    AL     5454 10436 0.523
+## 4 Bibb County     1007 Donald Trump    AL     6738  8753 0.770
+## 5 Blount County   1009 Donald Trump    AL    22859 25442 0.898
+## 6 Bullock County  1011 Hillary Clinton AL     3530  4702 0.751
+</code></pre>
+<p>State Winner (First 5 State):</p>
+<pre><code>## # A tibble: 6 x 7
+## # Groups:   fips [6]
+##   county fips  candidate       state   votes    total   pct
+##   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;           &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
+## 1 &lt;NA&gt;   46102 Hillary Clinton SD       2510     2905 0.864
+## 2 &lt;NA&gt;   AK    Donald Trump    AK     163387   309407 0.528
+## 3 &lt;NA&gt;   AL    Donald Trump    AL    1318255  2101660 0.627
+## 4 &lt;NA&gt;   AR    Donald Trump    AR     684872  1130635 0.606
+## 5 &lt;NA&gt;   AZ    Donald Trump    AZ    1252401  2554240 0.490
+## 6 &lt;NA&gt;   CA    Hillary Clinton CA    8753788 14060856 0.623
+</code></pre>
+<h1 id="visualization">Visualization</h1>
+<p>Here you&rsquo;ll generate maps of the election data using <code>ggmap</code>. The .Rmd file for this document contains codes to generate the following map.</p>
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-15-1.png" width="576" style="display: block; margin: auto;" />
+<ol start="8">
+<li>Draw a county-level map with <code>map_data(&quot;county&quot;)</code> and color by county.</li>
+</ol>
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-16-1.png" width="576" style="display: block; margin: auto;" />
+<p>In order to map the winning candidate for each state, the map data (<code>states</code>) must be merged with with the election data (<code>state_winner</code>).</p>
+<p>The function <code>left_join()</code> will do the trick, but needs to join the data frames on a variable with values that match. In this case, that variable is the state name, but abbreviations are used in one data frame and the full name is used in the other.</p>
+<ol start="9">
+<li>Use the following function to create a <code>fips</code> variable in the <code>states</code> data frame with values that match the <code>fips</code> variable in <code>election_federal</code>.</li>
+</ol>
+<p>First 5 rows in the <code>states</code> data frame:</p>
+<pre><code>##        long      lat group order  region subregion fips
+## 1 -87.46201 30.38968     1     1 alabama      &lt;NA&gt;   AL
+## 2 -87.48493 30.37249     1     2 alabama      &lt;NA&gt;   AL
+## 3 -87.52503 30.37249     1     3 alabama      &lt;NA&gt;   AL
+## 4 -87.53076 30.33239     1     4 alabama      &lt;NA&gt;   AL
+## 5 -87.57087 30.32665     1     5 alabama      &lt;NA&gt;   AL
+## 6 -87.58806 30.32665     1     6 alabama      &lt;NA&gt;   AL
+</code></pre>
+<ul>
+<li>Now the data frames can be merged. <code>left_join(df1, df2)</code> takes all the rows from <code>df1</code> and looks for matches in <code>df2</code>. For each match, <code>left_join()</code> appends the data from the second table to the matching row in the first; if no matching value is found, it adds missing values.</li>
+</ul>
+<ol start="10">
+<li>Use <code>left_join</code> to merge the tables and use the result to create a map of the election results by state. Your figure will look similar to this state level <a href="https://www.nytimes.com/elections/results/president" target="_blank" rel="noopener">New York Times map</a>. (Hint: use <code>scale_fill_brewer(palette=&quot;Set1&quot;)</code> for a red-and-blue map.)</li>
+</ol>
+<p>Merged states by <code>fips</code> (First 5 rows):
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-19-1.png" width="576" style="display: block; margin: auto;" /></p>
+<ol start="11">
+<li>Now create a county-level map. The county-level map data does not have a <code>fips</code> value, so to create one, use information from <code>maps::county.fips</code>: split the <code>polyname</code> column to <code>region</code> and <code>subregion</code> using <code>tidyr::separate</code>, and use <code>left_join()</code> to combine <code>county.fips</code> with the county-level map data. Then construct the map. Your figure will look similar to county-level <a href="https://www.nytimes.com/elections/results/president" target="_blank" rel="noopener">New York Times map</a>.</li>
+</ol>
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-20-1.png" width="576" style="display: block; margin: auto;" />
+<ol start="12">
+<li>Create a visualization of your choice using <code>census</code> data. Many exit polls noted that <a href="https://fivethirtyeight.com/features/demographics-not-hacking-explain-the-election-results/" target="_blank" rel="noopener">demographics played a big role in the election</a>. If you need a starting point, use <a href="https://www.washingtonpost.com/graphics/politics/2016-election/exit-polls/" target="_blank" rel="noopener">this Washington Post article</a> and <a href="https://www.r-graph-gallery.com/" target="_blank" rel="noopener">this R graph gallery</a> for ideas and inspiration.</li>
+</ol>
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-21-1.png" width="1152" style="display: block; margin: auto;" />
+<ol start="13">
+<li>The <code>census</code> data contains high resolution information (more fine-grained than county-level). Aggregate the information into county-level data by computing population-weighted averages of each attribute for each county by carrying out the following steps:</li>
+</ol>
+<ul>
+<li>
+<p>Clean census data, saving the result as <code>census_del</code>:</p>
+<ul>
+<li>filter out any rows of <code>census</code> with missing values;</li>
+<li>convert <code>Men</code>, <code>Employed</code>, and <code>Citizen</code> to percentages;</li>
+<li>compute a <code>Minority</code> variable by combining <code>Hispanic</code>, <code>Black</code>, <code>Native</code>, <code>Asian</code>, <code>Pacific</code>, and remove these variables after creating <code>Minority</code>; and</li>
+<li>remove <code>Walk</code>, <code>PublicWork</code>, and <code>Construction</code>.</li>
+</ul>
+</li>
+<li>
+<p>Create population weights for sub-county census data, saving the result as <code>census_subct</code>:</p>
+<ul>
+<li>group <code>census_del</code> by <code>State</code> and <code>County</code>;</li>
+<li>use <code>add_tally()</code> to compute <code>CountyPop</code>;</li>
+<li>compute the population weight as <code>TotalPop/CountyTotal</code>;</li>
+<li>adjust all quantitative variables by multiplying by the population weights.</li>
+</ul>
+</li>
+<li>
+<p>Aggregate census data to county level, <code>census_ct</code>: group the sub-county data <code>census_subct</code> by state and county and compute popluation-weighted averages of each variable by taking the sum (since the variables were already transformed by the population weights)</p>
+</li>
+<li>
+<p>Print the first few rows and columns of <code>census_ct</code>.</p>
+</li>
+</ul>
+<pre><code>## # A tibble: 6 x 28
+## # Groups:   State [1]
+##   State   County    Men Women White Citizen Income IncomeErr IncomePerCap
+##   &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;
+## 1 Alabama Autauga  48.4 3349.  75.8    73.7 51696.     7771.       24974.
+## 2 Alabama Baldwin  48.8 3934.  83.1    75.7 51074.     8745.       27317.
+## 3 Alabama Barbour  53.8 1492.  46.2    76.9 32959.     6031.       16824.
+## 4 Alabama Bibb     53.4 2930.  74.5    77.4 38887.     5662.       18431.
+## 5 Alabama Blount   49.4 3562.  87.9    73.4 46238.     8696.       20532.
+## 6 Alabama Bullock  53.0 1968.  22.2    75.5 33293.     9000.       17580.
+## # ... with 19 more variables: IncomePerCapErr &lt;dbl&gt;, Poverty &lt;dbl&gt;,
+## #   ChildPoverty &lt;dbl&gt;, Professional &lt;dbl&gt;, Service &lt;dbl&gt;, Office &lt;dbl&gt;,
+## #   Production &lt;dbl&gt;, Drive &lt;dbl&gt;, Carpool &lt;dbl&gt;, Transit &lt;dbl&gt;,
+## #   OtherTransp &lt;dbl&gt;, WorkAtHome &lt;dbl&gt;, MeanCommute &lt;dbl&gt;, Employed &lt;dbl&gt;,
+## #   PrivateWork &lt;dbl&gt;, SelfEmployed &lt;dbl&gt;, FamilyWork &lt;dbl&gt;,
+## #   Unemployment &lt;dbl&gt;, Minority &lt;dbl&gt;
+</code></pre>
+<ol start="14">
+<li>If you were physically located in the United States on election day for the 2016 presidential election, what state and county were you in? Compare and contrast the results and demographic information for this county with the state it is located in. If you were not in the United States on election day, select any county. Do you find anything unusual or surprising? If so, explain; if not, explain why not.</li>
+</ol>
+<p><strong>On election day, I was in Los Angeles, CA. Taking the average values of some of the variables to look at overall California demographics, it looks like minorities make up 70% of LA, and 40% of California. Men and Unemployement is unchanged. Having lived here a long time, I am not surprised at the demographics. LA is much more diverse than the rest of California.</strong></p>
+<pre><code>## # A tibble: 1 x 28
+## # Groups:   State [1]
+##   State      County        Men Women White Citizen Income IncomeErr IncomePerCap
+##   &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;
+## 1 California Los Angeles  49.2 2460.  26.9    60.1 61385.    10572.       28390.
+## # ... with 19 more variables: IncomePerCapErr &lt;dbl&gt;, Poverty &lt;dbl&gt;,
+## #   ChildPoverty &lt;dbl&gt;, Professional &lt;dbl&gt;, Service &lt;dbl&gt;, Office &lt;dbl&gt;,
+## #   Production &lt;dbl&gt;, Drive &lt;dbl&gt;, Carpool &lt;dbl&gt;, Transit &lt;dbl&gt;,
+## #   OtherTransp &lt;dbl&gt;, WorkAtHome &lt;dbl&gt;, MeanCommute &lt;dbl&gt;, Employed &lt;dbl&gt;,
+## #   PrivateWork &lt;dbl&gt;, SelfEmployed &lt;dbl&gt;, FamilyWork &lt;dbl&gt;,
+## #   Unemployment &lt;dbl&gt;, Minority &lt;dbl&gt;
+</code></pre>
+<pre><code>## # A tibble: 1 x 27
+##   State    Men Women White Citizen Income IncomeErr IncomePerCap IncomePerCapErr
+##   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;           &lt;dbl&gt;
+## 1 Calif~  50.4 2665.  55.7    68.2 59031.     9828.       28014.           3977.
+## # ... with 18 more variables: Poverty &lt;dbl&gt;, ChildPoverty &lt;dbl&gt;,
+## #   Professional &lt;dbl&gt;, Service &lt;dbl&gt;, Office &lt;dbl&gt;, Production &lt;dbl&gt;,
+## #   Drive &lt;dbl&gt;, Carpool &lt;dbl&gt;, Transit &lt;dbl&gt;, OtherTransp &lt;dbl&gt;,
+## #   WorkAtHome &lt;dbl&gt;, MeanCommute &lt;dbl&gt;, Employed &lt;dbl&gt;, PrivateWork &lt;dbl&gt;,
+## #   SelfEmployed &lt;dbl&gt;, FamilyWork &lt;dbl&gt;, Unemployment &lt;dbl&gt;, Minority &lt;dbl&gt;
+</code></pre>
+<h1 id="exploratory-analysis">Exploratory analysis</h1>
+<ol start="15">
+<li>Carry out PCA for both county &amp; sub-county level census data. Compute the first two principal components PC1 and PC2 for both county and sub-county respectively. Discuss whether you chose to center and scale the features and the reasons for your choice. Examine and interpret the loadings.</li>
+</ol>
+<p>County Level: 
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-27-1.png" width="576" style="display: block; margin: auto;" /><img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-27-2.png" width="576" style="display: block; margin: auto;" /><img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-27-3.png" width="576" style="display: block; margin: auto;" /></p>
+<p>**The first PC has a high percentage of children under poverty level, a high percentage of people under poverty level, and high percentage of those unemployed. The first PC also has low income per capital, low percentage of those employed (16+), and low median household income. I would label this principal component as <em>Under Poverty Level</em>. **</p>
+<p>**The second PC has a high percentage of those who are self-employed, a high percentage of those working at home, and high percentage of those working in unpaid family work. The second PC also has low number of women, low percentage of working in private industry, and low percentage of employed in office jobs. I would label this principal component as <em>Working Class - Family Oriented</em>. **</p>
+<p>Sub-county Level:</p>
+<p><img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-28-1.png" width="576" style="display: block; margin: auto;" /><img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-28-2.png" width="576" style="display: block; margin: auto;" /><img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-28-3.png" width="576" style="display: block; margin: auto;" /></p>
+<p><strong>This PC is interesting because all 26 variables are positive and relatively high, where most have loadings greater than .20. The first PC has a high percentage of Men, a high number of citizens, high percentage of those employed in private industry, high percentage of those who commute alone in a car, and a high percentage of those employed (+16). I would label this principal component as <em>Working-Class</em>.</strong></p>
+<p><strong>The second PC has a high percentage of minorities, a high percentage of unemployment, and high percentage of child poverty and under poverty level. The second PC also has low percentage of those who work from home, low percentage of inpaid family work, and low percentage of those who are self-employed. I would label this principal component as <em>Under Poverty Level</em>.</strong></p>
+<p>**It&rsquo;s usually important to both center and scale your variables as they are most likely not on the same metric. As in this case, I center and scaled the dataset because some variables are count and others are percentages. Either way, it doesn&rsquo;t hurt. **</p>
+<ol start="16">
+<li>Determine the minimum number of PCs needed to capture 90% of the variance for both the county and sub-county analyses. Plot the proportion of variance explained and cumulative variance explained for both county and sub-county analyses.</li>
+</ol>
+<p>County Level:</p>
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-29-1.png" width="576" style="display: block; margin: auto;" />
+<p><strong>At least <em>13</em> PCs are needed to capture 90% of the variance for the county analysis.</strong></p>
+<p>Sub-County Level:</p>
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-30-1.png" width="576" style="display: block; margin: auto;" />
+**At least *7* PCs are needed to capture 90% of the variance for the sub-county analysis.**
+<ol start="17">
+<li>With <code>census_ct</code>, perform hierarchical clustering with complete linkage.  Cut the tree to partition the observations into 10 clusters. Re-run the hierarchical clustering algorithm using the first 5 principal components the county-level data as inputs instead of the original features. Compare and contrast the results. For both approaches investigate the cluster that contains San Mateo County. Which approach seemed to put San Mateo County in a more appropriate cluster? Comment on what you observe and discuss possible explanations for these observations.</li>
+</ol>
+<p>Hierarchical Clustering:</p>
+<pre><code>## # A tibble: 10 x 2
+##    clusters       n
+##    &lt;fct&gt;      &lt;int&gt;
+##  1 cluster 1   2307
+##  2 cluster 2    779
+##  3 cluster 3     67
+##  4 cluster 4      8
+##  5 cluster 5     20
+##  6 cluster 6      4
+##  7 cluster 7      3
+##  8 cluster 8      3
+##  9 cluster 9     23
+## 10 cluster 10     4
+</code></pre>
+<p>Cluster for San Mateo County:</p>
+<pre><code>## [1] cluster 1
+## 10 Levels: cluster 1 cluster 2 cluster 3 cluster 4 cluster 5 ... cluster 10
+</code></pre>
+<p>Hierarchical Clustering for first five PCs:</p>
+<pre><code>## # A tibble: 10 x 2
+##    clusters       n
+##    &lt;fct&gt;      &lt;int&gt;
+##  1 cluster 1   1950
+##  2 cluster 2    631
+##  3 cluster 3    312
+##  4 cluster 4     57
+##  5 cluster 5      8
+##  6 cluster 6    167
+##  7 cluster 7     43
+##  8 cluster 8      7
+##  9 cluster 9     40
+## 10 cluster 10     3
+</code></pre>
+<p>Cluster for San Mateo County:</p>
+<pre><code>## [1] cluster 3
+## 10 Levels: cluster 1 cluster 2 cluster 3 cluster 4 cluster 5 ... cluster 10
+</code></pre>
+<p><strong>It seems that the counties in the PC cluster are more evenly spread out than using the entire dataset. When using the first 5 principal components, we are capturing 64% of the variance in the county dataset with only five variables. Because of the smaller dimension, it may be more effective in clustering the counties as opposed to using 26 variables with the full dataset. It makes sense that San Mateo county is put into cluster 1 with the full dataset as most counties are grouped there. Thus, we may want to rely on the cluster that used the PCs, where San Mateo is in cluster 3.</strong></p>
+<h1 id="classification">Classification</h1>
+<p>In order to train classification models, we need to combine <code>county_winner</code> and <code>census_ct</code> data. This seemingly straightforward task is harder than it sounds. Codes are provided in the .Rmd file that make the necessary changes to merge them into <code>election_cl</code> for classification.</p>
+<p>After merging the data, partition the result into 80% training and 20% testing partitions.</p>
+<ol start="18">
+<li>Decision tree: train a decision tree on the training partition, and apply cost-complexity pruning. Visualize the tree before and after pruning. Estimate the misclassification errors on the test partition, and interpret and discuss the results of the decision tree analysis. Use your plot to tell a story about voting behavior in the US (see this <a href="https://archive.nytimes.com/www.nytimes.com/imagepages/2008/04/16/us/20080416_OBAMA_GRAPHIC.html" target="_blank" rel="noopener">NYT infographic</a>).</li>
+</ol>
+<pre><code>## 
+## Classification tree:
+## tree(formula = as.factor(candidate) ~ ., data = train, control = tree_opts, 
+##     split = &quot;deviance&quot;)
+## Variables actually used in tree construction:
+##  [1] &quot;White&quot;           &quot;Men&quot;             &quot;Unemployment&quot;    &quot;IncomePerCapErr&quot;
+##  [5] &quot;MeanCommute&quot;     &quot;Service&quot;         &quot;Women&quot;           &quot;Citizen&quot;        
+##  [9] &quot;IncomePerCap&quot;    &quot;Drive&quot;           &quot;Transit&quot;         &quot;Office&quot;         
+## [13] &quot;Production&quot;      &quot;SelfEmployed&quot;    &quot;Income&quot;          &quot;WorkAtHome&quot;     
+## [17] &quot;Poverty&quot;         &quot;Employed&quot;        &quot;Carpool&quot;         &quot;Professional&quot;   
+## [21] &quot;PrivateWork&quot;     &quot;OtherTransp&quot;     &quot;FamilyWork&quot;     
+## Number of terminal nodes:  84 
+## Residual mean deviance:  0.04184 = 99.29 / 2373 
+## Misclassification error rate: 0.008547 = 21 / 2457
+</code></pre>
+<p>Tree before pruning:</p>
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-38-1.png" width="960" style="display: block; margin: auto;" />
+<p>Add cost-complexity pruning:</p>
+<pre><code>## 
+## Classification tree:
+## snip.tree(tree = t_small, nodes = c(4L, 14L, 5L, 15L, 6L))
+## Variables actually used in tree construction:
+## [1] &quot;White&quot;        &quot;Men&quot;          &quot;Transit&quot;      &quot;Professional&quot;
+## Number of terminal nodes:  5 
+## Residual mean deviance:  0.4521 = 1108 / 2452 
+## Misclassification error rate: 0.0814 = 200 / 2457
+</code></pre>
+<p>Tree after pruning:</p>
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-40-1.png" width="576" style="display: block; margin: auto;" />
+<p>Classification Errors on Test Partition - Before Pruning:</p>
+<pre><code>##                  pred
+## class             Donald Trump Hillary Clinton
+##   Donald Trump       0.9496124       0.0503876
+##   Hillary Clinton    0.3505155       0.6494845
+</code></pre>
+<p>Classification Errors on Test Partition - After Pruning:</p>
+<pre><code>##                  pred
+## class             Donald Trump Hillary Clinton
+##   Donald Trump      0.94379845      0.05620155
+##   Hillary Clinton   0.44329897      0.55670103
+</code></pre>
+<p><strong>After training a decision tree before pruning, the resulting classification tree had 84 terminal nodes and a misclassification error rate of 0.0085. There were 23 variables used. After pruning the classification tree, now there are 5 terminal nodes and a misclassifcation error rate of 0.0814. There were four variables used: White, Men, Transit, Professional. Similar to the infographic, it&rsquo;s not surprising that &ldquo;White&rdquo; is used as the first splitting variable and Men is one of the second spliting variables. Counties that are less than 49.969% White and less than 49.6965 Male were likely to vote for Hillary Clinton. Which makes sense given the demographics of the election results, however it isn&rsquo;t very telling as splitting on almost 50% isn&rsquo;t much information. On the other side of the decision tree, counties that are more than almost 50% white, more than 1.138% use public transportation, and more than 35.4651% are employed in management positions voted for Hillary. It&rsquo;s interesting that counties that have more than 1.138% of people using public transit are likely to vote Trump. It may indicate that the model needs some adjustments since the misclassification error rate is higher for this model.</strong></p>
+<ol start="19">
+<li>Train a logistic regression model on the training partition to predict the winning candidate in each county and estimate errors on the test partition. What are the significant variables? Are these consistent with what you observed in the decision tree analysis? Interpret the meaning of one or two significant coefficients of your choice in terms of a unit change in the variables. Did the results in your particular county (from question 14) match the predicted results?</li>
+</ol>
+<pre><code>## 
+## Call:
+## glm(formula = as.factor(candidate) ~ ., family = &quot;binomial&quot;, 
+##     data = train)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.9700  -0.2610  -0.1094  -0.0414   3.5310  
+## 
+## Coefficients:
+##                   Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)     -1.230e+01  9.576e+00  -1.284 0.199042    
+## Men             -3.202e-02  5.466e-02  -0.586 0.558020    
+## Women            4.849e-05  1.675e-04   0.289 0.772235    
+## White           -1.876e-01  6.417e-02  -2.924 0.003453 ** 
+## Citizen          1.139e-01  2.934e-02   3.881 0.000104 ***
+## Income          -5.835e-05  2.752e-05  -2.120 0.033970 *  
+## IncomeErr        4.269e-05  6.807e-05   0.627 0.530554    
+## IncomePerCap     1.900e-04  6.601e-05   2.879 0.003991 ** 
+## IncomePerCapErr -2.421e-04  1.405e-04  -1.723 0.084840 .  
+## Poverty          4.498e-02  4.267e-02   1.054 0.291820    
+## ChildPoverty    -4.893e-03  2.611e-02  -0.187 0.851348    
+## Professional     2.568e-01  3.852e-02   6.665 2.64e-11 ***
+## Service          3.509e-01  4.974e-02   7.055 1.73e-12 ***
+## Office           1.209e-01  4.660e-02   2.595 0.009448 ** 
+## Production       1.849e-01  4.262e-02   4.337 1.44e-05 ***
+## Drive           -2.236e-01  4.639e-02  -4.821 1.43e-06 ***
+## Carpool         -2.164e-01  6.138e-02  -3.525 0.000423 ***
+## Transit          4.788e-02  9.227e-02   0.519 0.603815    
+## OtherTransp     -9.843e-02  1.018e-01  -0.967 0.333650    
+## WorkAtHome      -1.356e-01  7.447e-02  -1.821 0.068677 .  
+## MeanCommute      5.417e-02  2.500e-02   2.167 0.030224 *  
+## Employed         1.960e-01  3.376e-02   5.807 6.36e-09 ***
+## PrivateWork      7.211e-02  2.230e-02   3.233 0.001224 ** 
+## SelfEmployed     1.535e-02  4.992e-02   0.308 0.758415    
+## FamilyWork      -8.790e-01  4.130e-01  -2.128 0.033336 *  
+## Unemployment     1.742e-01  4.075e-02   4.275 1.91e-05 ***
+## Minority        -6.081e-02  6.186e-02  -0.983 0.325579    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 2071.81  on 2456  degrees of freedom
+## Residual deviance:  841.25  on 2430  degrees of freedom
+## AIC: 895.25
+## 
+## Number of Fisher Scoring iterations: 7
+</code></pre>
+<p>Errors (Test Partition):</p>
+<pre><code>##                  y_hat_glm
+##                           No        Yes
+##   Donald Trump    0.95930233 0.04069767
+##   Hillary Clinton 0.32989691 0.67010309
+</code></pre>
+<p><strong>Significant predictors of candidate are White, Citizen, Income, IncomePerCap, Professional, Service, Office, Production, Drive, Carpool, MeanCommute, Employed, PrivateWork, FamilyWork, and Unemployement. Only one of the variables overlap with the variables chosen in the pruned decision tree which is inconsistent.</strong></p>
+<p><strong>The probability of a county voting for Donald Trump increases by an estimated 0.1139 among counties with Citizens, after accounting for all other predictors.</strong></p>
+<p><strong>The probability of a county voting for Donald Trump decreases by an estimated -.879 among counties with unpaid family workers, after accounting for all other predictors.</strong></p>
+<p><strong>Yes, the results in Los Angeles county (Hillary Clinton) matched the predicted results.</strong></p>
+<ol start="20">
+<li>Compute ROC curves for the decision tree and logistic regression using predictions on the test data, and display them on the same plot. Based on your classification results, discuss the pros and cons of each method. Are the different classifiers more appropriate for answering different kinds of questions about the election?</li>
+</ol>
+<p>Decision Tree:</p>
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-45-1.png" width="576" style="display: block; margin: auto;" />
+<p>Logistic Regression:</p>
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-46-1.png" width="576" style="display: block; margin: auto;" />
+<p><strong>Both ROC curves look very different, with the logistic curve looking cleaner and has a higher optimal threshold. Both analyses have pros and cons and different classifiers are more appropriate for answering different kinds of questions about the election. Regarding decision trees, as we saw in the output, they are intuitive and easy to implement visualize and interpret. They also have the ability to be pruned by cost complexity. However, they are sensitive to small changes in the data, have high variance, and could fail if they separation in the feature space is hard to approximate. I think working with this scale of data is difficult to implement decision trees with because there is a lot of variability in data. Regarding logistic regression, they are interpretable, flexible, and can take in a large number of predictors. However, like decision trees, they can fail if data are separated in the feature space.</strong></p>
+<h1 id="taking-it-further">Taking it further</h1>
+<ol start="21">
+<li>This is an open question. Interpret and discuss any overall insights gained in this analysis and possible explanations. Use any tools at your disposal to make your case: visualize errors on the map, discuss what does or doesn&rsquo;t seem reasonable based on your understanding of these methods, propose possible directions (for example, collecting additional data or domain knowledge).  In addition, propose and tackle <em>at least</em> one more interesting question. Creative and thoughtful analyses will be rewarded!</li>
+</ol>
+<p><strong>As mentioned previously, both analyses have pros and cons and different classifiers are more appropriate for answering different kinds of questions about the election. In this example, it is shown that the logistic model performed better, providing a better misclassification error rate. I think the model would perform even better with theory-based predictors as that can influence the model, more predictors doesn&rsquo;t necessarily mean better.</strong></p>
+<ul>
+<li>Instead of using the native attributes (the original features), we can use principal components to create new (and lower dimensional) sets of features with which to train a classification model. This sometimes improves classification performance.  Compare classifiers trained on the original features with those trained on PCA features.</li>
+</ul>
+<p><strong>I like the idea of using PC components to reevaluate the classification methods used. The minimum number of PCs needed to capture 90% of the variance for county data is <em>13</em>, however, using 13 components makes interpretation tricky, as evaluating and labeling all 13 will be extremely time-consulting. To assess differences in bias-variance trade off between using PC and raw data, I will rerun both the decision tree analysis and the logistic regress using the first 4 principal components to predict the election results and compare.</strong></p>
+<p>Rerun PCs with combined <code>county_winner</code> column for easier wrangling:</p>
+<p><img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-47-1.png" width="576" style="display: block; margin: auto;" /><img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-47-2.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Note: Eigenvalues are slightly off because some observations were removed in the process of combining <code>county_winner</code> and <code>census_ct</code> but they are generally the same.</p>
+<p><em>PC 1/Affluent</em>: High IncomePerCap, Employed, Income, and Professional. Low Child Poverty, Poverty, and Unemployment.</p>
+<p><em>PC 2/Family Oriented</em>: High SelfEmployed, WorkAtHome, and FamilyWork. Low Women, PrivateWork, IncomeErr.</p>
+<p><em>PC 3/Working Class in Suburb</em>: High White, Drive, Production, and Private Work. Low Minority, and Transit.</p>
+<p>*PC 4/Working Class in City *: High Carpool, Production, Employed. Low Citizen, Service, Office.</p>
+<p>Decision Tree:</p>
+<pre><code>## 
+## Classification tree:
+## tree(formula = as.factor(candidate) ~ ., data = train, control = tree_opts, 
+##     split = &quot;deviance&quot;)
+## Number of terminal nodes:  56 
+## Residual mean deviance:  0.3242 = 778.3 / 2401 
+## Misclassification error rate: 0.0639 = 157 / 2457
+</code></pre>
+<p>Tree before pruning:</p>
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-50-1.png" width="960" style="display: block; margin: auto;" />
+<p>Add cost-complexity pruning:</p>
+<pre><code>## 
+## Classification tree:
+## snip.tree(tree = t_small, nodes = c(10L, 7L, 54L, 55L, 26L, 91L, 
+## 23L, 25L, 90L, 9L))
+## Number of terminal nodes:  13 
+## Residual mean deviance:  0.4694 = 1147 / 2444 
+## Misclassification error rate: 0.09565 = 235 / 2457
+</code></pre>
+<p>Tree after pruning:</p>
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-52-1.png" width="960" style="display: block; margin: auto;" />
+<p>Classification Errors on Test Partition - Before Pruning:</p>
+<pre><code>##                  pred
+## class             Donald Trump Hillary Clinton
+##   Donald Trump      0.95348837      0.04651163
+##   Hillary Clinton   0.49484536      0.50515464
+</code></pre>
+<p>Classification Errors on Test Partition - After Pruning:</p>
+<pre><code>##                  pred
+## class             Donald Trump Hillary Clinton
+##   Donald Trump      0.93410853      0.06589147
+##   Hillary Clinton   0.51546392      0.48453608
+</code></pre>
+<p><strong>After training a decision tree before pruning, the resulting classification tree had 56 terminal nodes and a misclassification error rate of 0.0639. The four PCs were used. Already, we see that the misclassifciation error is much higher than using the full dataset shown earlier. After pruning the classification tree, now there are 13 terminal nodes and a misclassifcation error rate of 0.09565. Compared to the full dataset the pruned decision tree had less terminal nodes (5), but the misclassification error rate was slightly similar (0.08). The interpretation is slightly different now that we have to identify the PC on the tree. For example, if the loading on PC3 is less than -.610 (or in this case less affluent counties) and the loading on PC2 is less than -1.47912 (or in this case less family oriented counties), and the loading on PC3 is less than -3.40997 (even less affleunt counties) then it is likely they voted for Hillary Clinton. Already, this interpretation is extremely confusing compared to using all predictors.</strong></p>
+<p>Logistic Regression:</p>
+<pre><code>## 
+## Call:
+## glm(formula = as.factor(candidate) ~ ., family = &quot;binomial&quot;, 
+##     data = train)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -3.1258  -0.4289  -0.2081  -0.1065   3.3147  
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -2.76655    0.11026 -25.091  &lt; 2e-16 ***
+## PC1         -0.05276    0.02655  -1.987   0.0469 *  
+## PC2         -0.64696    0.04784 -13.523  &lt; 2e-16 ***
+## PC3         -0.86938    0.05006 -17.368  &lt; 2e-16 ***
+## PC4         -0.39303    0.06011  -6.538 6.23e-11 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 2071.8  on 2456  degrees of freedom
+## Residual deviance: 1262.3  on 2452  degrees of freedom
+## AIC: 1272.3
+## 
+## Number of Fisher Scoring iterations: 6
+</code></pre>
+<p><strong>All four PCs are significant predictors of candidate. And it looks like all for PCs have similar interpretation: the probability of a county voting for Donald Trump decreases for each PC estimate. This was not the case when all variables were entered in the logistic model.</strong></p>
+<p>Errors (Test Partition):</p>
+<pre><code>##                  y_hat_glm
+##                           No        Yes
+##   Donald Trump    0.95155039 0.04844961
+##   Hillary Clinton 0.52577320 0.47422680
+</code></pre>
+<p><strong>The true positve for Hillary Clinton in the model is a lot less than the model with all variables, however.</strong></p>
+<p>ROC Curves:</p>
+<p>Decision Tree:</p>
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-57-1.png" width="576" style="display: block; margin: auto;" />
+<p>Logistic Regression:</p>
+<img src="https://dinaarch.netlify.app/post/machine-learning-final-project/index_files/figure-html/unnamed-chunk-58-1.png" width="576" style="display: block; margin: auto;" />
+<p><strong>Overall, it seems like using the first four principal components did not improve neither the decision tree or logistic regression model. This could be due to many factors but the main one I can think of is that the first four PCs only capture 59% of the variance in the variables. The decision tree did not make sense to use even if it had a better misclassification rate as the interpretability of the tree did not as much sense as the model with all variables. While the logistic model did have all significant predictors, the error rate was much higher than the model with all variables, but less predictors were used. In the future, I would select variables based on theory, use PCA to reduce the dimensions and capture more variance than I did now, and then re-run the model.</strong></p>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/r-markdown/">r markdown</a>
+  
+  <a class="badge badge-light" href="/tag/machine-learning/">machine learning</a>
+  
+  <a class="badge badge-light" href="/tag/visualization/">visualization</a>
+  
+  <a class="badge badge-light" href="/tag/classification/">classification</a>
+  
+  <a class="badge badge-light" href="/tag/principal-components/">principal components</a>
+  
+</div>
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://dinaarch.netlify.app/post/machine-learning-final-project/&amp;text=Machine%20Learning%20-%20Final%20Project" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://dinaarch.netlify.app/post/machine-learning-final-project/&amp;t=Machine%20Learning%20-%20Final%20Project" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Machine%20Learning%20-%20Final%20Project&amp;body=https://dinaarch.netlify.app/post/machine-learning-final-project/" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://dinaarch.netlify.app/post/machine-learning-final-project/&amp;title=Machine%20Learning%20-%20Final%20Project" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Machine%20Learning%20-%20Final%20Project%20https://dinaarch.netlify.app/post/machine-learning-final-project/" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://dinaarch.netlify.app/post/machine-learning-final-project/&amp;title=Machine%20Learning%20-%20Final%20Project" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://dinaarch.netlify.app/"><img class="avatar mr-3 avatar-circle" src="/author/dina-naji-arch/avatar_hu507efff5857c68aef0911fd7748fdc58_1261776_270x270_fill_q75_lanczos_center.jpg" alt="Dina Naji Arch"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://dinaarch.netlify.app/">Dina Naji Arch</a></h5>
+      <h6 class="card-subtitle">Ph.D. Student in Quantitative Methods in the Social Sciences (Education)</h6>
+      
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:dnaji@ucsb.edu" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/dnajiarch" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/dinanajiarch" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/dina-naji-arch-22649396/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/nonlinear-least-squares-example/">Nonlinear Least Squares Example</a></li>
+      
+      <li><a href="/post/binary-logistic-regression-lab/">Binary Logistic Regression Lab</a></li>
+      
+      <li><a href="/post/text-analysis/">Text Anaylsis ft. Michael Scott</a></li>
+      
+      <li><a href="/post/mediation-lab/">Mediation Lab</a></li>
+      
+      <li><a href="/post/tips-and-tricks-in-r/">Tips and Tricks in R</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+
+  <p class="powered-by">
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a> — the free, <a href="https://github.com/wowchemy/wowchemy-hugo-themes" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    <script src="/js/vendor-bundle.min.b73dfaac3b6499dc997741748a7c3fe2.js"></script>
+
+    
+    
+    
+      
+      
+        <script src="https://cdn.jsdelivr.net/gh/desandro/imagesloaded@v4.1.4/imagesloaded.pkgd.min.js" integrity="sha512-S5PZ9GxJZO16tT9r3WJp/Safn31eu8uWrzglMahDT4dsmgqWonRY9grk3j+3tfuPr9WJNsfooOR7Gi7HL5W2jw==" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/metafizzy/isotope@v3.0.6/dist/isotope.pkgd.min.js" integrity="sha512-Zq2BOxyhvnRFXu0+WE6ojpZLOU2jdnqbrM1hmVdGzyeCa1DgM3X5Q4A/Is9xA1IkbUeDd7755dNNI/PzSf2Pew==" crossorigin="anonymous"></script>
+      
+
+      
+      
+
+      
+
+      
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/highlight.min.js" integrity="sha512-Ypjm0o7jOxAd4hpdoppSEN0TQOC19UtPAqD+4s5AlXmUvbmmS/YMxYqAqarQYyxTnB6/rqip9qcxlNB/3U9Wdg==" crossorigin="anonymous"></script>
+        
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/r.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/python.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/latex.min.js" crossorigin="anonymous"></script>
+        
+      
+
+    
+
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.js" integrity="" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+      
+      <script id="search-hit-fuse-template" type="text/x-template">
+        <div class="search-hit" id="summary-{{key}}">
+          <div class="search-hit-content">
+            <div class="search-hit-name">
+              <a href="{{relpermalink}}">{{title}}</a>
+              <div class="article-metadata search-hit-type">{{type}}</div>
+              <p class="search-hit-description">{{snippet}}</p>
+            </div>
+          </div>
+        </div>
+      </script>
+      
+        <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+      
+    
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+      
+      
+      
+      
+      
+      
+      
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/en/js/wowchemy.min.7cd6ec29d281a73c92a2958a1584aadc.js"></script>
+
+    
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+
+</body>
+</html>

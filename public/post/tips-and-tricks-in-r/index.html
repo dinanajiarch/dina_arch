@@ -1,0 +1,1555 @@
+<!DOCTYPE html><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.3.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Dina Naji Arch" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="knitr::opts_chunk$set(echo = TRUE,warning = FALSE,message = FALSE)library(stringr) # str_to_lower()library(janitor) # clean_names()library(palmerpenguins) # penguinslibrary(sjmisc) # move_columnslibrary(tidyverse) Let&rsquo;s use a dataset called penguins in the palmerpenguins package (Reference: Horst AM, Hill AP, &amp; Gorman KB, 2020)" />
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://dinaarch.netlify.app/post/tips-and-tricks-in-r/" />
+
+  
+  
+  
+    <meta name="theme-color" content="#EF525B" />
+  
+
+  
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.f1ecf783c14edc00c9320c205831ad8e.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/github.min.css" crossorigin="anonymous" title="hl-light" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" media="print" onload="this.media='all'" disabled>
+        
+      
+    
+
+    
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.css" integrity="" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.763cd711f24d7b89d45f7edaa68879b4.css" />
+
+  
+
+
+
+  
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+    <link rel="manifest" href="/manifest.webmanifest" />
+  
+
+  <link rel="icon" type="image/png" href="/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_32x32_fill_lanczos_center_3.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_180x180_fill_lanczos_center_3.png" />
+
+  <link rel="canonical" href="https://dinaarch.netlify.app/post/tips-and-tricks-in-r/" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+
+  
+  
+    
+    
+  
+  <meta property="twitter:card" content="summary" />
+  
+  <meta property="og:site_name" content="Dina Arch" />
+  <meta property="og:url" content="https://dinaarch.netlify.app/post/tips-and-tricks-in-r/" />
+  <meta property="og:title" content="Tips and Tricks in R | Dina Arch" />
+  <meta property="og:description" content="knitr::opts_chunk$set(echo = TRUE,warning = FALSE,message = FALSE)library(stringr) # str_to_lower()library(janitor) # clean_names()library(palmerpenguins) # penguinslibrary(sjmisc) # move_columnslibrary(tidyverse) Let&rsquo;s use a dataset called penguins in the palmerpenguins package (Reference: Horst AM, Hill AP, &amp; Gorman KB, 2020)" /><meta property="og:image" content="https://dinaarch.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png" />
+    <meta property="twitter:image" content="https://dinaarch.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+  
+    
+      <meta
+        property="article:published_time"
+        content="2021-06-02T00:00:00&#43;00:00"
+      />
+    
+    <meta property="article:modified_time" content="2021-12-14T19:45:05-08:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://dinaarch.netlify.app/post/tips-and-tricks-in-r/"
+  },
+  "headline": "Tips and Tricks in R",
+  
+  "datePublished": "2021-06-02T00:00:00Z",
+  "dateModified": "2021-12-14T19:45:05-08:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Dina Naji Arch"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dina Arch",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://dinaarch.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "knitr::opts_chunk$set(echo = TRUE,\rwarning = FALSE,\rmessage = FALSE)\rlibrary(stringr) # str_to_lower()\rlibrary(janitor) # clean_names()\rlibrary(palmerpenguins) # penguins\rlibrary(sjmisc) # move_columns\rlibrary(tidyverse)\r Let\u0026rsquo;s use a dataset called penguins in the palmerpenguins package (Reference: Horst AM, Hill AP, \u0026amp; Gorman KB, 2020)"
+}
+</script>
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+  <title>Tips and Tricks in R | Dina Arch</title>
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="8c6f68112abd80f410f6106e2a7f6dda" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.2da3b1fa37e894630bf6de39b1b694b3.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container-xl">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Dina Arch</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Dina Arch</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#experience"><span>Experience</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://ucsb.box.com/s/ezcjo8a3b51ke9xxcpd5p6qhes9vfjpr" target="_blank" rel="noopener"><span>CV</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Tips and Tricks in R</h1>
+
+  
+  <p class="page-subtitle">This is lab provides some tips and tricks for those using R markdown</p>
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    Dec 14, 2021
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    10 min read
+  </span>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/labs/">Labs</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <pre><code class="language-r">knitr::opts_chunk$set(echo = TRUE,
+                      warning = FALSE,
+                      message = FALSE)
+library(stringr) # str_to_lower()
+library(janitor) # clean_names()
+library(palmerpenguins) # penguins
+library(sjmisc) # move_columns
+library(tidyverse)
+</code></pre>
+<p>Let&rsquo;s use a dataset called <code>penguins</code> in the <code>palmerpenguins</code> package (Reference: <a href="https://allisonhorst.github.io/palmerpenguins/" target="_blank" rel="noopener">Horst AM, Hill AP, &amp; Gorman KB, 2020</a>)</p>
+<h1 id="read-in-and-view-data">Read in and view data</h1>
+<pre><code class="language-r">data(&quot;penguins&quot;)
+head(penguins_raw) # reads first 6 rows
+</code></pre>
+<pre><code>## # A tibble: 6 x 17
+##   studyName `Sample Number` Species       Region Island  Stage   `Individual ID`
+##   &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;          
+## 1 PAL0708                 1 Adelie Pengu~ Anvers Torger~ Adult,~ N1A1           
+## 2 PAL0708                 2 Adelie Pengu~ Anvers Torger~ Adult,~ N1A2           
+## 3 PAL0708                 3 Adelie Pengu~ Anvers Torger~ Adult,~ N2A1           
+## 4 PAL0708                 4 Adelie Pengu~ Anvers Torger~ Adult,~ N2A2           
+## 5 PAL0708                 5 Adelie Pengu~ Anvers Torger~ Adult,~ N3A1           
+## 6 PAL0708                 6 Adelie Pengu~ Anvers Torger~ Adult,~ N3A2           
+## # ... with 10 more variables: Clutch Completion &lt;chr&gt;, Date Egg &lt;date&gt;,
+## #   Culmen Length (mm) &lt;dbl&gt;, Culmen Depth (mm) &lt;dbl&gt;,
+## #   Flipper Length (mm) &lt;dbl&gt;, Body Mass (g) &lt;dbl&gt;, Sex &lt;chr&gt;,
+## #   Delta 15 N (o/oo) &lt;dbl&gt;, Delta 13 C (o/oo) &lt;dbl&gt;, Comments &lt;chr&gt;
+</code></pre>
+<pre><code class="language-r">names(penguins_raw) # lists variable names
+</code></pre>
+<pre><code>##  [1] &quot;studyName&quot;           &quot;Sample Number&quot;       &quot;Species&quot;            
+##  [4] &quot;Region&quot;              &quot;Island&quot;              &quot;Stage&quot;              
+##  [7] &quot;Individual ID&quot;       &quot;Clutch Completion&quot;   &quot;Date Egg&quot;           
+## [10] &quot;Culmen Length (mm)&quot;  &quot;Culmen Depth (mm)&quot;   &quot;Flipper Length (mm)&quot;
+## [13] &quot;Body Mass (g)&quot;       &quot;Sex&quot;                 &quot;Delta 15 N (o/oo)&quot;  
+## [16] &quot;Delta 13 C (o/oo)&quot;   &quot;Comments&quot;
+</code></pre>
+<pre><code class="language-r">summary(penguins_raw) # provides some descriptive statistics for each variable
+</code></pre>
+<pre><code>##   studyName         Sample Number      Species             Region         
+##  Length:344         Min.   :  1.00   Length:344         Length:344        
+##  Class :character   1st Qu.: 29.00   Class :character   Class :character  
+##  Mode  :character   Median : 58.00   Mode  :character   Mode  :character  
+##                     Mean   : 63.15                                        
+##                     3rd Qu.: 95.25                                        
+##                     Max.   :152.00                                        
+##                                                                           
+##     Island             Stage           Individual ID      Clutch Completion 
+##  Length:344         Length:344         Length:344         Length:344        
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##                                                                             
+##     Date Egg          Culmen Length (mm) Culmen Depth (mm) Flipper Length (mm)
+##  Min.   :2007-11-09   Min.   :32.10      Min.   :13.10     Min.   :172.0      
+##  1st Qu.:2007-11-28   1st Qu.:39.23      1st Qu.:15.60     1st Qu.:190.0      
+##  Median :2008-11-09   Median :44.45      Median :17.30     Median :197.0      
+##  Mean   :2008-11-27   Mean   :43.92      Mean   :17.15     Mean   :200.9      
+##  3rd Qu.:2009-11-16   3rd Qu.:48.50      3rd Qu.:18.70     3rd Qu.:213.0      
+##  Max.   :2009-12-01   Max.   :59.60      Max.   :21.50     Max.   :231.0      
+##                       NA's   :2          NA's   :2         NA's   :2          
+##  Body Mass (g)      Sex            Delta 15 N (o/oo) Delta 13 C (o/oo)
+##  Min.   :2700   Length:344         Min.   : 7.632    Min.   :-27.02   
+##  1st Qu.:3550   Class :character   1st Qu.: 8.300    1st Qu.:-26.32   
+##  Median :4050   Mode  :character   Median : 8.652    Median :-25.83   
+##  Mean   :4202                      Mean   : 8.733    Mean   :-25.69   
+##  3rd Qu.:4750                      3rd Qu.: 9.172    3rd Qu.:-25.06   
+##  Max.   :6300                      Max.   :10.025    Max.   :-23.79   
+##  NA's   :2                         NA's   :14        NA's   :13       
+##    Comments        
+##  Length:344        
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+##                    
+## 
+</code></pre>
+<p>How to read in data and make note of the missing values:</p>
+<pre><code class="language-r">data &lt;- read_csv(&quot;data.csv&quot;, na = c(&quot;-999&quot;, &quot;NA&quot;, &quot;000&quot;)) #note: the `na` argument only works for &quot;read_csv&quot; and not &quot;read_sav.&quot;
+</code></pre>
+<h1 id="clean-names">Clean names</h1>
+<p>We see that the variable names are not &ldquo;clean.&rdquo; As in, they have spaces and capital letters.
+Usually, we want to use a format called &ldquo;snake case&rdquo;, where we have lower case letters and spaces are replaced with underscores.
+We can easily do this with the <code>clean_names()</code> function in the <code>janitor</code> package:</p>
+<pre><code class="language-r">penguins_new &lt;- penguins_raw %&gt;% 
+  clean_names()
+
+#Compare names
+names(penguins_new)
+</code></pre>
+<pre><code>##  [1] &quot;study_name&quot;        &quot;sample_number&quot;     &quot;species&quot;          
+##  [4] &quot;region&quot;            &quot;island&quot;            &quot;stage&quot;            
+##  [7] &quot;individual_id&quot;     &quot;clutch_completion&quot; &quot;date_egg&quot;         
+## [10] &quot;culmen_length_mm&quot;  &quot;culmen_depth_mm&quot;   &quot;flipper_length_mm&quot;
+## [13] &quot;body_mass_g&quot;       &quot;sex&quot;               &quot;delta_15_n_o_oo&quot;  
+## [16] &quot;delta_13_c_o_oo&quot;   &quot;comments&quot;
+</code></pre>
+<pre><code class="language-r">names(penguins_raw)
+</code></pre>
+<pre><code>##  [1] &quot;studyName&quot;           &quot;Sample Number&quot;       &quot;Species&quot;            
+##  [4] &quot;Region&quot;              &quot;Island&quot;              &quot;Stage&quot;              
+##  [7] &quot;Individual ID&quot;       &quot;Clutch Completion&quot;   &quot;Date Egg&quot;           
+## [10] &quot;Culmen Length (mm)&quot;  &quot;Culmen Depth (mm)&quot;   &quot;Flipper Length (mm)&quot;
+## [13] &quot;Body Mass (g)&quot;       &quot;Sex&quot;                 &quot;Delta 15 N (o/oo)&quot;  
+## [16] &quot;Delta 13 C (o/oo)&quot;   &quot;Comments&quot;
+</code></pre>
+<h1 id="move-variable-names">Move variable names</h1>
+<p>We can use the <code>move_columns()</code> function to rearrange our variable names. Lets say we want to move <code>clutch_completion</code> to the left of <code>body_mass_g</code>:</p>
+<pre><code class="language-r">penguins_move &lt;- penguins_new %&gt;% 
+  move_columns(clutch_completion, .before = body_mass_g)
+
+names(penguins_move)
+</code></pre>
+<pre><code>##  [1] &quot;study_name&quot;        &quot;sample_number&quot;     &quot;species&quot;          
+##  [4] &quot;region&quot;            &quot;island&quot;            &quot;stage&quot;            
+##  [7] &quot;individual_id&quot;     &quot;date_egg&quot;          &quot;culmen_length_mm&quot; 
+## [10] &quot;culmen_depth_mm&quot;   &quot;flipper_length_mm&quot; &quot;clutch_completion&quot;
+## [13] &quot;body_mass_g&quot;       &quot;sex&quot;               &quot;delta_15_n_o_oo&quot;  
+## [16] &quot;delta_13_c_o_oo&quot;   &quot;comments&quot;
+</code></pre>
+<h1 id="recoding">Recoding</h1>
+<h2 id="examine-class">Examine class</h2>
+<p>Let&rsquo;s examine the <code>clutch_completion</code> variable.
+(a character string denoting if the study nest observed with a full clutch, i.e., 2 eggs).
+Let&rsquo;s see what the labels look like using <code>unique()</code>:</p>
+<pre><code class="language-r">unique(penguins_new$clutch_completion)
+</code></pre>
+<pre><code>## [1] &quot;Yes&quot; &quot;No&quot;
+</code></pre>
+<p>Right now, the levels are <code>Yes</code> and <code>No</code>.
+Let&rsquo;s also check the variable type using <code>class()</code>:</p>
+<pre><code class="language-r">class(penguins_new$clutch_completion)
+</code></pre>
+<pre><code>## [1] &quot;character&quot;
+</code></pre>
+<p>Let&rsquo;s make this a factor.</p>
+<h2 id="create-factor">Create factor</h2>
+<p>Since this variable is not a character (but a factor), we need to convert it.
+We can do that using <code>factor()</code>:</p>
+<pre><code class="language-r">penguins_factor &lt;- penguins_new %&gt;% 
+  mutate(clutch_factor = factor(clutch_completion))
+</code></pre>
+<p>Let&rsquo;s check the variable again:</p>
+<pre><code class="language-r">class(penguins_factor$clutch_factor)
+</code></pre>
+<pre><code>## [1] &quot;factor&quot;
+</code></pre>
+<pre><code class="language-r">unique(penguins_factor$clutch_factor)
+</code></pre>
+<pre><code>## [1] Yes No 
+## Levels: No Yes
+</code></pre>
+<h2 id="recoding-a-factor">Recoding a factor</h2>
+<p>Let&rsquo;s say we want to recode our labels from <code>Yes</code> and <code>No</code> to <code>1</code> and <code>0</code>:</p>
+<pre><code class="language-r">penguins_recoded &lt;- penguins_factor %&gt;% 
+  mutate(clutch_recoded = recode(clutch_factor,&quot;Yes&quot; = &quot;1&quot;, &quot;No&quot; = &quot;0&quot;))
+</code></pre>
+<pre><code class="language-r">class(penguins_recoded$clutch_recoded)
+</code></pre>
+<pre><code>## [1] &quot;factor&quot;
+</code></pre>
+<pre><code class="language-r">unique(penguins_recoded$clutch_recoded)
+</code></pre>
+<pre><code>## [1] 1 0
+## Levels: 0 1
+</code></pre>
+<h2 id="recoding-a-character-into-a-factor">Recoding a character into a factor</h2>
+<p>Let&rsquo;s look at another variable in the <code>penguins</code> dataset: <code>Sex</code> of the penguin:</p>
+<pre><code class="language-r">class(penguins_new$sex)
+</code></pre>
+<pre><code>## [1] &quot;character&quot;
+</code></pre>
+<pre><code class="language-r">unique(penguins_new$sex)
+</code></pre>
+<pre><code>## [1] &quot;MALE&quot;   &quot;FEMALE&quot; NA
+</code></pre>
+<p>Let&rsquo;s say we didn&rsquo;t do the process above, and it was still in <code>character</code> format.
+We can combine those two steps by recoding character variables into factors (from <code>MALE</code> and <code>FEMALE</code> to <code>0</code> and <code>1</code>) using <code>recode_factor():</code></p>
+<pre><code class="language-r">penguins_sex_recoded &lt;- penguins_new %&gt;% 
+  mutate(sex_recoded = recode_factor(sex,&quot;MALE&quot; = &quot;0&quot;, &quot;FEMALE&quot; = &quot;1&quot;))
+</code></pre>
+<p>Lets check the variable again:</p>
+<pre><code class="language-r">class(penguins_sex_recoded$sex_recoded)
+</code></pre>
+<pre><code>## [1] &quot;factor&quot;
+</code></pre>
+<pre><code class="language-r">unique(penguins_sex_recoded$sex_recoded)
+</code></pre>
+<pre><code>## [1] 0    1    &lt;NA&gt;
+## Levels: 0 1
+</code></pre>
+<p><em>Side Note</em>.
+I also wanted to make a quick note on what happens when you select the variable of interest first vs. not:</p>
+<pre><code class="language-r">penguins_recoded_select &lt;- penguins_new %&gt;% 
+  select(sex) %&gt;% 
+  mutate(sex_recoded = recode_factor(sex,&quot;MALE&quot; = &quot;0&quot;, &quot;FEMALE&quot; = &quot;1&quot;))
+
+head(penguins_recoded_select)
+</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   sex    sex_recoded
+##   &lt;chr&gt;  &lt;fct&gt;      
+## 1 MALE   0          
+## 2 FEMALE 1          
+## 3 FEMALE 1          
+## 4 &lt;NA&gt;   &lt;NA&gt;       
+## 5 FEMALE 1          
+## 6 MALE   0
+</code></pre>
+<pre><code class="language-r">head(penguins_sex_recoded)
+</code></pre>
+<pre><code>## # A tibble: 6 x 18
+##   study_name sample_number species         region island  stage    individual_id
+##   &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;           &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;        
+## 1 PAL0708                1 Adelie Penguin~ Anvers Torger~ Adult, ~ N1A1         
+## 2 PAL0708                2 Adelie Penguin~ Anvers Torger~ Adult, ~ N1A2         
+## 3 PAL0708                3 Adelie Penguin~ Anvers Torger~ Adult, ~ N2A1         
+## 4 PAL0708                4 Adelie Penguin~ Anvers Torger~ Adult, ~ N2A2         
+## 5 PAL0708                5 Adelie Penguin~ Anvers Torger~ Adult, ~ N3A1         
+## 6 PAL0708                6 Adelie Penguin~ Anvers Torger~ Adult, ~ N3A2         
+## # ... with 11 more variables: clutch_completion &lt;chr&gt;, date_egg &lt;date&gt;,
+## #   culmen_length_mm &lt;dbl&gt;, culmen_depth_mm &lt;dbl&gt;, flipper_length_mm &lt;dbl&gt;,
+## #   body_mass_g &lt;dbl&gt;, sex &lt;chr&gt;, delta_15_n_o_oo &lt;dbl&gt;, delta_13_c_o_oo &lt;dbl&gt;,
+## #   comments &lt;chr&gt;, sex_recoded &lt;fct&gt;
+</code></pre>
+<h2 id="recoding-multiple-variables">Recoding multiple variables</h2>
+<p>The dataset doesn&rsquo;t have any two variables that need to be recoded the same, but let&rsquo;s recode both <code>sex</code> and <code>clutch_completion</code> at the same time. <em>Not</em>e: this code should be used if you have two variables that need to have the same recoding, but it looks like this works too.</p>
+<pre><code class="language-r">penguins_multiple &lt;- penguins_new %&gt;%  
+    mutate_at(c(&quot;sex&quot;, &quot;clutch_completion&quot;),
+              ~ recode_factor(., &quot;MALE&quot; = &quot;0&quot;, &quot;FEMALE&quot; = &quot;1&quot;,
+                       &quot;Yes&quot; = &quot;1&quot;, &quot;No&quot; = &quot;0&quot;))
+penguins_multiple %&gt;% 
+  select(sex, clutch_completion) %&gt;% 
+  head()
+</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   sex   clutch_completion
+##   &lt;fct&gt; &lt;fct&gt;            
+## 1 0     1                
+## 2 1     1                
+## 3 1     1                
+## 4 &lt;NA&gt;  1                
+## 5 1     1                
+## 6 0     1
+</code></pre>
+<h1 id="creating-reference-variables">Creating reference variables</h1>
+<p>Recall slide 33 in the Multiple Regression lecture:</p>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img alt="" srcset="
+               /post/tips-and-tricks-in-r/dummycoding_hu6cbf3d693b4dad74d88547ca3f98430f_134779_9222e6dcd2d39aba170cda4a5370ce61.jpg 400w,
+               /post/tips-and-tricks-in-r/dummycoding_hu6cbf3d693b4dad74d88547ca3f98430f_134779_ff1368a0288b4524db3a174e53301500.jpg 760w,
+               /post/tips-and-tricks-in-r/dummycoding_hu6cbf3d693b4dad74d88547ca3f98430f_134779_1200x1200_fit_q75_lanczos.jpg 1200w"
+               src="/post/tips-and-tricks-in-r/dummycoding_hu6cbf3d693b4dad74d88547ca3f98430f_134779_9222e6dcd2d39aba170cda4a5370ce61.jpg"
+               width="760"
+               height="430"
+               loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>Remember that when we enter a categorical variable into the model using <code>lm()</code>, R creates the reference variable for us, and picks the first category as the reference category.
+For example, let&rsquo;s look at the <code>species</code> variable:</p>
+<pre><code class="language-r">class(penguins_new$species)
+</code></pre>
+<pre><code>## [1] &quot;character&quot;
+</code></pre>
+<pre><code class="language-r">unique(penguins_new$species)
+</code></pre>
+<pre><code>## [1] &quot;Adelie Penguin (Pygoscelis adeliae)&quot;      
+## [2] &quot;Gentoo penguin (Pygoscelis papua)&quot;        
+## [3] &quot;Chinstrap penguin (Pygoscelis antarctica)&quot;
+</code></pre>
+<p>Let&rsquo;s clean this variable.
+First, let&rsquo;s make the labels lowercase using <code>str_to_lower()</code>:</p>
+<pre><code class="language-r">penguin_species &lt;- penguins_new %&gt;% 
+  mutate(species = str_to_lower(species))
+
+unique(penguin_species$species)
+</code></pre>
+<pre><code>## [1] &quot;adelie penguin (pygoscelis adeliae)&quot;      
+## [2] &quot;gentoo penguin (pygoscelis papua)&quot;        
+## [3] &quot;chinstrap penguin (pygoscelis antarctica)&quot;
+</code></pre>
+<p>Now, let&rsquo;s just keep the simple names of the penguins: <code>adelie</code>, <code>gentoo</code>, and <code>chinstrap</code> using the <code>separate()</code> function:</p>
+<pre><code class="language-r">penguins_species_clean &lt;- penguin_species %&gt;% 
+  separate(species, into = c(&quot;species&quot;, &quot;delete&quot;), sep = &quot; penguin&quot;) %&gt;% 
+  select(-delete)
+
+unique(penguins_species_clean$species)
+</code></pre>
+<pre><code>## [1] &quot;adelie&quot;    &quot;gentoo&quot;    &quot;chinstrap&quot;
+</code></pre>
+<pre><code class="language-r">class(penguins_species_clean$species)
+</code></pre>
+<pre><code>## [1] &quot;character&quot;
+</code></pre>
+<p>Let&rsquo;s also convert this new variable into a factor:</p>
+<pre><code class="language-r">penguins_species_clean$species &lt;- factor(penguins_species_clean$species)
+
+unique(penguins_species_clean$species)
+</code></pre>
+<pre><code>## [1] adelie    gentoo    chinstrap
+## Levels: adelie chinstrap gentoo
+</code></pre>
+<pre><code class="language-r">class(penguins_species_clean$species)
+</code></pre>
+<pre><code>## [1] &quot;factor&quot;
+</code></pre>
+<p>Let&rsquo;s quickly run a simple linear regression using the <code>species</code> variable without creating the reference variables.
+Let&rsquo;s predict <code>flipper_length_mm</code> from <code>species</code>:</p>
+<pre><code class="language-r">model_1 &lt;- lm(flipper_length_mm ~ species, data = penguins_species_clean)
+summary(model_1)
+</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = flipper_length_mm ~ species, data = penguins_species_clean)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -17.9536  -4.8235   0.0464   4.8130  20.0464 
+## 
+## Coefficients:
+##                  Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)      189.9536     0.5405 351.454  &lt; 2e-16 ***
+## specieschinstrap   5.8699     0.9699   6.052 3.79e-09 ***
+## speciesgentoo     27.2333     0.8067  33.760  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 6.642 on 339 degrees of freedom
+##   (2 observations deleted due to missingness)
+## Multiple R-squared:  0.7782,	Adjusted R-squared:  0.7769 
+## F-statistic: 594.8 on 2 and 339 DF,  p-value: &lt; 2.2e-16
+</code></pre>
+<p>Here, it automatically created the reference variables and made <code>adelie</code> penguins the reference category.
+What if we want to compare our results to <code>gentoo</code> penguins?
+We can do that by converting the <code>chinstrap</code> and <code>adelie</code> into their own variables using <code>ifelse()</code></p>
+<pre><code class="language-r">chinstrap &lt;- ifelse(penguins_species_clean$species == 'chinstrap', 1, 0)
+adelie &lt;- ifelse(penguins_species_clean$species == 'adelie', 1, 0)
+</code></pre>
+<p>Then, we add them to our dataset using <code>cbind()</code>:</p>
+<pre><code class="language-r">penguins_reference &lt;- penguins_species_clean %&gt;% 
+  cbind(chinstrap, adelie)
+</code></pre>
+<p>Let&rsquo;s look at the model again with <code>gentoo</code> as the reference variable.
+Instead of <code>species</code>, we use <code>chinstrap</code> and <code>adelie</code>:</p>
+<pre><code class="language-r">model_2 &lt;- lm(flipper_length_mm ~ chinstrap + adelie, data = penguins_reference)
+summary(model_2)
+</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = flipper_length_mm ~ chinstrap + adelie, data = penguins_reference)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -17.9536  -4.8235   0.0464   4.8130  20.0464 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) 217.1870     0.5988  362.68   &lt;2e-16 ***
+## chinstrap   -21.3635     1.0036  -21.29   &lt;2e-16 ***
+## adelie      -27.2333     0.8067  -33.76   &lt;2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 6.642 on 339 degrees of freedom
+##   (2 observations deleted due to missingness)
+## Multiple R-squared:  0.7782,	Adjusted R-squared:  0.7769 
+## F-statistic: 594.8 on 2 and 339 DF,  p-value: &lt; 2.2e-16
+</code></pre>
+<p>Changing the reference category does NOT change our model.
+It only allows us to make a more meaningful comparison.</p>
+<h1 id="collapsing-variables">Collapsing variables</h1>
+<h2 id="continous-to-categorical">Continous to categorical</h2>
+<p>In lab 1, I go over how to collapse continuous variables into categorical. Let&rsquo;s categorize <code>body_mass_g</code> into <code>1</code>, <code>2</code>, <code>3</code>, and <code>4</code> levels.</p>
+<pre><code class="language-r">summary(penguins_new$body_mass_g)
+</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    2700    3550    4050    4202    4750    6300       2
+</code></pre>
+<pre><code class="language-r">cont_cat &lt;- penguins_new %&gt;% 
+  mutate(body_mass_factor = cut(body_mass_g,
+                      breaks = c(2700, 3550, 4202, 4750, 6300),
+                      labels = c(&quot;low&quot;, &quot;medium_low&quot;, &quot;medium_high&quot;, &quot;high&quot;)))
+</code></pre>
+<h2 id="categorical-to-categorical">Categorical to categorical</h2>
+<p>Let&rsquo;s collapse our <code>body_mass_g</code> even further. This code is useful if you have a Likert-type scale with four categories, such as <code>Strong Agree</code> to <code>Strongly Disagree</code> and want to collapse to a category with those who responded <code>Strongly Agree</code> and <code>Agree</code> as <code>1</code>, and <code>Disagree</code> and <code>Strongly Disagree</code> as <code>2</code>. We can use <code>fct_collapse</code> to collapse factor levels into groups.</p>
+<pre><code class="language-r">cat_cat &lt;- cont_cat %&gt;% 
+  mutate(body_mass_collpase = 
+           fct_collapse(body_mass_factor,
+                        low = c(&quot;low&quot;, &quot;medium_low&quot;),
+                        high = c(&quot;medium_high&quot;, &quot;high&quot;)))
+</code></pre>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/r-markdown/">r markdown</a>
+  
+  <a class="badge badge-light" href="/tag/rstudio/">rstudio</a>
+  
+</div>
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://dinaarch.netlify.app/post/tips-and-tricks-in-r/&amp;text=Tips%20and%20Tricks%20in%20R" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://dinaarch.netlify.app/post/tips-and-tricks-in-r/&amp;t=Tips%20and%20Tricks%20in%20R" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Tips%20and%20Tricks%20in%20R&amp;body=https://dinaarch.netlify.app/post/tips-and-tricks-in-r/" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://dinaarch.netlify.app/post/tips-and-tricks-in-r/&amp;title=Tips%20and%20Tricks%20in%20R" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Tips%20and%20Tricks%20in%20R%20https://dinaarch.netlify.app/post/tips-and-tricks-in-r/" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://dinaarch.netlify.app/post/tips-and-tricks-in-r/&amp;title=Tips%20and%20Tricks%20in%20R" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://dinaarch.netlify.app/"><img class="avatar mr-3 avatar-circle" src="/author/dina-naji-arch/avatar_hu507efff5857c68aef0911fd7748fdc58_1261776_270x270_fill_q75_lanczos_center.jpg" alt="Dina Naji Arch"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://dinaarch.netlify.app/">Dina Naji Arch</a></h5>
+      <h6 class="card-subtitle">Ph.D. Student in Quantitative Methods in the Social Sciences (Education)</h6>
+      
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:dnaji@ucsb.edu" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/dnajiarch" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/dinanajiarch" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/dina-naji-arch-22649396/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/mediation-lab/">Mediation Lab</a></li>
+      
+      <li><a href="/post/binary-logistic-regression-lab/">Binary Logistic Regression Lab</a></li>
+      
+      <li><a href="/post/machine-learning-final-project/">Machine Learning - Final Project</a></li>
+      
+      <li><a href="/post/nonlinear-least-squares-example/">Nonlinear Least Squares Example</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+
+  <p class="powered-by">
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a> — the free, <a href="https://github.com/wowchemy/wowchemy-hugo-themes" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    <script src="/js/vendor-bundle.min.b73dfaac3b6499dc997741748a7c3fe2.js"></script>
+
+    
+    
+    
+      
+      
+        <script src="https://cdn.jsdelivr.net/gh/desandro/imagesloaded@v4.1.4/imagesloaded.pkgd.min.js" integrity="sha512-S5PZ9GxJZO16tT9r3WJp/Safn31eu8uWrzglMahDT4dsmgqWonRY9grk3j+3tfuPr9WJNsfooOR7Gi7HL5W2jw==" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/metafizzy/isotope@v3.0.6/dist/isotope.pkgd.min.js" integrity="sha512-Zq2BOxyhvnRFXu0+WE6ojpZLOU2jdnqbrM1hmVdGzyeCa1DgM3X5Q4A/Is9xA1IkbUeDd7755dNNI/PzSf2Pew==" crossorigin="anonymous"></script>
+      
+
+      
+      
+
+      
+
+      
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/highlight.min.js" integrity="sha512-Ypjm0o7jOxAd4hpdoppSEN0TQOC19UtPAqD+4s5AlXmUvbmmS/YMxYqAqarQYyxTnB6/rqip9qcxlNB/3U9Wdg==" crossorigin="anonymous"></script>
+        
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/r.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/python.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/latex.min.js" crossorigin="anonymous"></script>
+        
+      
+
+    
+
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.js" integrity="" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+      
+      <script id="search-hit-fuse-template" type="text/x-template">
+        <div class="search-hit" id="summary-{{key}}">
+          <div class="search-hit-content">
+            <div class="search-hit-name">
+              <a href="{{relpermalink}}">{{title}}</a>
+              <div class="article-metadata search-hit-type">{{type}}</div>
+              <p class="search-hit-description">{{snippet}}</p>
+            </div>
+          </div>
+        </div>
+      </script>
+      
+        <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+      
+    
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+      
+      
+      
+      
+      
+      
+      
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/en/js/wowchemy.min.7cd6ec29d281a73c92a2958a1584aadc.js"></script>
+
+    
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+
+</body>
+</html>

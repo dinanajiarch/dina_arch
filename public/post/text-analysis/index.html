@@ -1,0 +1,1328 @@
+<!DOCTYPE html><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.3.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Dina Naji Arch" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="The Office - Season 4 x Episode 9: The Dinner Party    This exercise is atext and sentiment analysis on the &ldquo;Dinner Party&rdquo; episode of The Office. The assignment was given in Dr." />
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://dinaarch.netlify.app/post/text-analysis/" />
+
+  
+  
+  
+    <meta name="theme-color" content="#EF525B" />
+  
+
+  
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.f1ecf783c14edc00c9320c205831ad8e.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/github.min.css" crossorigin="anonymous" title="hl-light" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" media="print" onload="this.media='all'" disabled>
+        
+      
+    
+
+    
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.css" integrity="" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.763cd711f24d7b89d45f7edaa68879b4.css" />
+
+  
+
+
+
+  
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+    <link rel="manifest" href="/manifest.webmanifest" />
+  
+
+  <link rel="icon" type="image/png" href="/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_32x32_fill_lanczos_center_3.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_180x180_fill_lanczos_center_3.png" />
+
+  <link rel="canonical" href="https://dinaarch.netlify.app/post/text-analysis/" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+  
+  
+
+  
+  
+    
+    
+  
+  <meta property="twitter:card" content="summary_large_image" />
+  
+  <meta property="og:site_name" content="Dina Arch" />
+  <meta property="og:url" content="https://dinaarch.netlify.app/post/text-analysis/" />
+  <meta property="og:title" content="Text Anaylsis ft. Michael Scott | Dina Arch" />
+  <meta property="og:description" content="The Office - Season 4 x Episode 9: The Dinner Party    This exercise is atext and sentiment analysis on the &ldquo;Dinner Party&rdquo; episode of The Office. The assignment was given in Dr." /><meta property="og:image" content="https://dinaarch.netlify.app/post/text-analysis/featured.jpg" />
+    <meta property="twitter:image" content="https://dinaarch.netlify.app/post/text-analysis/featured.jpg" /><meta property="og:locale" content="en-us" />
+  
+    
+      <meta
+        property="article:published_time"
+        content="2021-02-24T00:00:00&#43;00:00"
+      />
+    
+    <meta property="article:modified_time" content="2021-12-14T19:26:04-08:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://dinaarch.netlify.app/post/text-analysis/"
+  },
+  "headline": "Text Anaylsis ft. Michael Scott",
+  
+  "image": [
+    "https://dinaarch.netlify.app/post/text-analysis/featured.jpg"
+  ],
+  
+  "datePublished": "2021-02-24T00:00:00Z",
+  "dateModified": "2021-12-14T19:26:04-08:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Dina Naji Arch"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dina Arch",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://dinaarch.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "The Office - Season 4 x Episode 9: The Dinner Party    This exercise is atext and sentiment analysis on the \u0026ldquo;Dinner Party\u0026rdquo; episode of The Office. The assignment was given in Dr."
+}
+</script>
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+  <title>Text Anaylsis ft. Michael Scott | Dina Arch</title>
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="ca184af97722218572e738c23673fe1f" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.2da3b1fa37e894630bf6de39b1b694b3.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container-xl">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Dina Arch</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Dina Arch</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#experience"><span>Experience</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://ucsb.box.com/s/ezcjo8a3b51ke9xxcpd5p6qhes9vfjpr" target="_blank" rel="noopener"><span>CV</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+
+<div class="article-container pt-3">
+  <h1>Text Anaylsis ft. Michael Scott</h1>
+
+  
+  <p class="page-subtitle">A text and sentiment analysis on the &ldquo;Dinner Party&rdquo; episode of The Office.</p>
+  
+
+  
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    Dec 14, 2021
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    3 min read
+  </span>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/r-project/">R Project</a></span>
+  
+
+</div>
+
+  
+
+
+
+
+
+</div>
+
+
+<div class="article-header article-container featured-image-wrapper mt-4 mb-4" style="max-width: 720px; max-height: 379px;">
+  <div style="position: relative">
+    <img src="/post/text-analysis/featured_hu3f0f31071d748846f7fc056e73b9dc63_124538_720x0_resize_q75_lanczos.jpg" width="720" height="379" alt="" class="featured-image">
+    
+  </div>
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <h2 id="the-office---season-4-x-episode-9-the-dinner-party">The Office - Season 4 x Episode 9: The Dinner Party</h2>
+<p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<figure  >
+  <div class="d-flex justify-content-center">
+    <div class="w-100" ><img alt="The Dinner Party" srcset="
+               /post/text-analysis/featured_hu3f0f31071d748846f7fc056e73b9dc63_124538_bf8720d9fa16957f5c280ddce1fb3b1e.jpg 400w,
+               /post/text-analysis/featured_hu3f0f31071d748846f7fc056e73b9dc63_124538_1ebeb7d0e9d212a394bb27cf7d70d48b.jpg 760w,
+               /post/text-analysis/featured_hu3f0f31071d748846f7fc056e73b9dc63_124538_1200x1200_fit_q75_lanczos.jpg 1200w"
+               src="/post/text-analysis/featured_hu3f0f31071d748846f7fc056e73b9dc63_124538_bf8720d9fa16957f5c280ddce1fb3b1e.jpg"
+               width="760"
+               height="400"
+               loading="lazy" data-zoomable /></div>
+  </div></figure>
+</p>
+<p>This exercise is atext and sentiment analysis on the &ldquo;Dinner Party&rdquo; episode of The Office. The assignment was given in Dr. Allison Horst&rsquo;s ESM 244 course.</p>
+<h2 id="read-in-the-text-transcript">Read in the text transcript</h2>
+<p>Source: <a href="https://www.officequotes.net/no4-09.php" target="_blank" rel="noopener">https://www.officequotes.net/no4-09.php</a></p>
+<pre><code class="language-r">dinner_text &lt;- read_delim(here(&quot;content&quot;,&quot;post&quot;, &quot;2021-12-14-text-analysis&quot;, &quot;dinnerparty2.txt&quot;), 
+                          &quot;\t&quot;, escape_double = FALSE, col_names = FALSE, 
+                          trim_ws = TRUE) %&gt;% 
+  rename(lines = X1)
+</code></pre>
+<ul>
+<li>Each row is a a line of the transcript for each character.</li>
+</ul>
+<p>Example: First line from the episode is from Stanley Hudson:</p>
+<pre><code class="language-r">dinner_line1 &lt;- dinner_text[1,]
+
+dinner_line1 
+</code></pre>
+<pre><code>## # A tibble: 1 x 1
+##   lines                       
+##   &lt;chr&gt;                       
+## 1 Stanley: This is ridiculous.
+</code></pre>
+<h2 id="tidy-data">Tidy Data</h2>
+<ol>
+<li>I separated the character names and their lines into two columns, <code>character</code> and <code>line</code>, separated by colon.</li>
+<li>Removed the last four rows that are not character&rsquo;s lines but stage direction.</li>
+<li>I  filtered the characters to include the characters that spoke the most words.</li>
+</ol>
+<pre><code class="language-r">dinner_tidy &lt;- dinner_text %&gt;% 
+  separate(col = lines, into = c(&quot;character&quot;, &quot;line&quot;), sep = &quot;:&quot;) %&gt;% 
+  slice(-(283:288)) %&gt;% 
+  filter(character %in% c(&quot;Andy&quot;, &quot;Angela&quot;, &quot;Dwight&quot;, &quot;Michael&quot;, &quot;Hunter's CD&quot;, &quot;Jan&quot;, &quot;Jim&quot;, &quot;Pam&quot;)) 
+</code></pre>
+<h2 id="tokenize">Tokenize</h2>
+<p>Here, we get word counts for each character for the episode.</p>
+<pre><code class="language-r">dinner_tokens &lt;- dinner_tidy %&gt;% 
+  unnest_tokens(word, line) 
+</code></pre>
+<pre><code class="language-r">dinner_wordcount &lt;- dinner_tokens %&gt;% 
+  count(character, word)
+</code></pre>
+<h2 id="remove-stop-words">Remove stop words</h2>
+<p>Most of the words in the transcript are stop words. To remove them, we use <code>anti_join</code> and the <code>stop_words</code> function.</p>
+<pre><code class="language-r">dinner_nonstop_words &lt;- dinner_tokens %&gt;% 
+  anti_join(stop_words)
+</code></pre>
+<p>We then recount with the stopwords removed.</p>
+<pre><code class="language-r">nonstop_counts &lt;- dinner_nonstop_words %&gt;% 
+  count(character, word) 
+</code></pre>
+<h2 id="top-10-words">Top 10 Words</h2>
+<p>Here, we find the top 10 words that each character said during that episode.</p>
+<pre><code class="language-r">top_10_words &lt;- nonstop_counts %&gt;% 
+  group_by(character) %&gt;% 
+  arrange(-n) %&gt;% 
+  slice(1:10)
+
+
+top_10_words %&gt;% 
+  group_by(word) %&gt;% 
+  ggplot() +
+  geom_bar(aes(reorder(word, n), n), stat = 'identity', fill = &quot;red&quot;) +
+  facet_wrap(~character, scales = &quot;free&quot;) +
+  coord_flip() +
+  theme_calc() +
+  labs(x = 'word')
+</code></pre>
+<img src="https://dinaarch.netlify.app/post/text-analysis/index_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+<h2 id="word-cloud">Word Cloud</h2>
+<p>Let&rsquo;s make a word cloud for the top 5 characters who spoke the most:</p>
+<p>Michael, Jan, Jim, Pam, Dwight</p>
+<pre><code class="language-r">nonstop_counts %&gt;% 
+  group_by(character) %&gt;% 
+  count() %&gt;% 
+  arrange(desc(n)) 
+</code></pre>
+<pre><code>## # A tibble: 8 x 2
+## # Groups:   character [8]
+##   character       n
+##   &lt;chr&gt;       &lt;int&gt;
+## 1 Michael       275
+## 2 Jan           190
+## 3 Jim            88
+## 4 Pam            72
+## 5 Dwight         38
+## 6 Angela         21
+## 7 Andy           20
+## 8 Hunter's CD     4
+</code></pre>
+<pre><code class="language-r">dinner_top5 &lt;- nonstop_counts %&gt;% 
+  filter(character %in% c(&quot;Michael&quot;, &quot;Jan&quot;, &quot;Jim&quot;, &quot;Pam&quot;, &quot;Dwight&quot;)) %&gt;% 
+  group_by(character) %&gt;% 
+  arrange(-n) %&gt;% 
+  slice(1:20)
+</code></pre>
+<pre><code class="language-r">cloud &lt;- ggplot(data = dinner_top5, aes(label = word)) +
+  geom_text_wordcloud(aes(color = n, size = n), shape = &quot;diamond&quot;) +
+  scale_size_area(max_size = 6) +
+  scale_color_gradientn(colors = c(&quot;red&quot;,&quot;blue&quot;,&quot;darkgreen&quot;)) +
+  facet_wrap(~character) +
+  theme_calc()
+
+cloud
+</code></pre>
+<img src="https://dinaarch.netlify.app/post/text-analysis/index_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+<h2 id="sentiment-analysis">Sentiment Analysis</h2>
+<pre><code class="language-r">#afinn lexicon
+get_sentiments(lexicon = &quot;afinn&quot;)
+</code></pre>
+<h3 id="sentiment-analysis-with-afinn">Sentiment analysis with afinn:</h3>
+<p>First, bind words in <code>dinner_nonstop_words</code> to <code>afinn</code> lexicon:</p>
+<pre><code class="language-r">dinner_afinn &lt;- dinner_nonstop_words %&gt;% 
+  inner_join(get_sentiments(&quot;afinn&quot;))
+</code></pre>
+<p>Then, we find counts based on <code>afinn</code> lexicon and plot them:</p>
+<pre><code class="language-r">afinn_counts &lt;- dinner_afinn %&gt;% 
+  count(character, value)
+
+# Plot them: 
+ggplot(data = afinn_counts, aes(x = value, y = n)) +
+  geom_col(fill = &quot;blue&quot;) +
+  facet_wrap(~character) +
+  theme_calc() +
+  labs(y = &quot;&quot;, x = &quot;Lexicon Value&quot;)
+</code></pre>
+<img src="https://dinaarch.netlify.app/post/text-analysis/index_files/figure-html/unnamed-chunk-14-1.png" width="672" />
+<pre><code class="language-r"># Find the mean afinn score by characeter: 
+afinn_means &lt;- dinner_afinn %&gt;% 
+  group_by(character) %&gt;% 
+  summarize(mean_afinn = mean(value))
+
+ggplot(data = afinn_means, 
+       aes(x = fct_rev(as.factor(character)), 
+           y = mean_afinn)) +
+  geom_col(fill = &quot;blue&quot;) +
+  coord_flip() +
+  theme_calc() +
+  labs(x = &quot;Character&quot;, y = &quot;Mean&quot;)
+</code></pre>
+<img src="https://dinaarch.netlify.app/post/text-analysis/index_files/figure-html/unnamed-chunk-14-2.png" width="672" />
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/text-analysis/">text analysis</a>
+  
+  <a class="badge badge-light" href="/tag/visualization/">visualization</a>
+  
+  <a class="badge badge-light" href="/tag/sentiment-analysis/">sentiment analysis</a>
+  
+</div>
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://dinaarch.netlify.app/post/text-analysis/&amp;text=Text%20Anaylsis%20ft.%20Michael%20Scott" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://dinaarch.netlify.app/post/text-analysis/&amp;t=Text%20Anaylsis%20ft.%20Michael%20Scott" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Text%20Anaylsis%20ft.%20Michael%20Scott&amp;body=https://dinaarch.netlify.app/post/text-analysis/" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://dinaarch.netlify.app/post/text-analysis/&amp;title=Text%20Anaylsis%20ft.%20Michael%20Scott" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Text%20Anaylsis%20ft.%20Michael%20Scott%20https://dinaarch.netlify.app/post/text-analysis/" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://dinaarch.netlify.app/post/text-analysis/&amp;title=Text%20Anaylsis%20ft.%20Michael%20Scott" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://dinaarch.netlify.app/"><img class="avatar mr-3 avatar-circle" src="/author/dina-naji-arch/avatar_hu507efff5857c68aef0911fd7748fdc58_1261776_270x270_fill_q75_lanczos_center.jpg" alt="Dina Naji Arch"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://dinaarch.netlify.app/">Dina Naji Arch</a></h5>
+      <h6 class="card-subtitle">Ph.D. Student in Quantitative Methods in the Social Sciences (Education)</h6>
+      
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:dnaji@ucsb.edu" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/dnajiarch" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/dinanajiarch" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/dina-naji-arch-22649396/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/machine-learning-final-project/">Machine Learning - Final Project</a></li>
+      
+      <li><a href="/post/nonlinear-least-squares-example/">Nonlinear Least Squares Example</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+
+  <p class="powered-by">
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a> — the free, <a href="https://github.com/wowchemy/wowchemy-hugo-themes" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    <script src="/js/vendor-bundle.min.b73dfaac3b6499dc997741748a7c3fe2.js"></script>
+
+    
+    
+    
+      
+      
+        <script src="https://cdn.jsdelivr.net/gh/desandro/imagesloaded@v4.1.4/imagesloaded.pkgd.min.js" integrity="sha512-S5PZ9GxJZO16tT9r3WJp/Safn31eu8uWrzglMahDT4dsmgqWonRY9grk3j+3tfuPr9WJNsfooOR7Gi7HL5W2jw==" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/metafizzy/isotope@v3.0.6/dist/isotope.pkgd.min.js" integrity="sha512-Zq2BOxyhvnRFXu0+WE6ojpZLOU2jdnqbrM1hmVdGzyeCa1DgM3X5Q4A/Is9xA1IkbUeDd7755dNNI/PzSf2Pew==" crossorigin="anonymous"></script>
+      
+
+      
+      
+
+      
+
+      
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/highlight.min.js" integrity="sha512-Ypjm0o7jOxAd4hpdoppSEN0TQOC19UtPAqD+4s5AlXmUvbmmS/YMxYqAqarQYyxTnB6/rqip9qcxlNB/3U9Wdg==" crossorigin="anonymous"></script>
+        
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/r.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/python.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/latex.min.js" crossorigin="anonymous"></script>
+        
+      
+
+    
+
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.js" integrity="" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+      
+      <script id="search-hit-fuse-template" type="text/x-template">
+        <div class="search-hit" id="summary-{{key}}">
+          <div class="search-hit-content">
+            <div class="search-hit-name">
+              <a href="{{relpermalink}}">{{title}}</a>
+              <div class="article-metadata search-hit-type">{{type}}</div>
+              <p class="search-hit-description">{{snippet}}</p>
+            </div>
+          </div>
+        </div>
+      </script>
+      
+        <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+      
+    
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+      
+      
+      
+      
+      
+      
+      
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/en/js/wowchemy.min.7cd6ec29d281a73c92a2958a1584aadc.js"></script>
+
+    
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+
+</body>
+</html>

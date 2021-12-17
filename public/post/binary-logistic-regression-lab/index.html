@@ -1,0 +1,2661 @@
+<!DOCTYPE html><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.3.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="Dina Naji Arch" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="library(pander) #pander()library(psych) # describe()library(gtsummary) #tbl_summary()library(equatiomatic) # extract_eq()library(sjPlot) # tab_xtab(), tab_model()library(tidyverse) This lab follows along the logistic regression lecture presented in class and provides two examples to demonstrate the models and their interpretation." />
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://dinaarch.netlify.app/post/binary-logistic-regression-lab/" />
+
+  
+  
+  
+    <meta name="theme-color" content="#EF525B" />
+  
+
+  
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.f1ecf783c14edc00c9320c205831ad8e.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/github.min.css" crossorigin="anonymous" title="hl-light" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" media="print" onload="this.media='all'" disabled>
+        
+      
+    
+
+    
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.css" integrity="" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.763cd711f24d7b89d45f7edaa68879b4.css" />
+
+  
+
+
+
+  
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+    <link rel="manifest" href="/manifest.webmanifest" />
+  
+
+  <link rel="icon" type="image/png" href="/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_32x32_fill_lanczos_center_3.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_180x180_fill_lanczos_center_3.png" />
+
+  <link rel="canonical" href="https://dinaarch.netlify.app/post/binary-logistic-regression-lab/" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+
+  
+  
+    
+    
+  
+  <meta property="twitter:card" content="summary" />
+  
+  <meta property="og:site_name" content="Dina Arch" />
+  <meta property="og:url" content="https://dinaarch.netlify.app/post/binary-logistic-regression-lab/" />
+  <meta property="og:title" content="Binary Logistic Regression Lab | Dina Arch" />
+  <meta property="og:description" content="library(pander) #pander()library(psych) # describe()library(gtsummary) #tbl_summary()library(equatiomatic) # extract_eq()library(sjPlot) # tab_xtab(), tab_model()library(tidyverse) This lab follows along the logistic regression lecture presented in class and provides two examples to demonstrate the models and their interpretation." /><meta property="og:image" content="https://dinaarch.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png" />
+    <meta property="twitter:image" content="https://dinaarch.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+  
+    
+      <meta
+        property="article:published_time"
+        content="2021-05-30T00:00:00&#43;00:00"
+      />
+    
+    <meta property="article:modified_time" content="2021-12-14T19:39:18-08:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://dinaarch.netlify.app/post/binary-logistic-regression-lab/"
+  },
+  "headline": "Binary Logistic Regression Lab",
+  
+  "datePublished": "2021-05-30T00:00:00Z",
+  "dateModified": "2021-12-14T19:39:18-08:00",
+  
+  "author": {
+    "@type": "Person",
+    "name": "Dina Naji Arch"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Dina Arch",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://dinaarch.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "library(pander) #pander()\rlibrary(psych) # describe()\rlibrary(gtsummary) #tbl_summary()\rlibrary(equatiomatic) # extract_eq()\rlibrary(sjPlot) # tab_xtab(), tab_model()\rlibrary(tidyverse)\r This lab follows along the logistic regression lecture presented in class and provides two examples to demonstrate the models and their interpretation."
+}
+</script>
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+  <title>Binary Logistic Regression Lab | Dina Arch</title>
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="6782ced01b49117532c081814e97ee15" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.2da3b1fa37e894630bf6de39b1b694b3.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container-xl">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Dina Arch</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Dina Arch</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+            
+            
+            
+              
+            
+            
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#experience"><span>Experience</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+            
+          
+        
+
+        
+
+        
+        
+        
+        
+
+        
+          
+            
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="https://ucsb.box.com/s/ezcjo8a3b51ke9xxcpd5p6qhes9vfjpr" target="_blank" rel="noopener"><span>CV</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+      
+      
+        
+      
+
+      
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#" aria-label="Search"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      
+      <li class="nav-item dropdown theme-dropdown">
+        <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item js-set-theme-light">
+            <span>Light</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-dark">
+            <span>Dark</span>
+          </a>
+          <a href="#" class="dropdown-item js-set-theme-auto">
+            <span>Automatic</span>
+          </a>
+        </div>
+      </li>
+      
+
+      
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Binary Logistic Regression Lab</h1>
+
+  
+  <p class="page-subtitle">This lab that I created follows along the logistic regression lecture presented in a linear models class and provides two examples to demonstrate the models and their interpretation.</p>
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+          Last updated on
+      
+    
+    Dec 14, 2021
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    21 min read
+  </span>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder mr-1"></i><a href="/category/labs/">Labs</a></span>
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      <pre><code class="language-r">library(pander) #pander()
+library(psych) # describe()
+library(gtsummary) #tbl_summary()
+library(equatiomatic) # extract_eq()
+library(sjPlot) # tab_xtab(), tab_model()
+library(tidyverse)
+</code></pre>
+<p>This lab follows along the logistic regression lecture presented in class and provides two examples to demonstrate the models and their interpretation.</p>
+<h1 id="what-is-binary-logistic-regression">What is Binary Logistic Regression?</h1>
+<ul>
+<li>
+<p>It is a regression with an <strong>outcome</strong> <strong>variable</strong> (or <strong>dependent variable</strong>) that is dichotomous/binary (i.e., only two categories, such as Yes or No, 0 or 1, Disorder or No Disorder, Win or Lose).</p>
+<ul>
+<li>The <strong>predictor variables</strong> (or <strong>independent variables</strong> or <strong>explanatory variables</strong>) can be either continuous or categorical</li>
+</ul>
+</li>
+<li>
+<p>In binary logistic regression, we are interested in predicting which of two possible events (e.g., win or lose) are going to happen given the predictor(s) variables</p>
+</li>
+<li>
+<p>Assumes a binomial distribution or “a probability distribution that summarizes the likelihood that a value will take one of two independent values under a given set of parameters or assumptions.” (<a href="https://www.investopedia.com/terms/b/binomialdistribution.asp" target="_blank" rel="noopener">Source</a>)</p>
+</li>
+</ul>
+<h1 id="binary-logistic-regression-in-r">Binary Logistic Regression in R</h1>
+<h2 id="admissions-example">Admissions Example</h2>
+<p>This example comes from the UCLA Statistical Consulting page found <a href="https://stats.idre.ucla.edu/r/dae/logit-regression/" target="_blank" rel="noopener">here</a>.
+This example assesses how GRE, GPA, and prestige of the undergraduate institutions effect graduate school admission.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Variable</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gre</td>
+<td>Graduate Record Exam (GRE) scores, <em>continuous</em></td>
+</tr>
+<tr>
+<td>gpa</td>
+<td>Grade point average, <em>continuous</em></td>
+</tr>
+<tr>
+<td>rank</td>
+<td>Rank of undergraduate institutions, 1 = highest prestige, 4 = lowest, <em>categorical</em></td>
+</tr>
+<tr>
+<td>admit</td>
+<td>Admission decision, 0 = did not admit, 1 = admitted, <em>binary</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>References</strong></p>
+<p>Hosmer, D.
+&amp; Lemeshow, S.
+(2000).
+Applied Logistic Regression (Second Edition).
+New York: John Wiley &amp; Sons, Inc.</p>
+<p>Long, J. Scott (1997).
+Regression Models for Categorical and Limited Dependent Variables.
+Thousand Oaks, CA: Sage Publications.</p>
+<h3 id="read-in-data">Read in data</h3>
+<pre><code class="language-r">log &lt;- read.csv(&quot;https://stats.idre.ucla.edu/stat/data/binary.csv&quot;) %&gt;% 
+  mutate(rank = factor(rank),  #we need to convert this variable to a factor
+         admit = factor(admit, levels = c(&quot;0&quot;, &quot;1&quot;), labels = c(&quot;Not Admitted&quot;, &quot;Admitted&quot;))) # add labels to outcome
+</code></pre>
+<h3 id="summary">Summary</h3>
+<pre><code class="language-r"># psych::describe()
+round(describe(log),2) %&gt;% 
+  pander() 
+</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"> </th>
+<th style="text-align:center">vars</th>
+<th style="text-align:center">n</th>
+<th style="text-align:center">mean</th>
+<th style="text-align:center">sd</th>
+<th style="text-align:center">median</th>
+<th style="text-align:center">trimmed</th>
+<th style="text-align:center">mad</th>
+<th style="text-align:center">min</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>admit</strong>*</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">400</td>
+<td style="text-align:center">1.32</td>
+<td style="text-align:center">0.47</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1.27</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>gre</strong></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">400</td>
+<td style="text-align:center">587.7</td>
+<td style="text-align:center">115.5</td>
+<td style="text-align:center">580</td>
+<td style="text-align:center">589.1</td>
+<td style="text-align:center">118.6</td>
+<td style="text-align:center">220</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>gpa</strong></td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">400</td>
+<td style="text-align:center">3.39</td>
+<td style="text-align:center">0.38</td>
+<td style="text-align:center">3.4</td>
+<td style="text-align:center">3.4</td>
+<td style="text-align:center">0.4</td>
+<td style="text-align:center">2.26</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>rank</strong>*</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">400</td>
+<td style="text-align:center">2.48</td>
+<td style="text-align:center">0.94</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2.48</td>
+<td style="text-align:center">1.48</td>
+<td style="text-align:center">1</td>
+</tr>
+</tbody>
+</table>
+<p>Table continues below</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"> </th>
+<th style="text-align:center">max</th>
+<th style="text-align:center">range</th>
+<th style="text-align:center">skew</th>
+<th style="text-align:center">kurtosis</th>
+<th style="text-align:center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>admit</strong>*</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0.78</td>
+<td style="text-align:center">-1.39</td>
+<td style="text-align:center">0.02</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>gre</strong></td>
+<td style="text-align:center">800</td>
+<td style="text-align:center">580</td>
+<td style="text-align:center">-0.14</td>
+<td style="text-align:center">-0.36</td>
+<td style="text-align:center">5.78</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>gpa</strong></td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">1.74</td>
+<td style="text-align:center">-0.21</td>
+<td style="text-align:center">-0.6</td>
+<td style="text-align:center">0.02</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>rank</strong>*</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0.1</td>
+<td style="text-align:center">-0.91</td>
+<td style="text-align:center">0.05</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-r"># I like this table more, but you can do either! Especially if you're getting some errors with gtsummary(). 
+
+# gtsummary::tbl_summary()
+tbl_summary(log,
+            statistic = list(all_continuous() ~ &quot;{mean} ({sd})&quot;),
+                             missing = &quot;no&quot;)
+</code></pre>
+<div id="rnvuxdypxd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+<p>#rnvuxdypxd .gt_table {
+display: table;
+border-collapse: collapse;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}</p>
+<p>#rnvuxdypxd .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}</p>
+<p>#rnvuxdypxd .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}</p>
+<p>#rnvuxdypxd .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 0;
+padding-bottom: 6px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}</p>
+<p>#rnvuxdypxd .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}</p>
+<p>#rnvuxdypxd .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}</p>
+<p>#rnvuxdypxd .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}</p>
+<p>#rnvuxdypxd .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}</p>
+<p>#rnvuxdypxd .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}</p>
+<p>#rnvuxdypxd .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}</p>
+<p>#rnvuxdypxd .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}</p>
+<p>#rnvuxdypxd .gt_group_heading {
+padding: 8px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+}</p>
+<p>#rnvuxdypxd .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}</p>
+<p>#rnvuxdypxd .gt_from_md &gt; :first-child {
+margin-top: 0;
+}</p>
+<p>#rnvuxdypxd .gt_from_md &gt; :last-child {
+margin-bottom: 0;
+}</p>
+<p>#rnvuxdypxd .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}</p>
+<p>#rnvuxdypxd .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 12px;
+}</p>
+<p>#rnvuxdypxd .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}</p>
+<p>#rnvuxdypxd .gt_first_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+}</p>
+<p>#rnvuxdypxd .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}</p>
+<p>#rnvuxdypxd .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}</p>
+<p>#rnvuxdypxd .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}</p>
+<p>#rnvuxdypxd .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}</p>
+<p>#rnvuxdypxd .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}</p>
+<p>#rnvuxdypxd .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding: 4px;
+}</p>
+<p>#rnvuxdypxd .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}</p>
+<p>#rnvuxdypxd .gt_sourcenote {
+font-size: 90%;
+padding: 4px;
+}</p>
+<p>#rnvuxdypxd .gt_left {
+text-align: left;
+}</p>
+<p>#rnvuxdypxd .gt_center {
+text-align: center;
+}</p>
+<p>#rnvuxdypxd .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}</p>
+<p>#rnvuxdypxd .gt_font_normal {
+font-weight: normal;
+}</p>
+<p>#rnvuxdypxd .gt_font_bold {
+font-weight: bold;
+}</p>
+<p>#rnvuxdypxd .gt_font_italic {
+font-style: italic;
+}</p>
+<p>#rnvuxdypxd .gt_super {
+font-size: 65%;
+}</p>
+<p>#rnvuxdypxd .gt_footnote_marks {
+font-style: italic;
+font-weight: normal;
+font-size: 65%;
+}
+</style></p>
+<table class="gt_table">
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1"><strong>Characteristic</strong></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1"><strong>N = 400</strong><sup class="gt_footnote_marks">1</sup></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">admit</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Not Admitted</td>
+<td class="gt_row gt_center">273 (68%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">Admitted</td>
+<td class="gt_row gt_center">127 (32%)</td></tr>
+    <tr><td class="gt_row gt_left">gre</td>
+<td class="gt_row gt_center">588 (116)</td></tr>
+    <tr><td class="gt_row gt_left">gpa</td>
+<td class="gt_row gt_center">3.39 (0.38)</td></tr>
+    <tr><td class="gt_row gt_left">rank</td>
+<td class="gt_row gt_center"></td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">1</td>
+<td class="gt_row gt_center">61 (15%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">2</td>
+<td class="gt_row gt_center">151 (38%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">3</td>
+<td class="gt_row gt_center">121 (30%)</td></tr>
+    <tr><td class="gt_row gt_left" style="text-align: left; text-indent: 10px;">4</td>
+<td class="gt_row gt_center">67 (17%)</td></tr>
+  </tbody>
+  <tfoot>
+    <tr class="gt_footnotes">
+      <td colspan="2">
+        <p class="gt_footnote">
+          <sup class="gt_footnote_marks">
+            <em>1</em>
+          </sup>
+<pre><code>      n (%); Mean (SD)
+      &lt;br /&gt;
+    &lt;/p&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;
+</code></pre>
+  </tfoot>
+</table>
+</div>
+<h3 id="contingency-table">Contingency Table</h3>
+<p>Contingency tables, sometimes called cross tabulations or cross tabs, that displays the frequency distribution of your <strong>categorical</strong> variables.
+In R, we use <code>sjPlot::tab_xtabs()</code> (Found by Karen!).
+We want to check the contingency table to make sure there are values in each cell.
+Since we only have one categorical variable, <code>rank</code>, we only need to check one contingency table.</p>
+<pre><code class="language-r">sjPlot::tab_xtab(var.row = log$rank, var.col = log$admit, title = &quot;Cross tab of Admit rate by Rank of Undergraduate Insitute&quot;, show.row.prc = TRUE, show.summary=F)
+</code></pre>
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">
+Cross tab of Admit rate by Rank of Undergraduate Insitute
+</caption>
+<tr>
+<th style="border-top:double; text-align:center; font-style:italic; font-weight:normal; border-bottom:1px solid;" rowspan="2">
+rank
+</th>
+<th style="border-top:double; text-align:center; font-style:italic; font-weight:normal;" colspan="2">
+admit
+</th>
+<th style="border-top:double; text-align:center; font-style:italic; font-weight:normal; font-weight:bolder; font-style:italic; border-bottom:1px solid; " rowspan="2">
+Total
+</th>
+</tr>
+<tr>
+<td style="border-bottom:1px solid; text-align:center; padding:0.2cm;">
+Not Admitted
+</td>
+<td style="border-bottom:1px solid; text-align:center; padding:0.2cm;">
+Admitted
+</td>
+</tr>
+<tr>
+<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">
+1
+</td>
+<td style="padding:0.2cm; text-align:center; ">
+<span style="color:black;">28</span><br><span style="color:#333399;">45.9 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center; ">
+<span style="color:black;">33</span><br><span style="color:#333399;">54.1 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center;  ">
+<span style="color:black;">61</span><br><span style="color:#333399;">100 %</span>
+</td>
+</tr>
+<tr>
+<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">
+2
+</td>
+<td style="padding:0.2cm; text-align:center; ">
+<span style="color:black;">97</span><br><span style="color:#333399;">64.2 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center; ">
+<span style="color:black;">54</span><br><span style="color:#333399;">35.8 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center;  ">
+<span style="color:black;">151</span><br><span style="color:#333399;">100 %</span>
+</td>
+</tr>
+<tr>
+<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">
+3
+</td>
+<td style="padding:0.2cm; text-align:center; ">
+<span style="color:black;">93</span><br><span style="color:#333399;">76.9 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center; ">
+<span style="color:black;">28</span><br><span style="color:#333399;">23.1 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center;  ">
+<span style="color:black;">121</span><br><span style="color:#333399;">100 %</span>
+</td>
+</tr>
+<tr>
+<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">
+4
+</td>
+<td style="padding:0.2cm; text-align:center; ">
+<span style="color:black;">55</span><br><span style="color:#333399;">82.1 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center; ">
+<span style="color:black;">12</span><br><span style="color:#333399;">17.9 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center;  ">
+<span style="color:black;">67</span><br><span style="color:#333399;">100 %</span>
+</td>
+</tr>
+<tr>
+<td style="padding:0.2cm;  border-bottom:double; font-weight:bolder; font-style:italic; text-align:left; vertical-align:middle;">
+Total
+</td>
+<td style="padding:0.2cm; text-align:center;   border-bottom:double;">
+<span style="color:black;">273</span><br><span style="color:#333399;">68.2 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center;   border-bottom:double;">
+<span style="color:black;">127</span><br><span style="color:#333399;">31.8 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center;   border-bottom:double;">
+<span style="color:black;">400</span><br><span style="color:#333399;">100 %</span>
+</td>
+</tr>
+</table>
+<p>This table shows the row and column totals, as well as row percentages.
+You can also ask for column percentages, if you prefer.</p>
+<h3 id="binary-logistic-model">Binary Logistic Model</h3>
+<p>Recall in linear regression, we used the <code>lm()</code> function.
+With logistic regression, we use <code>glm()</code>, or general linear model.
+The set up is similar to linear regression, however.
+One important note is to make sure we identify the type of “family function,” or the description of the error distribution used in the model.
+For logistic regression, it’s <code>family = &quot;binomial&quot;</code>.</p>
+<p>In our example, the predictors are GRE scores, GPA, and university rank related to graduate school admission status.</p>
+<pre><code class="language-r">mylogit &lt;- glm(admit ~ gre + gpa + rank, data = log, family = &quot;binomial&quot;)
+summary(mylogit)
+</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = admit ~ gre + gpa + rank, family = &quot;binomial&quot;, 
+##     data = log)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.6268  -0.8662  -0.6388   1.1490   2.0790  
+## 
+## Coefficients:
+##              Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -3.989979   1.139951  -3.500 0.000465 ***
+## gre          0.002264   0.001094   2.070 0.038465 *  
+## gpa          0.804038   0.331819   2.423 0.015388 *  
+## rank2       -0.675443   0.316490  -2.134 0.032829 *  
+## rank3       -1.340204   0.345306  -3.881 0.000104 ***
+## rank4       -1.551464   0.417832  -3.713 0.000205 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 499.98  on 399  degrees of freedom
+## Residual deviance: 458.52  on 394  degrees of freedom
+## AIC: 470.52
+## 
+## Number of Fisher Scoring iterations: 4
+</code></pre>
+<p>Let’s dissect this output.
+It looks similar to regular simple linear regression but interpretation is different (as we saw in lecture).
+When looking at the coefficients, we see <code>gre</code>, <code>gpa</code>, and the levels of <code>rank</code> are significant predictors of admission status.</p>
+<p>With binary logistic regression, regression coefficient is the change in the log odds of the outcome for a one unit increase in the predictor variable, holding others constant.
+The intercept is the log odds for students who has zero on all the predictors, a value not observed in this sample (e.g., no one has GPA or GRE score of zero).</p>
+<p>So this is how we would interpret those same variables when running a logistic regression model (Note: it’s a z-statistic now since these are standardized coefficients):</p>
+<ul>
+<li>GRE was significantly related to admission decision (<em>z</em> = 2.070, <em>p</em> = 0.038). Specifically, the results indicate that for every one-unit increase in GRE score, there is an increase of <em>B</em> = 0.002 in the <strong>the log odds</strong> of being admitted to graduate school, controlling for GPA and university rank.</li>
+</ul>
+<p>Additionally, this is how we would interpret the categorical variable <code>rank</code>.
+Note that because this is a categorical variable, we are comparing the categories to a comparison group (or a reference group).
+In this example, the comparison group is <strong>rank 1</strong>:</p>
+<ul>
+<li>Students who attended rank 2 universities are less likely to be admitted to graduate school, compared to rank 1 universities (<em>z</em> = -0.675, <em>p</em> = 0.033).</li>
+</ul>
+<p>The log odds, or <em>logits</em>, are not always easily interpreted and can be converted to odds ratios for easier interpretation.</p>
+<h3 id="odds-ratios">Odds Ratios</h3>
+<p>The coefficients presented above are log odds.
+To convert them to odd ratios, we take the exponent of the coefficients (Slide 21 in lecture):</p>
+<p>$$
+odds ratio = e^{\beta}
+$$</p>
+<pre><code class="language-r">#coverting the log odds (logits) to odds ratios
+exp(coef(mylogit))
+</code></pre>
+<pre><code>## (Intercept)         gre         gpa       rank2       rank3       rank4 
+##   0.0185001   1.0022670   2.2345448   0.5089310   0.2617923   0.2119375
+</code></pre>
+<pre><code class="language-r">## odds ratios and 95% CI
+exp(cbind(OR = coef(mylogit), confint(mylogit)))
+</code></pre>
+<pre><code>##                    OR       2.5 %    97.5 %
+## (Intercept) 0.0185001 0.001889165 0.1665354
+## gre         1.0022670 1.000137602 1.0044457
+## gpa         2.2345448 1.173858216 4.3238349
+## rank2       0.5089310 0.272289674 0.9448343
+## rank3       0.2617923 0.131641717 0.5115181
+## rank4       0.2119375 0.090715546 0.4706961
+</code></pre>
+<p>These values likely make <em>a little more</em> sense.
+Considering GRE in the example again:</p>
+<ul>
+<li>GRE was significantly related to admission decision (<strong>z</strong> = 2.070, <em>p</em> = 0.038). Specifically, for every one-unit increase in GRE score, <strong>the odds</strong> <strong>of being admitted to graduate school increase by a factor of 1.002</strong>, controlling for GPA and university rank. (Note this is a very small amount because one point increase in GRE doesn’t represent a large difference).</li>
+</ul>
+<p>Said differently,</p>
+<ul>
+<li>GRE was significantly related to admission decision (<strong>z</strong> = 2.070, <em>p</em> = 0.038). Specifically, for every one-unit increase in GRE score, <strong>we expect to see about a .002% increase in the odds of being admitted to graduate school</strong>, controlling for GPA and university rank.</li>
+</ul>
+<h3 id="predicted-probability">Predicted Probability</h3>
+<p>To make the coefficients easier to interpret, we can take the odds ratio values and convert them to probabilities.
+To do this, we take the odds ratio and divide it by the odds ratio plus 1 (See slide 25):</p>
+<p>$$
+probability = \frac{odds}{odds + 1}
+$$</p>
+<p>Before we dive right into conversions, we could also calculate the <strong>predicted probabilities</strong> of admission for specific values of the the predictors.
+Recall in lecture (Slide 23) to find the log odds of an x-value, we want to plug it into our regression equation:</p>
+<pre><code class="language-r">extract_eq(mylogit, use_coefs = TRUE)
+</code></pre>
+<p>$$
+\log\left[ \frac { \widehat{P( \operatorname{admit} = \operatorname{Admitted} )} }{ 1 - \widehat{P( \operatorname{admit} = \operatorname{Admitted} )} } \right] = -3.99 + 0(\operatorname{gre}) + 0.8(\operatorname{gpa}) - 0.68(\operatorname{rank}<em>{\operatorname{2}}) - 1.34(\operatorname{rank}</em>{\operatorname{3}}) - 1.55(\operatorname{rank}_{\operatorname{4}})
+$$</p>
+<p>To create predicted probabilities, we need to create a new data frame with the x-value we want the independent variables to take on to create our predictions (In lecture, slide 23, the value was <em>SurvRate</em> = 40).
+For this example, let’s use the mean.
+And since we have a <strong>categorical</strong> predictor, <code>rank</code>, lets look at the mean of <code>gre</code> and <code>gpa</code> and each value of university <code>rank</code>.
+We could, of course, do all the calculations by hand.
+But R is easier :)</p>
+<p>Let’s first create the data frame using <code>with</code>:</p>
+<pre><code class="language-r">pred_prob &lt;- with(log, data.frame(gre = mean(gre), gpa = mean(gpa), rank = factor(1:4)))
+pred_prob
+</code></pre>
+<pre><code>##     gre    gpa rank
+## 1 587.7 3.3899    1
+## 2 587.7 3.3899    2
+## 3 587.7 3.3899    3
+## 4 587.7 3.3899    4
+</code></pre>
+<p>So we have our mean of <code>gpa</code> and <code>gre</code> and each level of <code>rank</code>.
+Which means we are going to get <em>four</em> predicted probabilities, at the mean of the other two variables.
+If we did not have a categorical predictor, we would only have <em>one.</em></p>
+<p>Now let’s create the predicted probabilities using the mean of <code>gre</code> and <code>gpa</code> and each level of <code>rank</code> using the <code>predict()</code> function.
+What R is doing here is taking the logits from <code>mylogit</code> and converting them to predicted probabilities based on the values we provided in <code>pred_prob</code>.
+We identify the object as <code>pred_prob$rankP</code> to create a new column of the within the <code>pred_prob</code> dataset called <code>rankP</code>.</p>
+<pre><code class="language-r">pred_prob$rankP &lt;- predict(mylogit, newdata = pred_prob, type = &quot;response&quot;)
+pred_prob
+</code></pre>
+<pre><code>##     gre    gpa rank     rankP
+## 1 587.7 3.3899    1 0.5166016
+## 2 587.7 3.3899    2 0.3522846
+## 3 587.7 3.3899    3 0.2186120
+## 4 587.7 3.3899    4 0.1846684
+</code></pre>
+<p>Great!
+Now we have predicted probabilities.
+Here is our interpretation:</p>
+<ul>
+<li>For those with an average GPA and GRE score (holding GPA and GRE constant), the predicted probabilities of being accepted into a graduate program is .516 for those in the highest ranked undergraduate institutions (rank = 1) and .184 for students from the lowest ranked undergraduate institutions (rank=4). This demonstrates the relation of rank of the university in the probability of being admitted to graduate school.</li>
+</ul>
+<h3 id="classification-table">Classification Table</h3>
+<p>A classification table is similar to a contingency table, but in this table we compare the actual values to the predicted values based on the binary logistic regression model.
+This is a way to see how well the model did at predicting the outcome of being admitted to graduate school.</p>
+<p>In this code, we take actual fitted values from the model (<code>mylogit$fitted.values</code>), and separate them by a cut off of <em>p</em> = .5.
+Those who had a fitted value of above .50 were assigned “Admitted.” We are comparing the values given by the model (fitted values) and whether or not they actually got admitted.
+The purpose of this is to see how effective our model is at predicting admission status</p>
+<pre><code class="language-r"># Converting from probability to actual output
+log$fitted_admit &lt;- ifelse(mylogit$fitted.values &gt;= 0.5, &quot;1&quot;, &quot;0&quot;) #1 = Admitted, 0 = Not Admitted
+
+# Generating the classification table
+ctab &lt;- table(log$admit, log$fitted_admit)
+ctab
+</code></pre>
+<pre><code>##               
+##                  0   1
+##   Not Admitted 254  19
+##   Admitted      97  30
+</code></pre>
+<pre><code class="language-r">#I (Karen) like this table better because it include row and column totals
+sjPlot::tab_xtab(var.row = log$admit, var.col = log$fitted_admit, title = &quot;Observed Admission versus Predited Admission counts&quot;, show.row.prc = TRUE, show.summary = F )
+</code></pre>
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">
+Observed Admission versus Predited Admission counts
+</caption>
+<tr>
+<th style="border-top:double; text-align:center; font-style:italic; font-weight:normal; border-bottom:1px solid;" rowspan="2">
+admit
+</th>
+<th style="border-top:double; text-align:center; font-style:italic; font-weight:normal;" colspan="2">
+fitted_admit
+</th>
+<th style="border-top:double; text-align:center; font-style:italic; font-weight:normal; font-weight:bolder; font-style:italic; border-bottom:1px solid; " rowspan="2">
+Total
+</th>
+</tr>
+<tr>
+<td style="border-bottom:1px solid; text-align:center; padding:0.2cm;">
+0
+</td>
+<td style="border-bottom:1px solid; text-align:center; padding:0.2cm;">
+1
+</td>
+</tr>
+<tr>
+<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">
+Not Admitted
+</td>
+<td style="padding:0.2cm; text-align:center; ">
+<span style="color:black;">254</span><br><span style="color:#333399;">93 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center; ">
+<span style="color:black;">19</span><br><span style="color:#333399;">7 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center;  ">
+<span style="color:black;">273</span><br><span style="color:#333399;">100 %</span>
+</td>
+</tr>
+<tr>
+<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">
+Admitted
+</td>
+<td style="padding:0.2cm; text-align:center; ">
+<span style="color:black;">97</span><br><span style="color:#333399;">76.4 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center; ">
+<span style="color:black;">30</span><br><span style="color:#333399;">23.6 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center;  ">
+<span style="color:black;">127</span><br><span style="color:#333399;">100 %</span>
+</td>
+</tr>
+<tr>
+<td style="padding:0.2cm;  border-bottom:double; font-weight:bolder; font-style:italic; text-align:left; vertical-align:middle;">
+Total
+</td>
+<td style="padding:0.2cm; text-align:center;   border-bottom:double;">
+<span style="color:black;">351</span><br><span style="color:#333399;">87.8 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center;   border-bottom:double;">
+<span style="color:black;">49</span><br><span style="color:#333399;">12.2 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center;   border-bottom:double;">
+<span style="color:black;">400</span><br><span style="color:#333399;">100 %</span>
+</td>
+</tr>
+</table>
+<p>Here, we can see that the model correctly predicted 30 of 127, or 23.6%, of the students that actually got admitted.
+Thus, it misclassified 76.4% (97) of the admitted students were predicted to be “not admitted.” Additionally, we see that it correctly classified 254 of 273 (93%) of the not admitted students.
+Thus this model did a better job at predicting who was not admitted than those who were admitted.</p>
+<h3 id="accuracy">Accuracy</h3>
+<p>We can check the accuracy percentage:</p>
+<pre><code class="language-r">accuracy &lt;- sum(diag(ctab))/sum(ctab)*100
+accuracy
+</code></pre>
+<pre><code>## [1] 71
+</code></pre>
+<p>Overall, the accuracy of our model is 71%, or our logistic model is able to classify 71% of the observations correctly.</p>
+<h2 id="hierarchical-model-building-with-logistic-regression">Hierarchical model building with logistic regression</h2>
+<p>Just as we did in linear regression, we can proceed through a model building process with logistic regression.
+In this context, we are interested in seeing how we can improve the prediction of the outcome in a hierarchical fashion.</p>
+<p>Let’s say we fit the following models:</p>
+<ol>
+<li>
+<p>Predicting admission from just GPA (log1)</p>
+</li>
+<li>
+<p>Predicting admission from GPA and GRE (log2)</p>
+</li>
+<li>
+<p>Predicting admission using GPA, GRE, and rank (log3)</p>
+</li>
+</ol>
+<p>We can create a table of all three models using <code>tab_model</code> of the <code>sjPlot</code> package.
+We can compare the R2 estimates across the models.
+Using the <code>anova</code>function, we can also test if there is a statistical improvement in fit by adding the predictor(s).
+In logistic regression models, we test if the residual deviance significant decreases.
+We are using the ANOVA function, but it’s not an ANOVA test like you may have done before.
+In this case, we are using ANOVA to compare the deviance for each model to the subsequent model.
+If the chi-square value is significant we can interpret that the addition of the extra variables (going from log1 to log 2, for example) significantly improves the model prediction (e.g., lowers the residual variance).</p>
+<pre><code class="language-r">log1 &lt;- glm(admit ~ gpa , data = log, family = &quot;binomial&quot;)
+log2 &lt;- glm(admit ~ gpa + gre , data = log, family = &quot;binomial&quot;)
+log3 &lt;- glm(admit ~ gpa + gre + rank, data = log, family = &quot;binomial&quot;)
+
+tab_model(log1, log2, log3)
+</code></pre>
+<table style="border-collapse:collapse; border:none;">
+<tr>
+<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">
+ 
+</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+admit
+</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+admit
+</th>
+<th colspan="3" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">
+admit
+</th>
+</tr>
+<tr>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">
+Predictors
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Odds Ratios
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+p
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+Odds Ratios
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">
+CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">
+p
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col8">
+Odds Ratios
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col9">
+CI
+</td>
+<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  0">
+p
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+(Intercept)
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.01
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.00 – 0.09
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>\<0.001</strong>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.01
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+0.00 – 0.06
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<strong>\<0.001</strong>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
+0.02
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">
+0.00 – 0.17
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">
+<strong>\<0.001</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+gpa
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+2.86
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.61 – 5.20
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+<strong>\<0.001</strong>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+2.13
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.14 – 4.02
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<strong>0.018</strong>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
+2.23
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">
+1.17 – 4.32
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">
+<strong>0.015</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+gre
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.00
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+1.00 – 1.00
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+<strong>0.011</strong>
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
+1.00
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">
+1.00 – 1.00
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">
+<strong>0.038</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+rank \[2\]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
+0.51
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">
+0.27 – 0.94
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">
+<strong>0.033</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+rank \[3\]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
+0.26
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">
+0.13 – 0.51
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">
+<strong>\<0.001</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">
+rank \[4\]
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7">
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col8">
+0.21
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col9">
+0.09 – 0.47
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  0">
+<strong>\<0.001</strong>
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">
+Observations
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+400
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+400
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="3">
+400
+</td>
+</tr>
+<tr>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">
+R<sup>2</sup> Tjur
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+0.032
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+0.047
+</td>
+<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="3">
+0.102
+</td>
+</tr>
+</table>
+<pre><code class="language-r">anova(log1, log2, log3, test=&quot;Chisq&quot;)
+</code></pre>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model 1: admit ~ gpa
+## Model 2: admit ~ gpa + gre
+## Model 3: admit ~ gpa + gre + rank
+##   Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
+## 1       398     486.97                          
+## 2       397     480.34  1   6.6236   0.01006 *  
+## 3       394     458.52  3  21.8265 7.088e-05 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+</code></pre>
+<p>Based on the ANOVA results, we see that the addition of each additional predictor signficnalty improves the prediction of graduate school admission.
+Note, you don’t have to do this, but if you have research questions about the specific predictive power, controloing for the others, you can use this apporach.</p>
+<h2 id="the-api-example">The API Example</h2>
+<p>Data from <a href="https://stats.idre.ucla.edu/r/seminars/introduction-to-regression-in-r/" target="_blank" rel="noopener">UCLA - Academic Performance Index</a>.
+Note: This is the same example as the simple linear regression lab (Lab 5).
+However, we are changing the model to have a binary outcome for logistic regression.
+Below is the list of variables we used in this analysis for lab, noting that there are more variables in the API dataset.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Variable</strong></td>
+<td><strong>Description</strong></td>
+</tr>
+<tr>
+<td>api00</td>
+<td>Academic Performance Index, 0 = under statewide target of 800, 1 = above 800, <em>binary</em></td>
+</tr>
+<tr>
+<td>enroll</td>
+<td>School enrollment, <em>continuous</em></td>
+</tr>
+<tr>
+<td>Meals</td>
+<td>Number of free and reduced lunch, <em>continuous</em></td>
+</tr>
+<tr>
+<td>full</td>
+<td>Percentage of teachers will full credentials, <em>continuous</em></td>
+</tr>
+</tbody>
+</table>
+<h3 id="read-in-data-1">Read in data</h3>
+<p>Here, we are reading in the data directly from the UCLA website.
+Additionally, we are dichotomizing the API (<code>api00</code>) variable to separate schools above statewide target of 800 and below.
+This cut-off may be outdated and/or controversial, however, we are going to use this for the purpose of providing an example of how to do logistic regression in R.</p>
+<pre><code class="language-r">api &lt;- read.csv(
+&quot;https://stats.idre.ucla.edu/wp-content/uploads/2019/02/elemapi2v2.csv&quot;) %&gt;% 
+  select(api00, full, enroll, meals) %&gt;%
+  mutate(api_factor = cut(api00,
+                     levels = c(&quot;0&quot;, &quot;1&quot;),
+                     breaks = c(0, 800, 940),
+                     labels = c(&quot;Below Target&quot;, &quot;At or Above Target&quot;))) # here we are dichotomizing API, see lab 1 for a refresher on what this all does.
+</code></pre>
+<h3 id="summary-1">Summary</h3>
+<p>For a short descriptor of each variable, scroll down <a href="https://stats.idre.ucla.edu/spss/webbooks/reg/chapter1/regressionwith-spsschapter-1-simple-and-multiple-regression/" target="_blank" rel="noopener">here</a>.</p>
+<pre><code class="language-r"># psych::describe()
+round(describe(api),2) %&gt;% 
+  pander() 
+</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"> </th>
+<th style="text-align:center">vars</th>
+<th style="text-align:center">n</th>
+<th style="text-align:center">mean</th>
+<th style="text-align:center">sd</th>
+<th style="text-align:center">median</th>
+<th style="text-align:center">trimmed</th>
+<th style="text-align:center">mad</th>
+<th style="text-align:center">min</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>api00</strong></td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">400</td>
+<td style="text-align:center">647.6</td>
+<td style="text-align:center">142.2</td>
+<td style="text-align:center">643</td>
+<td style="text-align:center">645.8</td>
+<td style="text-align:center">177.2</td>
+<td style="text-align:center">369</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>full</strong></td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">400</td>
+<td style="text-align:center">84.55</td>
+<td style="text-align:center">14.95</td>
+<td style="text-align:center">88</td>
+<td style="text-align:center">86.6</td>
+<td style="text-align:center">14.83</td>
+<td style="text-align:center">37</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>enroll</strong></td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">400</td>
+<td style="text-align:center">483.5</td>
+<td style="text-align:center">226.4</td>
+<td style="text-align:center">435</td>
+<td style="text-align:center">459.4</td>
+<td style="text-align:center">202.4</td>
+<td style="text-align:center">130</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>meals</strong></td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">400</td>
+<td style="text-align:center">60.31</td>
+<td style="text-align:center">31.91</td>
+<td style="text-align:center">67.5</td>
+<td style="text-align:center">62.18</td>
+<td style="text-align:center">37.81</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>api_factor</strong>*</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">400</td>
+<td style="text-align:center">1.19</td>
+<td style="text-align:center">0.39</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1.12</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+</tr>
+</tbody>
+</table>
+<p>Table continues below</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"> </th>
+<th style="text-align:center">max</th>
+<th style="text-align:center">range</th>
+<th style="text-align:center">skew</th>
+<th style="text-align:center">kurtosis</th>
+<th style="text-align:center">se</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>api00</strong></td>
+<td style="text-align:center">940</td>
+<td style="text-align:center">571</td>
+<td style="text-align:center">0.1</td>
+<td style="text-align:center">-1.13</td>
+<td style="text-align:center">7.11</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>full</strong></td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">63</td>
+<td style="text-align:center">-0.97</td>
+<td style="text-align:center">0.17</td>
+<td style="text-align:center">0.75</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>enroll</strong></td>
+<td style="text-align:center">1570</td>
+<td style="text-align:center">1440</td>
+<td style="text-align:center">1.34</td>
+<td style="text-align:center">3.02</td>
+<td style="text-align:center">11.32</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>meals</strong></td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">100</td>
+<td style="text-align:center">-0.41</td>
+<td style="text-align:center">-1.2</td>
+<td style="text-align:center">1.6</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>api_factor</strong>*</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1.55</td>
+<td style="text-align:center">0.42</td>
+<td style="text-align:center">0.02</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-r"># I like this table more, but you can do either! Especially if you're getting some errors with gtsummary(). Useful when you have a subset, but here we left all variables in the sample so it's a long table. 
+
+# gtsummary::gtsummary()
+#tbl_summary(api,
+#            statistic = list(all_continuous() ~ &quot;{mean} ({sd})&quot;),
+#                             missing = &quot;no&quot;)
+</code></pre>
+<p>There is no contingency table in this example because all of our predictors are continuous.</p>
+<h3 id="binary-logistic-model-1">Binary Logistic Model</h3>
+<p>We are using a binary logistic regression model to see how school characteristics relate to a school making adequate progress (api=1) or not (api=0).</p>
+<p>Binary outcome: API adequate progress =1, not adequate progress=0 Predictors: % fully credential teachers, student enrollment, and % on free and reduced lunch</p>
+<pre><code class="language-r">mylogit &lt;- glm(api_factor ~ full + enroll + meals, data = api, family = &quot;binomial&quot;)
+summary(mylogit)
+</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = api_factor ~ full + enroll + meals, family = &quot;binomial&quot;, 
+##     data = api)
+## 
+## Deviance Residuals: 
+##      Min        1Q    Median        3Q       Max  
+## -1.86557  -0.16221  -0.03269  -0.01028   3.12996  
+## 
+## Coefficients:
+##               Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept) -3.0746093  2.7320279  -1.125   0.2604    
+## full         0.0582641  0.0282187   2.065   0.0389 *  
+## enroll       0.0004592  0.0013843   0.332   0.7401    
+## meals       -0.1096184  0.0144185  -7.603  2.9e-14 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 391.86  on 399  degrees of freedom
+## Residual deviance: 147.45  on 396  degrees of freedom
+## AIC: 155.45
+## 
+## Number of Fisher Scoring iterations: 8
+</code></pre>
+<h3 id="odds-ratios-1">Odds Ratios</h3>
+<pre><code class="language-r">exp(coef(mylogit))
+</code></pre>
+<pre><code>## (Intercept)        full      enroll       meals 
+##  0.04620768  1.05999495  1.00045932  0.89617604
+</code></pre>
+<pre><code class="language-r">## odds ratios and 95% CI
+exp(cbind(OR = coef(mylogit), confint(mylogit)))
+</code></pre>
+<pre><code>##                     OR        2.5 %    97.5 %
+## (Intercept) 0.04620768 0.0001656294 7.8435280
+## full        1.05999495 1.0055761469 1.1237801
+## enroll      1.00045932 0.9978836793 1.0032716
+## meals       0.89617604 0.8684201733 0.9192615
+</code></pre>
+<h3 id="predicted-probability-1">Predicted Probability</h3>
+<pre><code class="language-r">#creating the means of each variable
+pred_prob_api&lt;- with(api, data.frame(full = mean(full), enroll = mean(enroll), meals = mean(meals)))
+pred_prob_api
+</code></pre>
+<pre><code>##    full  enroll  meals
+## 1 84.55 483.465 60.315
+</code></pre>
+<pre><code class="language-r">pred_prob_api$apiP&lt;- predict(mylogit, newdata = pred_prob_api, type = &quot;response&quot;)
+pred_prob_api
+</code></pre>
+<pre><code>##    full  enroll  meals       apiP
+## 1 84.55 483.465 60.315 0.01058167
+</code></pre>
+<p>This result says that for schools that have average on all the predictors, the probablity of being at target is .01.
+<em>yikes!</em></p>
+<h3 id="classification-table-1">Classification Table</h3>
+<pre><code class="language-r"># Converting from probability to actual output
+api$fitted_api &lt;- ifelse(mylogit$fitted.values &gt;= 0.5, &quot;1&quot;, &quot;0&quot;) #1 = Above Average, 0 = Below
+
+# Generating the classification table
+ctab &lt;- table(api$api_factor, api$fitted_api)
+ctab
+</code></pre>
+<pre><code>##                     
+##                        0   1
+##   Below Target       304  19
+##   At or Above Target  15  62
+</code></pre>
+<pre><code class="language-r">#I (Karen) like this table better because it include row and column totals
+sjPlot::tab_xtab(var.row = api$api_factor, var.col = api$fitted_api, title = &quot;Observed Progress versus Predited progress counts&quot;, show.row.prc = TRUE, show.summary = F )
+</code></pre>
+<table style="border-collapse:collapse; border:none;">
+<caption style="font-weight: bold; text-align:left;">
+Observed Progress versus Predited progress counts
+</caption>
+<tr>
+<th style="border-top:double; text-align:center; font-style:italic; font-weight:normal; border-bottom:1px solid;" rowspan="2">
+api_factor
+</th>
+<th style="border-top:double; text-align:center; font-style:italic; font-weight:normal;" colspan="2">
+fitted_api
+</th>
+<th style="border-top:double; text-align:center; font-style:italic; font-weight:normal; font-weight:bolder; font-style:italic; border-bottom:1px solid; " rowspan="2">
+Total
+</th>
+</tr>
+<tr>
+<td style="border-bottom:1px solid; text-align:center; padding:0.2cm;">
+0
+</td>
+<td style="border-bottom:1px solid; text-align:center; padding:0.2cm;">
+1
+</td>
+</tr>
+<tr>
+<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">
+Below Target
+</td>
+<td style="padding:0.2cm; text-align:center; ">
+<span style="color:black;">304</span><br><span style="color:#333399;">94.1 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center; ">
+<span style="color:black;">19</span><br><span style="color:#333399;">5.9 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center;  ">
+<span style="color:black;">323</span><br><span style="color:#333399;">100 %</span>
+</td>
+</tr>
+<tr>
+<td style="padding:0.2cm;  text-align:left; vertical-align:middle;">
+At or Above Target
+</td>
+<td style="padding:0.2cm; text-align:center; ">
+<span style="color:black;">15</span><br><span style="color:#333399;">19.5 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center; ">
+<span style="color:black;">62</span><br><span style="color:#333399;">80.5 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center;  ">
+<span style="color:black;">77</span><br><span style="color:#333399;">100 %</span>
+</td>
+</tr>
+<tr>
+<td style="padding:0.2cm;  border-bottom:double; font-weight:bolder; font-style:italic; text-align:left; vertical-align:middle;">
+Total
+</td>
+<td style="padding:0.2cm; text-align:center;   border-bottom:double;">
+<span style="color:black;">319</span><br><span style="color:#333399;">79.8 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center;   border-bottom:double;">
+<span style="color:black;">81</span><br><span style="color:#333399;">20.2 %</span>
+</td>
+<td style="padding:0.2cm; text-align:center;   border-bottom:double;">
+<span style="color:black;">400</span><br><span style="color:#333399;">100 %</span>
+</td>
+</tr>
+</table>
+<h3 id="accuracy-1">Accuracy</h3>
+<pre><code class="language-r">accuracy &lt;- sum(diag(ctab))/sum(ctab)*100
+accuracy
+</code></pre>
+<pre><code>## [1] 91.5
+</code></pre>
+<h2 id="sample-write-up">Sample write up</h2>
+<p>Using a binary logistic regression, we explored how school’s characteristics (% fully credential teachers, studnet enrollment, and % on free and reduced lunch) relate to the adequate progress of a school.
+Both the percent of credentialed teachers (<em>z</em> = 2.06, <em>p</em> = .04) and the % free and reduced lunch (<em>z</em> = -.11, <em>p</em> &lt; .01) were significant predictors.
+Specifically the percent of fully credentialed teachers has an <em>OR</em> = 1.05, 95%CI[1.01, 1.12].
+This implies that for a one percent increase in the fully credentialed teachers, schools have a 5% higher chance of making target.
+Free and reduced lunch had estimated <em>OR</em> =.90, 95% CI [.86, .92], which indicated that for each additional percent of students on free and reduced lunch, there is a significant decrease in the log odds of being at target (<em>z</em> = -7.60, <em>p</em> &lt; .01).
+That is, for each additional percent increase of free or reduced lunch, that school has a 11% decrease in the odds of making it to target growth, controlling for the other predictors.
+There was no effect of the enrollment of the school, when controlling for the other variables.
+Overall, this model had high prediction accuracy, predicting 91% schools accurately.</p>
+<p>Hope this is useful….</p>
+
+    </div>
+
+    
+
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tag/r-markdown/">r markdown</a>
+  
+  <a class="badge badge-light" href="/tag/binary-regression/">binary regression</a>
+  
+  <a class="badge badge-light" href="/tag/labs/">labs</a>
+  
+  <a class="badge badge-light" href="/tag/odds-ratios/">odds ratios</a>
+  
+  <a class="badge badge-light" href="/tag/classification/">classification</a>
+  
+</div>
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://dinaarch.netlify.app/post/binary-logistic-regression-lab/&amp;text=Binary%20Logistic%20Regression%20Lab" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://dinaarch.netlify.app/post/binary-logistic-regression-lab/&amp;t=Binary%20Logistic%20Regression%20Lab" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Binary%20Logistic%20Regression%20Lab&amp;body=https://dinaarch.netlify.app/post/binary-logistic-regression-lab/" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://dinaarch.netlify.app/post/binary-logistic-regression-lab/&amp;title=Binary%20Logistic%20Regression%20Lab" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Binary%20Logistic%20Regression%20Lab%20https://dinaarch.netlify.app/post/binary-logistic-regression-lab/" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://dinaarch.netlify.app/post/binary-logistic-regression-lab/&amp;title=Binary%20Logistic%20Regression%20Lab" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://dinaarch.netlify.app/"><img class="avatar mr-3 avatar-circle" src="/author/dina-naji-arch/avatar_hu507efff5857c68aef0911fd7748fdc58_1261776_270x270_fill_q75_lanczos_center.jpg" alt="Dina Naji Arch"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://dinaarch.netlify.app/">Dina Naji Arch</a></h5>
+      <h6 class="card-subtitle">Ph.D. Student in Quantitative Methods in the Social Sciences (Education)</h6>
+      
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:dnaji@ucsb.edu" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/dnajiarch" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/dinanajiarch" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/dina-naji-arch-22649396/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/machine-learning-final-project/">Machine Learning - Final Project</a></li>
+      
+      <li><a href="/post/mediation-lab/">Mediation Lab</a></li>
+      
+      <li><a href="/post/tips-and-tricks-in-r/">Tips and Tricks in R</a></li>
+      
+      <li><a href="/post/nonlinear-least-squares-example/">Nonlinear Least Squares Example</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+
+  <p class="powered-by">
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a> — the free, <a href="https://github.com/wowchemy/wowchemy-hugo-themes" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    <script src="/js/vendor-bundle.min.b73dfaac3b6499dc997741748a7c3fe2.js"></script>
+
+    
+    
+    
+      
+      
+        <script src="https://cdn.jsdelivr.net/gh/desandro/imagesloaded@v4.1.4/imagesloaded.pkgd.min.js" integrity="sha512-S5PZ9GxJZO16tT9r3WJp/Safn31eu8uWrzglMahDT4dsmgqWonRY9grk3j+3tfuPr9WJNsfooOR7Gi7HL5W2jw==" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/metafizzy/isotope@v3.0.6/dist/isotope.pkgd.min.js" integrity="sha512-Zq2BOxyhvnRFXu0+WE6ojpZLOU2jdnqbrM1hmVdGzyeCa1DgM3X5Q4A/Is9xA1IkbUeDd7755dNNI/PzSf2Pew==" crossorigin="anonymous"></script>
+      
+
+      
+      
+
+      
+
+      
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/highlight.min.js" integrity="sha512-Ypjm0o7jOxAd4hpdoppSEN0TQOC19UtPAqD+4s5AlXmUvbmmS/YMxYqAqarQYyxTnB6/rqip9qcxlNB/3U9Wdg==" crossorigin="anonymous"></script>
+        
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/r.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/python.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/latex.min.js" crossorigin="anonymous"></script>
+        
+      
+
+    
+
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.js" integrity="" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+      
+      <script id="search-hit-fuse-template" type="text/x-template">
+        <div class="search-hit" id="summary-{{key}}">
+          <div class="search-hit-content">
+            <div class="search-hit-name">
+              <a href="{{relpermalink}}">{{title}}</a>
+              <div class="article-metadata search-hit-type">{{type}}</div>
+              <p class="search-hit-description">{{snippet}}</p>
+            </div>
+          </div>
+        </div>
+      </script>
+      
+        <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+      
+    
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+      
+      
+      
+      
+      
+      
+      
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/en/js/wowchemy.min.7cd6ec29d281a73c92a2958a1584aadc.js"></script>
+
+    
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+
+</body>
+</html>
