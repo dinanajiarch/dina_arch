@@ -40,7 +40,7 @@ To familiarize yourself with the general problem of predicting election outcomes
 
 1. What makes voter behavior prediction (and thus election forecasting) a hard problem?
 
-**In general, predicting behavior has its limitations. As mentioned in the fivethirtyeight.com article, there is always going to be statistical noise and nonresponse bias to pre-election polls which is then not representative of voter turnout. For the 2016 election specifically, there may have been people who had a preference for a certain candidate during pre-election polls and perhaps changed their mind at the voting booth. ** 
+**In general, predicting behavior has its limitations. As mentioned in the fivethirtyeight.com article, there is always going to be statistical noise and nonresponse bias to pre-election polls which is then not representative of voter turnout. For the 2016 election specifically, there may have been people who had a preference for a certain candidate during pre-election polls and perhaps changed their mind at the voting booth.** 
 
 2. What was unique to Nate Silver's approach in 2012 that allowed him to achieve good predictions?
 
@@ -394,10 +394,10 @@ Merged states by `fips` (First 5 rows):
 County Level: 
 <img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-27-1.png" width="576" style="display: block; margin: auto;" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-27-2.png" width="576" style="display: block; margin: auto;" /><img src="{{< blogdown/postref >}}index_files/figure-html/unnamed-chunk-27-3.png" width="576" style="display: block; margin: auto;" />
 
-**The first PC has a high percentage of children under poverty level, a high percentage of people under poverty level, and high percentage of those unemployed. The first PC also has low income per capital, low percentage of those employed (16+), and low median household income. I would label this principal component as *Under Poverty Level*. **
+**The first PC has a high percentage of children under poverty level, a high percentage of people under poverty level, and high percentage of those unemployed. The first PC also has low income per capital, low percentage of those employed (16+), and low median household income. I would label this principal component as *Under Poverty Level*.**
 
 
-**The second PC has a high percentage of those who are self-employed, a high percentage of those working at home, and high percentage of those working in unpaid family work. The second PC also has low number of women, low percentage of working in private industry, and low percentage of employed in office jobs. I would label this principal component as *Working Class - Family Oriented*. **
+**The second PC has a high percentage of those who are self-employed, a high percentage of those working at home, and high percentage of those working in unpaid family work. The second PC also has low number of women, low percentage of working in private industry, and low percentage of employed in office jobs. I would label this principal component as *Working Class - Family Oriented*.**
 
 
 Sub-county Level:
@@ -409,7 +409,7 @@ Sub-county Level:
 
 **The second PC has a high percentage of minorities, a high percentage of unemployment, and high percentage of child poverty and under poverty level. The second PC also has low percentage of those who work from home, low percentage of inpaid family work, and low percentage of those who are self-employed. I would label this principal component as *Under Poverty Level*.** 
 
-**It's usually important to both center and scale your variables as they are most likely not on the same metric. As in this case, I center and scaled the dataset because some variables are count and others are percentages. Either way, it doesn't hurt. **
+**It's usually important to both center and scale your variables as they are most likely not on the same metric. As in this case, I center and scaled the dataset because some variables are count and others are percentages. Either way, it doesn't hurt.**
 
 
 
@@ -673,7 +673,7 @@ Note: Eigenvalues are slightly off because some observations were removed in the
 
 *PC 3/Working Class in Suburb*: High White, Drive, Production, and Private Work. Low Minority, and Transit.
 
-*PC 4/Working Class in City *: High Carpool, Production, Employed. Low Citizen, Service, Office. 
+*PC 4/Working Class in City*: High Carpool, Production, Employed. Low Citizen, Service, Office. 
 
 
 
