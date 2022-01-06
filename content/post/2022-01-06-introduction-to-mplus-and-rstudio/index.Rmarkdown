@@ -8,7 +8,7 @@ tags:
   - r markdown
   - mplus
   - rstudio
-subtitle: 'Introductory lab on RStudio and Mplus using AppStream provided by UCSB.'
+subtitle: 'Lab 1 created for ED 216B (Factor Analysis) at UCSB.'
 summary: ''
 authors: []
 lastmod: '2022-01-06T14:38:16-08:00'
@@ -29,7 +29,7 @@ knitr::opts_chunk$set(echo = TRUE,
 For the part 1 of our lab, we will first walk through how to run basic descriptive statistics using only Mplus.
 Then in the in the second part, we will use an R package called `MplusAutomation` to run the same analysis as part 1, only this time using only RStudio.
 
-## *PART 1*: Introduction to Mplus
+## **PART 1**: Introduction to Mplus
 
 ### Step 1: Open AppStream
 
@@ -105,7 +105,7 @@ All *.out* and *.inp* files can be open as a text file if you want to access the
 
 ------------------------------------------------------------------------
 
-## *PART 2*: Introduction to RStudio
+## **PART 2**: Introduction to RStudio
 
 Now, we will be obtaining the same *.out* file that we produced above using RStudio (and never having to open Mplus!).
 This is done using the [`MplusAutomation`](chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/viewer.html?pdfurl=https%3A%2F%2Fcran.r-project.org%2Fweb%2Fpackages%2FMplusAutomation%2FMplusAutomation.pdf&clen=322228&chunk=true) package (Hallquist & WIley, 2018).
@@ -322,7 +322,7 @@ fem_basic_fit <- mplusModeler(fem_basic,
 
 ------------------------------------------------------------------------
 
-## *PART 3*: Data Cleaning & Screening
+## **PART 3**: Data Cleaning & Screening
 
 It's important to explore your variables before running a factor analysis.
 First, lets rename our variables to something more meaningful using `rename()`.
