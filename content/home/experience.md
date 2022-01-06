@@ -32,8 +32,8 @@ experience:
     description: |2-
         Department (Course):
         
+        * Gevirtz School of Education (Factor Analysis, Introduction to Linear Models)        
         * Technology Management (Fundamentals of Business Strategy)
-        * Gevirtz School of Education (Introduction to Linear Models)
         * Psychology and Brain Sciences (Introduction to Statistics)
         
   - title: Statistical Support Peer
